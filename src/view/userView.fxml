@@ -25,8 +25,8 @@
                   <Pagination fx:id="userPagination" layoutY="44.0" prefHeight="267.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0" />
                   <ButtonBar layoutX="604.0" layoutY="14.0">
                      <buttons>
-                        <Button mnemonicParsing="false" onAction="#onDeleteUserButtonClicked" text="Usuń" />
-                        <Button mnemonicParsing="false" onAction="#onNewUserButtonClicked" text="Nowy" />
+                        <Button mnemonicParsing="false" onAction="#onDeleteUserButtonClicked" text="Delete" />
+                        <Button mnemonicParsing="false" onAction="#onNewUserButtonClicked" text="New" />
                      </buttons>
                   </ButtonBar>
                </children>
@@ -47,14 +47,16 @@
                   </Text>
                   <TableView layoutX="412.0" layoutY="31.0" prefHeight="244.0" prefWidth="384.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
+                      <TableColumn fx:id="vehiclePlateNumberColumn" prefWidth="120.0" text="Plate number" />
+                      <TableColumn fx:id="vehicleWeightColumn" prefWidth="59.0" text="Weight" />
+                        <TableColumn fx:id="vehicleHeightColumn" prefWidth="71.0" text="Height" />
+                        <TableColumn fx:id="vehicleEngineTypeColumn" prefWidth="133.0" text="Engine type" />
                     </columns>
                   </TableView>
                   <ButtonBar layoutX="605.0" layoutY="282.0">
                      <buttons>
-                        <Button mnemonicParsing="false" text="Add" />
-                        <Button mnemonicParsing="false" text="Delete" />
+                        <Button mnemonicParsing="false" onAction="#onAddVehicleButtonClicked" text="Add new" />
+                        <Button mnemonicParsing="false" onAction="#onDeleteVehicleButtonClicked" text="Delete" />
                      </buttons>
                   </ButtonBar>
                   <VBox alignment="TOP_RIGHT" layoutX="13.0" layoutY="39.0" spacing="8.0">
@@ -62,25 +64,25 @@
                         <HBox alignment="BOTTOM_RIGHT" spacing="12.0">
                            <children>
                               <Label alignment="CENTER" contentDisplay="CENTER" text="Id" textAlignment="CENTER" />
-                              <TextField alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" />
+                              <TextField fx:id="userIdInput" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                               <Label alignment="CENTER" text="Name" />
-                              <TextField alignment="CENTER" />
+                              <TextField fx:id="userNameInput" alignment="CENTER" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                               <Label text="Surname" />
-                              <TextField />
+                              <TextField fx:id="userSurnameInput" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="12.0">
                            <children>
                               <Label text="Phone Number" />
-                              <TextField />
+                              <TextField fx:id="userPhoneNumberInput" />
                            </children>
                         </HBox>
                      </children>
@@ -90,25 +92,25 @@
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                               <Label text="City" />
-                              <TextField />
+                              <TextField fx:id="userCityInput" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                               <Label text="Street" />
-                              <TextField />
+                              <TextField fx:id="userStreetInput" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                               <Label text="ZIP Code" />
-                              <TextField />
+                              <TextField fx:id="userZIPCodeInput" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                               <Label text="Number" />
-                              <TextField />
+                              <TextField fx:id="userNumberInput" />
                            </children>
                         </HBox>
                      </children>
@@ -116,7 +118,7 @@
                   <HBox alignment="CENTER" layoutX="17.0" layoutY="373.0" spacing="12.0">
                      <children>
                         <Label text="Country" />
-                        <ChoiceBox prefHeight="25.0" prefWidth="246.0" />
+                        <ChoiceBox fx:id="userCountryChoiceBox" prefHeight="25.0" prefWidth="246.0" />
                      </children>
                   </HBox>
                   <Text layoutX="11.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User details">
@@ -126,8 +128,8 @@
                   </Text>
                   <ButtonBar layoutX="219.0" layoutY="432.0">
                      <buttons>
-                        <Button mnemonicParsing="false" text="Edit" />
-                        <Button mnemonicParsing="false" text="Save" />
+                        <Button mnemonicParsing="false" onAction="#onEditUserButtonClicked" text="Edit" />
+                        <Button mnemonicParsing="false" onAction="#onSaveUserButtonClicked" text="Save" />
                      </buttons>
                   </ButtonBar>
                   <VBox layoutX="442.0" layoutY="353.0" spacing="8.0">
@@ -135,22 +137,22 @@
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                               <Label text="Id" />
-                              <TextField />
+                              <TextField fx:id="cardIdInput" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                               <Label text="Expiration date " />
-                              <TextField />
+                              <TextField fx:id="cardExpirationDateInput" />
                            </children>
                         </HBox>
                      </children>
                   </VBox>
                   <ButtonBar layoutX="465.0" layoutY="432.0">
                      <buttons>
-                        <Button mnemonicParsing="false" text="Extend validity" />
-                        <Button mnemonicParsing="false" text="Generate new" />
-                        <Button mnemonicParsing="false" text="Delete" />
+                        <Button mnemonicParsing="false" onAction="#onExtendCardButtonClicked" text="Extend validity" />
+                        <Button mnemonicParsing="false" onAction="#onGenerateCardButtonClicked" text="Generate new" />
+                        <Button mnemonicParsing="false" onAction="#onDeleteCardButtonClicked" text="Delete" />
                      </buttons>
                   </ButtonBar>
                   <Separator layoutX="86.0" layoutY="195.0" prefHeight="3.0" prefWidth="266.0" />
