@@ -10,14 +10,14 @@ import java.sql.SQLException;
 public class CardDAO {
     private static class CardContract {
         static final String TABLE_NAME = "cards";
-        static final String ID_COLUMN_NAME = "card_id";
-        static final String EXPIRATION_DATE_COLUMN_NAME = "expiration_date";
+        static final String COLUMN_NAME_ID = "card_id";
+        static final String COLUMN_NAME_EXPIRATION_DATE = "expiration_date";
     }
 
     private static Card generateCard(CachedRowSet resultSet) throws SQLException {
         Card card = new Card();
-        card.setCardId(resultSet.getInt(CardContract.ID_COLUMN_NAME));
-        card.setExpirationDate(resultSet.getDate(CardContract.EXPIRATION_DATE_COLUMN_NAME));
+        card.setCardId(resultSet.getInt(CardContract.COLUMN_NAME_ID));
+        card.setExpirationDate(resultSet.getDate(CardContract.COLUMN_NAME_EXPIRATION_DATE));
 
         return card;
     }
@@ -50,7 +50,7 @@ public class CardDAO {
 
     public static Card getCard(int id) {
         String sql = String.format("SELECT * FROM %s WHERE %s=%d", CardContract.TABLE_NAME,
-                CardContract.ID_COLUMN_NAME, id);
+                CardContract.COLUMN_NAME_ID, id);
 
         CachedRowSet result = DbHelper.executeQuery(sql);
 
@@ -66,15 +66,34 @@ public class CardDAO {
     }
 
     public static void saveCard(Card card) {
-        
+        if(card == null) {
+            System.err.println("Empty object.");
+            return;
+        }
+
+        String sql = String.format("INSERT INTO %s VALUES (0, '%s')", CardContract.TABLE_NAME, card.getExpirationDate());
+
+        DbHelper.executeUpdateQuery(sql);
     }
 
     public static void updateCard(int id, Card updatedCard) {
+        if(updatedCard == null) {
+            System.err.println("Empty object.");
+            return;
+        }
 
+        String sql = String.format("UPDATE %s SET %s = '%s' WHERE %s = %d", CardContract.TABLE_NAME,
+                CardContract.COLUMN_NAME_EXPIRATION_DATE, updatedCard.getExpirationDate(), CardContract.COLUMN_NAME_ID,
+                updatedCard.getCardId());
+
+        DbHelper.executeUpdateQuery(sql);
     }
 
     public static void deleteCard(int id) {
+        String sql = String.format("DELETE FROM %s WHERE %s = %d", CardContract.TABLE_NAME,
+                CardContract.COLUMN_NAME_ID, id);
 
+        DbHelper.executeUpdateQuery(sql);
     }
 
 }

@@ -78,7 +78,7 @@ public class DbHelper {
         return cachedRowSet;
     }
 
-    public static int executeUpdate(String sql) {
+    public static int executeUpdateQuery(String sql) {
         Statement statement = null;
         int affectedRows = 0;
 
