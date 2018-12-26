@@ -13,7 +13,7 @@ public class EngineDAO {
         static final String COLUMN_NAME_TYPE = "engine_type";
     }
 
-    private static Engine generateEngine(CachedRowSet resultSet) throws SQLException {
+    public static Engine generateEngine(CachedRowSet resultSet) throws SQLException {
         Engine engine = new Engine();
         engine.setType(resultSet.getString(EngineContract.COLUMN_NAME_TYPE));
 

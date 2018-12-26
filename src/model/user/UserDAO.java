@@ -6,7 +6,6 @@ import model.address.Address;
 import model.address.AddressDAO;
 import model.card.Card;
 import model.card.CardDAO;
-import model.country.Country;
 import model.country.CountryDAO;
 import util.DbHelper;
 
@@ -14,14 +13,14 @@ import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
 
 public class UserDAO {
-    private static class UserContract {
-        static final String TABLE_NAME = "users";
-        static final String COLUMN_NAME_ID = "user_id";
-        static final String COLUMN_NAME_NAME = "name";
-        static final String COLUMN_NAME_SURNAME = "surname";
-        static final String COLUMN_NAME_PHONE_NUMBER = "phone_nr";
-        static final String COLUMN_NAME_CARD_ID = "card_id";
-        static final String COLUMN_NAME_ADDRESS_ID = "address_id";
+    public static class UserContract {
+        public static final String TABLE_NAME = "users";
+        public static final String COLUMN_NAME_ID = "user_id";
+        public static final String COLUMN_NAME_NAME = "name";
+        public static final String COLUMN_NAME_SURNAME = "surname";
+        public static final String COLUMN_NAME_PHONE_NUMBER = "phone_nr";
+        public static final String COLUMN_NAME_CARD_ID = "card_id";
+        public static final String COLUMN_NAME_ADDRESS_ID = "address_id";
     }
 
     public static User generateUser(CachedRowSet resultSet) throws SQLException {
