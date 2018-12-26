@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <SplitPane dividerPositions="0.39348370927318294" layoutX="201.0" layoutY="103.0" orientation="VERTICAL" prefHeight="800.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="365.0" prefWidth="798.0">
+               <children>
+                  <Pagination fx:id="userPagination" layoutY="44.0" prefHeight="267.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0" />
+                  <HBox layoutX="682.0" layoutY="14.0" spacing="12.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#onDeleteUserButtonClicked" text="Usuń" />
+                        <Button mnemonicParsing="false" onAction="#onNewUserButtonClicked" text="Nowy" />
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <SplitPane dividerPositions="0.5917085427135679" layoutX="341.0" layoutY="28.0" prefHeight="453.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <TableView layoutX="-6.0" layoutY="30.0" prefHeight="236.0" prefWidth="329.0" AnchorPane.leftAnchor="-6.0" AnchorPane.rightAnchor="-1.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="C1" />
+                                  <TableColumn prefWidth="75.0" text="C2" />
+                                </columns>
+                              </TableView>
+                              <Separator layoutY="299.0" prefHeight="16.0" prefWidth="322.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="299.0" />
+                              <HBox layoutX="201.0" layoutY="274.0" spacing="12.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#onDeleteVehicleButtonClicked" text="Usuń" />
+                                    <Button mnemonicParsing="false" onAction="#onNewVehicleButtonClicked" text="Nowy" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                                 </padding>
+                              </HBox>
+                              <Text layoutX="11.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pojazdy" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="263.09375">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="11.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Karta">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="17.0" layoutY="364.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id" />
+                              <TextField layoutX="105.0" layoutY="347.0" />
+                              <Text layoutX="17.0" layoutY="397.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data ważności" />
+                              <TextField layoutX="105.0" layoutY="380.0" />
+                              <Button layoutX="256.0" layoutY="413.0" mnemonicParsing="false" text="Button" />
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
