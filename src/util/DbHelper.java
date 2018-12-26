@@ -104,5 +104,5 @@ public class DbHelper {
 
         return affectedRows;
     }
-    
+
 }
