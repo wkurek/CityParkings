@@ -14,7 +14,7 @@ public class Address {
     private StringProperty city;
     private Country country;
 
-    Address() {
+    public Address() {
         id = new SimpleIntegerProperty();
         zipCode = new SimpleStringProperty();
         street = new SimpleStringProperty();

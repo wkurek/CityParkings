@@ -6,7 +6,7 @@ import javafx.beans.property.StringProperty;
 public class Engine {
     private StringProperty type;
 
-    Engine() {
+    public Engine() {
         type = new SimpleStringProperty();
     }
 

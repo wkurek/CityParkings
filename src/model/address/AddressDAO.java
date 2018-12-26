@@ -10,17 +10,17 @@ import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
 
 public class AddressDAO {
-    private static class AddressContract {
-        static final String TABLE_NAME = "addresses";
-        static final String COLUMN_NAME_ID = "address_id";
-        static final String COLUMN_NAME_CITY = "city";
-        static final String COLUMN_NAME_ZIP_CODE = "zip_code";
-        static final String COLUMN_NAME_STREET = "street";
-        static final String COLUMN_NAME_NUMBER = "number";
-        static final String COLUMN_NAME_COUNTRY = "country";
+    public static class AddressContract {
+        public static final String TABLE_NAME = "addresses";
+        public static final String COLUMN_NAME_ID = "address_id";
+        public static final String COLUMN_NAME_CITY = "city";
+        public static final String COLUMN_NAME_ZIP_CODE = "zip_code";
+        public static final String COLUMN_NAME_STREET = "street";
+        public static final String COLUMN_NAME_NUMBER = "number";
+        public static final String COLUMN_NAME_COUNTRY = "country";
     }
 
-    private static Address generateAddress(CachedRowSet resultSet) throws SQLException {
+    public static Address generateAddress(CachedRowSet resultSet) throws SQLException {
         Address address = new Address();
 
         Country country = CountryDAO.generateCountry(resultSet);
@@ -47,7 +47,7 @@ public class AddressDAO {
     }
 
     public static ObservableList<Address> getAddresses() {
-        String sql = String.format("SELECT %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s FROM %s INNER JOIN %s ON %s.%s=%s.%s",
+        String sql = String.format("SELECT %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s FROM %s LEFT JOIN %s ON %s.%s=%s.%s",
                 AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_ID, AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_CITY,
                 AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_ZIP_CODE, AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_STREET,
                 AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_NUMBER, CountryDAO.CountryContract.TABLE_NAME,
@@ -70,7 +70,7 @@ public class AddressDAO {
     }
 
     public static Address getAddress(int id) {
-        String sql = String.format("SELECT %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s FROM %s INNER JOIN %s ON %s.%s=%s.%s WHERE %s.%s=%d",
+        String sql = String.format("SELECT %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s FROM %s LEFT JOIN %s ON %s.%s=%s.%s WHERE %s.%s=%d",
                 AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_ID, AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_CITY,
                 AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_ZIP_CODE, AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_STREET,
                 AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_NUMBER, CountryDAO.CountryContract.TABLE_NAME,

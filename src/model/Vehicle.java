@@ -2,6 +2,7 @@ package model;
 
 import javafx.beans.property.*;
 import model.engine.Engine;
+import model.user.User;
 
 public class Vehicle {
     private IntegerProperty id;

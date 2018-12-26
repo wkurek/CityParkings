@@ -1,4 +1,4 @@
-package model;
+package model.user;
 
 import javafx.beans.property.*;
 import model.address.Address;

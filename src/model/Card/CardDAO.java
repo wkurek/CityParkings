@@ -8,13 +8,13 @@ import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
 
 public class CardDAO {
-    private static class CardContract {
-        static final String TABLE_NAME = "cards";
-        static final String COLUMN_NAME_ID = "card_id";
-        static final String COLUMN_NAME_EXPIRATION_DATE = "expiration_date";
+    public static class CardContract {
+        public static final String TABLE_NAME = "cards";
+        public static final String COLUMN_NAME_ID = "card_id";
+        public static final String COLUMN_NAME_EXPIRATION_DATE = "expiration_date";
     }
 
-    private static Card generateCard(CachedRowSet resultSet) throws SQLException {
+    public static Card generateCard(CachedRowSet resultSet) throws SQLException {
         Card card = new Card();
         card.setCardId(resultSet.getInt(CardContract.COLUMN_NAME_ID));
         card.setExpirationDate(resultSet.getDate(CardContract.COLUMN_NAME_EXPIRATION_DATE));
