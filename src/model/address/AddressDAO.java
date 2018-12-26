@@ -47,8 +47,15 @@ public class AddressDAO {
     }
 
     public static ObservableList<Address> getAddresses() {
-        //TODO: change the query for one with JOIN to fill the COUNTRY variable
-        String sql = String.format("SELECT * FROM %s", AddressContract.TABLE_NAME);
+        String sql = String.format("SELECT %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s FROM %s INNER JOIN %s ON %s.%s=%s.%s",
+                AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_ID, AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_CITY,
+                AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_ZIP_CODE, AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_STREET,
+                AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_NUMBER, CountryDAO.CountryContract.TABLE_NAME,
+                CountryDAO.CountryContract.COLUMN_NAME_COUNTRY, CountryDAO.CountryContract.TABLE_NAME,
+                CountryDAO.CountryContract.COLUMN_NAME_ISO, AddressContract.TABLE_NAME, CountryDAO.CountryContract.TABLE_NAME,
+                AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_COUNTRY, CountryDAO.CountryContract.TABLE_NAME,
+                CountryDAO.CountryContract.COLUMN_NAME_COUNTRY);
+
         CachedRowSet result = DbHelper.executeQuery(sql);
 
         ObservableList<Address> addressesList = null;
@@ -63,9 +70,14 @@ public class AddressDAO {
     }
 
     public static Address getAddress(int id) {
-        //TODO: change the query for one with JOIN to fill the COUNTRY variable
-        String sql = String.format("SELECT * FROM %s WHERE %s=%d", AddressContract.TABLE_NAME,
-                AddressContract.COLUMN_NAME_ID, id);
+        String sql = String.format("SELECT %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s FROM %s INNER JOIN %s ON %s.%s=%s.%s WHERE %s.%s=%d",
+                AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_ID, AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_CITY,
+                AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_ZIP_CODE, AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_STREET,
+                AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_NUMBER, CountryDAO.CountryContract.TABLE_NAME,
+                CountryDAO.CountryContract.COLUMN_NAME_COUNTRY, CountryDAO.CountryContract.TABLE_NAME,
+                CountryDAO.CountryContract.COLUMN_NAME_ISO, AddressContract.TABLE_NAME, CountryDAO.CountryContract.TABLE_NAME,
+                AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_COUNTRY, CountryDAO.CountryContract.TABLE_NAME,
+                CountryDAO.CountryContract.COLUMN_NAME_COUNTRY, AddressContract.TABLE_NAME, AddressContract.COLUMN_NAME_ID, id);
 
         CachedRowSet result = DbHelper.executeQuery(sql);
 

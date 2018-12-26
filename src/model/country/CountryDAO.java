@@ -8,10 +8,10 @@ import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
 
 public class CountryDAO {
-    private static class CountryContract {
-        static final String TABLE_NAME = "countries";
-        static final String COLUMN_NAME_COUNTRY = "country";
-        static final String COLUMN_NAME_ISO = "iso";
+    public static class CountryContract {
+        public static final String TABLE_NAME = "countries";
+        public static final String COLUMN_NAME_COUNTRY = "country";
+        public static final String COLUMN_NAME_ISO = "iso";
     }
 
     public static Country generateCountry(CachedRowSet resultSet) throws SQLException {
