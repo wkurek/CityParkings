@@ -1,4 +1,4 @@
-package model;
+package model.vehicle;
 
 import javafx.beans.property.*;
 import model.engine.Engine;
