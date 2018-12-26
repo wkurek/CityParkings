@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class CardDAO {
     public static class CardContract {
-        public static final String TABLE_NAME = "cards";
+        public static final String TABLE_NAME = "[dbo].[cards]";
         public static final String COLUMN_NAME_ID = "card_id";
         public static final String COLUMN_NAME_EXPIRATION_DATE = "expiration_date";
     }
