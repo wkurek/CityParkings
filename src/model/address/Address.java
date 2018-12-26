@@ -1,25 +1,27 @@
-package model;
+package model.address;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import model.country.Country;
 
 public class Address {
     private IntegerProperty id;
     private StringProperty zipCode;
     private StringProperty street;
     private StringProperty number;
-    private StringProperty countryName;
-    private StringProperty countryISO;
+    private StringProperty city;
+    private Country country;
 
     Address() {
         id = new SimpleIntegerProperty();
         zipCode = new SimpleStringProperty();
         street = new SimpleStringProperty();
         number = new SimpleStringProperty();
-        countryName = new SimpleStringProperty();
-        countryISO = new SimpleStringProperty();
+        city = new SimpleStringProperty();
+        country = new Country();
+
     }
 
     public int getId() {
@@ -70,28 +72,24 @@ public class Address {
         this.number.set(number);
     }
 
-    public String getCountryName() {
-        return countryName.get();
+    public Country getCountry() {
+        return country;
     }
 
-    public StringProperty countryNameProperty() {
-        return countryName;
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
-    public void setCountryName(String countryName) {
-        this.countryName.set(countryName);
+    public String getCity() {
+        return city.get();
     }
 
-    public String getCountryISO() {
-        return countryISO.get();
+    public StringProperty cityProperty() {
+        return city;
     }
 
-    public StringProperty countryISOProperty() {
-        return countryISO;
-    }
-
-    public void setCountryISO(String countryISO) {
-        this.countryISO.set(countryISO);
+    public void setCity(String city) {
+        this.city.set(city);
     }
 }
 

@@ -1,6 +1,7 @@
 package model;
 
 import javafx.beans.property.*;
+import model.address.Address;
 import model.card.Card;
 
 public class User {

@@ -14,7 +14,7 @@ public class CountryDAO {
         static final String COLUMN_NAME_ISO = "iso";
     }
 
-    private static Country generateCountry(CachedRowSet resultSet) throws SQLException {
+    public static Country generateCountry(CachedRowSet resultSet) throws SQLException {
         Country country = new Country();
         country.setName(resultSet.getString(CountryContract.COLUMN_NAME_COUNTRY));
         country.setIso(resultSet.getString(CountryContract.COLUMN_NAME_ISO));
