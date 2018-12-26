@@ -1,4 +1,4 @@
-package model;
+package model.Card;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;

@@ -1,6 +1,7 @@
 package model;
 
 import javafx.beans.property.*;
+import model.Card.Card;
 
 public class User {
     private IntegerProperty id;
