@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 public class UserDAO {
     public static class UserContract {
-        public static final String TABLE_NAME = "users";
+        public static final String TABLE_NAME = "[dbo].[users]";
         public static final String COLUMN_NAME_ID = "user_id";
         public static final String COLUMN_NAME_NAME = "name";
         public static final String COLUMN_NAME_SURNAME = "surname";

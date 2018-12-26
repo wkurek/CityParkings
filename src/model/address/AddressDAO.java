@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class AddressDAO {
     public static class AddressContract {
-        public static final String TABLE_NAME = "addresses";
+        public static final String TABLE_NAME = "[dbo].[addresses]";
         public static final String COLUMN_NAME_ID = "address_id";
         public static final String COLUMN_NAME_CITY = "city";
         public static final String COLUMN_NAME_ZIP_CODE = "zip_code";

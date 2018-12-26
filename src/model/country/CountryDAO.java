@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class CountryDAO {
     public static class CountryContract {
-        public static final String TABLE_NAME = "countries";
+        public static final String TABLE_NAME = "[dbo].[countries]";
         public static final String COLUMN_NAME_COUNTRY = "country";
         public static final String COLUMN_NAME_ISO = "iso";
     }

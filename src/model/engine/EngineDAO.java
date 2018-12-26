@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class EngineDAO {
     private static class EngineContract {
-        static final String TABLE_NAME = "engines";
+        static final String TABLE_NAME = "[dbo].[engines]";
         static final String COLUMN_NAME_TYPE = "engine_type";
     }
 

@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 public class VehicleDAO {
     public static class VehicleContract {
-        public static final String TABLE_NAME = "vehicles";
+        public static final String TABLE_NAME = "[dbo].[vehicles]";
         public static final String COLUMN_NAME_ID = "vehicle_id";
         public static final String COLUMN_NAME_PLATE_NUMBER = "plate_number";
         public static final String COLUMN_NAME_WEIGHT = "weight";
