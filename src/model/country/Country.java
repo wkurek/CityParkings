@@ -1,4 +1,4 @@
-package model;
+package model.country;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -7,7 +7,7 @@ public class Country {
     private StringProperty name;
     private StringProperty iso;
 
-    Country() {
+    public Country() {
         name = new SimpleStringProperty();
         iso = new SimpleStringProperty();
     }
