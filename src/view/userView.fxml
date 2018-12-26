@@ -11,6 +11,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -55,24 +57,68 @@
                         <Button mnemonicParsing="false" text="Delete" />
                      </buttons>
                   </ButtonBar>
-                  <TextField layoutX="107.0" layoutY="39.0" />
-                  <TextField layoutX="107.0" layoutY="78.0" />
-                  <TextField layoutX="107.0" layoutY="112.0" />
-                  <TextField layoutX="107.0" layoutY="145.0" />
-                  <TextField layoutX="107.0" layoutY="222.0" />
-                  <TextField layoutX="107.0" layoutY="250.0" />
-                  <TextField layoutX="107.0" layoutY="282.0" />
-                  <TextField layoutX="107.0" layoutY="308.0" />
-                  <Label layoutX="19.0" layoutY="314.0" text="Number" />
-                  <Label layoutX="20.0" layoutY="344.0" text="Country" />
-                  <Label layoutX="32.0" layoutY="226.0" text="City" />
-                  <Label layoutX="26.0" layoutY="254.0" text="Street" />
-                  <Label layoutX="17.0" layoutY="286.0" text="ZIP Code" />
-                  <ChoiceBox layoutX="107.0" layoutY="340.0" prefHeight="25.0" prefWidth="246.0" />
-                  <Label layoutX="42.0" layoutY="43.0" text="Id" />
-                  <Label layoutX="18.0" layoutY="116.0" text="Surname" />
-                  <Label layoutX="31.0" layoutY="82.0" text="Name" />
-                  <Label layoutX="13.0" layoutY="149.0" text="Phone Number" />
+                  <VBox alignment="TOP_RIGHT" layoutX="13.0" layoutY="39.0" spacing="8.0">
+                     <children>
+                        <HBox alignment="BOTTOM_RIGHT" spacing="12.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" text="Id" textAlignment="CENTER" />
+                              <TextField alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                           <children>
+                              <Label alignment="CENTER" text="Name" />
+                              <TextField alignment="CENTER" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                           <children>
+                              <Label text="Surname" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" spacing="12.0">
+                           <children>
+                              <Label text="Phone Number" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="17.0" layoutY="222.0" spacing="12.0">
+                     <children>
+                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                           <children>
+                              <Label text="City" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                           <children>
+                              <Label text="Street" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                           <children>
+                              <Label text="ZIP Code" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                           <children>
+                              <Label text="Number" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER" layoutX="17.0" layoutY="373.0" spacing="12.0">
+                     <children>
+                        <Label text="Country" />
+                        <ChoiceBox prefHeight="25.0" prefWidth="246.0" />
+                     </children>
+                  </HBox>
                   <Text layoutX="11.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User details">
                      <font>
                         <Font size="14.0" />
@@ -84,7 +130,22 @@
                         <Button mnemonicParsing="false" text="Save" />
                      </buttons>
                   </ButtonBar>
-                  <Label layoutX="467.0" layoutY="357.0" text="Id" />
+                  <VBox layoutX="442.0" layoutY="353.0" spacing="8.0">
+                     <children>
+                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                           <children>
+                              <Label text="Id" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                           <children>
+                              <Label text="Expiration date " />
+                              <TextField />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
                   <ButtonBar layoutX="465.0" layoutY="432.0">
                      <buttons>
                         <Button mnemonicParsing="false" text="Extend validity" />
@@ -92,9 +153,6 @@
                         <Button mnemonicParsing="false" text="Delete" />
                      </buttons>
                   </ButtonBar>
-                  <TextField layoutX="530.0" layoutY="353.0" />
-                  <Label layoutX="442.0" layoutY="385.0" text="Expiration date " />
-                  <TextField layoutX="530.0" layoutY="381.0" />
                   <Separator layoutX="86.0" layoutY="195.0" prefHeight="3.0" prefWidth="266.0" />
                </children>
             </AnchorPane>
