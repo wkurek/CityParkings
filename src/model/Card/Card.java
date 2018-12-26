@@ -1,4 +1,4 @@
-package model.Card;
+package model.card;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -10,7 +10,7 @@ public class Card {
     private IntegerProperty cardId;
     private SimpleObjectProperty<Date> expirationDate;
 
-    Card() {
+    public Card() {
         cardId = new SimpleIntegerProperty();
         expirationDate = new SimpleObjectProperty<>();
     }

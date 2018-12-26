@@ -1,4 +1,4 @@
-package model.Card;
+package model.card;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
