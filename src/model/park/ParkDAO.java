@@ -2,9 +2,15 @@ package model.park;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.address.AddressDAO;
+import model.card.CardDAO;
+import model.country.CountryDAO;
+import model.location.LocationDAO;
 import model.parking.Parking;
 import model.parking.ParkingDAO;
+import model.user.UserDAO;
 import model.vehicle.Vehicle;
+import model.vehicle.VehicleDAO;
 import util.DbHelper;
 
 import javax.sql.rowset.CachedRowSet;
@@ -20,34 +26,77 @@ public class ParkDAO {
 
 
     private static String generateSelectQuery() {
-        return String.format("SELECT %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s" +
-                " FROM %s LEFT JOIN %s ON %s.%s=%s.%s LEFT JOIN %s ON %s.%s=%s.%s LEFT JOIN %s ON %s.%s=%s.%s",
+        return String.format("SELECT %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s," +
+                " %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s," +
+                        "%s.%s, %s.%s, %s.%s, %s.%s " +
+                        "FROM %s LEFT JOIN %s ON %s.%s=%s.%s " +
+                        "LEFT JOIN %s ON %s.%s=%s.%s " +
+                        "LEFT JOIN %s ON %s.%s=%s.%s " +
+                        "LEFT JOIN %s ON %s.%s=%s.%s " +
+                        "LEFT JOIN %s ON %s.%s=%s.%s " +
+                        "LEFT JOIN %s ON %s.%s=%s.%s " +
+                        "LEFT JOIN %s ON %s.%s=%s.%s",
                 ParkContract.TABLE_NAME, ParkContract.COLUMN_NAME_DATE_TIME,
 
+                VehicleDAO.VehicleContract.TABLE_NAME, VehicleDAO.VehicleContract.COLUMN_NAME_ID,
+                VehicleDAO.VehicleContract.TABLE_NAME, VehicleDAO.VehicleContract.COLUMN_NAME_PLATE_NUMBER,
+                VehicleDAO.VehicleContract.TABLE_NAME, VehicleDAO.VehicleContract.COLUMN_NAME_WEIGHT,
+                VehicleDAO.VehicleContract.TABLE_NAME, VehicleDAO.VehicleContract.COLUMN_NAME_HEIGHT,
+                VehicleDAO.VehicleContract.TABLE_NAME, VehicleDAO.VehicleContract.COLUMN_NAME_ENGINE_TYPE,
+                UserDAO.UserContract.TABLE_NAME, UserDAO.UserContract.COLUMN_NAME_ID,
+                UserDAO.UserContract.TABLE_NAME, UserDAO.UserContract.COLUMN_NAME_NAME,
+                UserDAO.UserContract.TABLE_NAME, UserDAO.UserContract.COLUMN_NAME_SURNAME,
+                UserDAO.UserContract.TABLE_NAME, UserDAO.UserContract.COLUMN_NAME_PHONE_NUMBER,
+                CountryDAO.CountryContract.TABLE_NAME, CountryDAO.CountryContract.COLUMN_NAME_COUNTRY,
+                CountryDAO.CountryContract.TABLE_NAME, CountryDAO.CountryContract.COLUMN_NAME_ISO,
+                AddressDAO.AddressContract.TABLE_NAME, AddressDAO.AddressContract.COLUMN_NAME_ID,
+                AddressDAO.AddressContract.TABLE_NAME, AddressDAO.AddressContract.COLUMN_NAME_CITY,
+                AddressDAO.AddressContract.TABLE_NAME, AddressDAO.AddressContract.COLUMN_NAME_ZIP_CODE,
+                AddressDAO.AddressContract.TABLE_NAME, AddressDAO.AddressContract.COLUMN_NAME_STREET,
+                AddressDAO.AddressContract.TABLE_NAME, AddressDAO.AddressContract.COLUMN_NAME_NUMBER,
+                CardDAO.CardContract.TABLE_NAME, CardDAO.CardContract.COLUMN_NAME_ID,
+                CardDAO.CardContract.TABLE_NAME, CardDAO.CardContract.COLUMN_NAME_EXPIRATION_DATE,
 
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_ID,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_STANDARD_LOTS,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_DISABLED_LOTS,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_IS_ROOF,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_IS_GUARDED,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_LAST_CONTROL,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_WEIGHT,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_HEIGHT,
+                LocationDAO.LocationContract.TABLE_NAME, LocationDAO.LocationContract.COLUMN_NAME_ID,
+                LocationDAO.LocationContract.TABLE_NAME, LocationDAO.LocationContract.COLUMN_NAME_LATITUDE,
+                LocationDAO.LocationContract.TABLE_NAME, LocationDAO.LocationContract.COLUMN_NAME_LONGITUDE,
 
+                ParkContract.TABLE_NAME, VehicleDAO.VehicleContract.TABLE_NAME,
+                ParkContract.TABLE_NAME, ParkContract.COLUMN_NAME_VEHICLE_ID,
+                VehicleDAO.VehicleContract.TABLE_NAME, VehicleDAO.VehicleContract.COLUMN_NAME_ID,
 
+                UserDAO.UserContract.TABLE_NAME,
+                VehicleDAO.VehicleContract.TABLE_NAME, VehicleDAO.VehicleContract.COLUMN_NAME_USER_ID,
+                UserDAO.UserContract.TABLE_NAME, UserDAO.UserContract.COLUMN_NAME_ID,
 
+                CardDAO.CardContract.TABLE_NAME,
+                UserDAO.UserContract.TABLE_NAME, UserDAO.UserContract.COLUMN_NAME_CARD_ID,
+                CardDAO.CardContract.TABLE_NAME, CardDAO.CardContract.COLUMN_NAME_ID,
 
+                AddressDAO.AddressContract.TABLE_NAME,
+                UserDAO.UserContract.TABLE_NAME, UserDAO.UserContract.COLUMN_NAME_ADDRESS_ID,
+                AddressDAO.AddressContract.TABLE_NAME, AddressDAO.AddressContract.COLUMN_NAME_ID,
 
+                CountryDAO.CountryContract.TABLE_NAME,
+                AddressDAO.AddressContract.TABLE_NAME, AddressDAO.AddressContract.COLUMN_NAME_COUNTRY,
+                CountryDAO.CountryContract.TABLE_NAME, CountryDAO.CountryContract.COLUMN_NAME_COUNTRY,
 
+                ParkingDAO.ParkingContract.TABLE_NAME,
+                ParkContract.TABLE_NAME, ParkContract.COLUMN_NAME_PARKING_ID,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_ID,
 
-
-
-
-
-
-
-
+                LocationDAO.LocationContract.TABLE_NAME,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_LOCATION_ID,
+                LocationDAO.LocationContract.TABLE_NAME, LocationDAO.LocationContract.COLUMN_NAME_ID
                 );
-
-
-
-
-
-
-
-
     }
 
     public static Park generatePark(CachedRowSet resultSet) throws SQLException {
@@ -139,8 +188,4 @@ public class ParkDAO {
 
         DbHelper.executeUpdateQuery(sql);
     }
-
-
-
-
 }
