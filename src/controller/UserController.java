@@ -118,6 +118,7 @@ public class UserController {
 
         task.setOnSucceeded(event -> {
             vehicleTableView.getSelectionModel().clearSelection();
+
             vehicleList.clear();
             vehicleList.setAll(task.getValue());
         });
@@ -186,6 +187,8 @@ public class UserController {
 
         usersTable.sortPolicyProperty().set(param -> {
             usersTable.getSelectionModel().clearSelection();
+            usersTable.getItems().clear();
+            deleteUserButton.setDisable(true);
 
             FXCollections.sort(usersList, param.getComparator());
 
@@ -226,8 +229,12 @@ public class UserController {
     }
 
     private void onUserSelected(User selectedUser) {
+        deleteUserButton.setDisable(false);
         saveUserButton.setDisable(true);
         editUserButton.setDisable(false);
+
+        deleteVehicleButton.setDisable(true);
+        addVehicleButton.setDisable(false);
 
         userIdInput.setText(Integer.toString(selectedUser.getId()));
         userNameInput.setText(selectedUser.getName());
@@ -277,6 +284,10 @@ public class UserController {
         vehicleTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         vehicleTableView.setItems(vehicleList);
 
+        vehicleTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null) deleteVehicleButton.setDisable(false);
+        });
+
         scheduleLoadTask(usersLoadTask);
     }
 
@@ -292,6 +303,15 @@ public class UserController {
 
     @FXML
     public void onDeleteUserButtonClicked(ActionEvent actionEvent) {
+        User selectedUser = usersTable.getSelectionModel().getSelectedItem();
+        int selectedUserIndex = usersTable.getSelectionModel().getSelectedIndex();
+
+        if(selectedUser != null && selectedUserIndex > 0) {
+            UserDAO.deleteUser(selectedUser.getId());
+            usersList.remove(selectedUserIndex);
+        } else {
+            deleteUserButton.setDisable(true);
+        }
     }
 
     @FXML
@@ -300,6 +320,15 @@ public class UserController {
 
     @FXML
     public void onDeleteVehicleButtonClicked(ActionEvent actionEvent) {
+        Vehicle selectedVehicle = vehicleTableView.getSelectionModel().getSelectedItem();
+        int selectedVehicleIndex = vehicleTableView.getSelectionModel().getSelectedIndex();
+
+        if(selectedVehicle != null && selectedVehicleIndex > 0) {
+            VehicleDAO.deleteVehicle(selectedVehicle.getId());
+            vehicleList.remove(selectedVehicleIndex);
+        } else {
+            deleteVehicleButton.setDisable(true);
+        }
     }
 
     @FXML
