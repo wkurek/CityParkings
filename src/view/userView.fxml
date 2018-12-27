@@ -154,9 +154,9 @@
                         </HBox>
                      </children>
                   </VBox>
-                  <ButtonBar layoutX="465.0" layoutY="432.0">
+                  <ButtonBar layoutX="405.0" layoutY="432.0" prefHeight="25.0" prefWidth="395.0">
                      <buttons>
-                        <Button fx:id="extendCardButton" disable="true" mnemonicParsing="false" onAction="#onExtendCardButtonClicked" text="Extend validity" />
+                        <Button fx:id="extendCardButton" disable="true" mnemonicParsing="false" onAction="#onExtendCardButtonClicked" prefHeight="25.0" prefWidth="127.0" text="Extend validity" />
                         <Button fx:id="generateCardButton" disable="true" mnemonicParsing="false" onAction="#onGenerateCardButtonClicked" text="Generate new" />
                         <Button fx:id="deleteCardButton" disable="true" mnemonicParsing="false" onAction="#onDeleteCardButtonClicked" text="Delete" />
                      </buttons>

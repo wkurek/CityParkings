@@ -8,12 +8,16 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import model.card.Card;
+import model.card.CardDAO;
 import model.country.Country;
 import model.country.CountryDAO;
 import model.user.User;
 import model.user.UserDAO;
 import model.vehicle.Vehicle;
 import model.vehicle.VehicleDAO;
+
+import java.util.Comparator;
 
 public class UserController {
     private static final int PAGINATION_USERS_PER_PAGE_NUMBER = 8;
@@ -178,6 +182,8 @@ public class UserController {
         usersTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         usersTable.sortPolicyProperty().set(param -> {
+            usersTable.getSelectionModel().clearSelection();
+
             FXCollections.sort(usersList, param.getComparator());
 
             int currentPageIndex = userPagination.getCurrentPageIndex();
@@ -190,7 +196,7 @@ public class UserController {
         });
 
         usersTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            onUserSelected(newValue);
+            if(newValue != null) onUserSelected(newValue);
         });
 
     }
@@ -220,23 +226,35 @@ public class UserController {
         saveUserButton.setDisable(true);
         editUserButton.setDisable(false);
 
-        //TODO: fill textInputs
         userIdInput.setText(Integer.toString(selectedUser.getId()));
         userNameInput.setText(selectedUser.getName());
         userSurnameInput.setText(selectedUser.getSurname());
         userPhoneNumberInput.setText(selectedUser.getPhoneNumber());
 
-        if(selectedUser.getAddress() != null) {
-            userCityInput.setText(selectedUser.getAddress().getCity());
-            userStreetInput.setText(selectedUser.getAddress().getStreet());
-            userNumberInput.setText(selectedUser.getAddress().getNumber());
-            userZIPCodeInput.setText(selectedUser.getAddress().getZipCode());
 
-            userCountryComboBox.getSelectionModel().select(selectedUser.getAddress().getCountry());
+        userCityInput.setText(selectedUser.getAddress().getCity());
+        userStreetInput.setText(selectedUser.getAddress().getStreet());
+        userNumberInput.setText(selectedUser.getAddress().getNumber());
+        userZIPCodeInput.setText(selectedUser.getAddress().getZipCode());
+
+        userCountryComboBox.getSelectionModel().select(selectedUser.getAddress().getCountry());
+
+        if(selectedUser.getCard().getExpirationDate() != null) {
+            //card already exists
+            deleteCardButton.setDisable(false);
+            extendCardButton.setDisable(false);
+            generateCardButton.setDisable(true);
+
+            cardIdInput.setText(Integer.toString(selectedUser.getCard().getCardId()));
+            cardExpirationDateInput.setText(selectedUser.getCard().getExpirationDate().toString());
+        } else {
+            //card not exist
+            deleteCardButton.setDisable(true);
+            extendCardButton.setDisable(true);
+            generateCardButton.setDisable(false);
         }
 
-
-
+        //TODO: fill vehicle section
 
 
     }
