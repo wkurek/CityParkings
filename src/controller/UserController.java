@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import model.address.Address;
 import model.card.Card;
 import model.card.CardDAO;
 import model.country.Country;
@@ -233,6 +234,8 @@ public class UserController {
         saveUserButton.setDisable(true);
         editUserButton.setDisable(false);
 
+        setUserInputFieldDisable(true);
+
         deleteVehicleButton.setDisable(true);
         addVehicleButton.setDisable(false);
 
@@ -333,11 +336,49 @@ public class UserController {
 
     @FXML
     public void onEditUserButtonClicked(ActionEvent actionEvent) {
+        editUserButton.setDisable(true);
+        saveUserButton.setDisable(false);
+
+        setUserInputFieldDisable(false);
+    }
+
+    private void setUserInputFieldDisable(boolean disable) {
+        userNameInput.setDisable(disable);
+        userSurnameInput.setDisable(disable);
+        userPhoneNumberInput.setDisable(disable);
+        userCityInput.setDisable(disable);
+        userZIPCodeInput.setDisable(disable);
+        userStreetInput.setDisable(disable);
+        userNumberInput.setDisable(disable);
+
+        userCountryComboBox.setDisable(disable);
     }
 
     @FXML
     public void onSaveUserButtonClicked(ActionEvent actionEvent) {
+        User editedUser = usersTable.getSelectionModel().getSelectedItem();
+
+        editedUser.setName(userNameInput.getText());
+        editedUser.setSurname(userSurnameInput.getText());
+        editedUser.setPhoneNumber(userPhoneNumberInput.getText());
+
+            Address editedAddress = editedUser.getAddress();
+
+            editedAddress.setCity(userCityInput.getText());
+            editedAddress.setZipCode(userZIPCodeInput.getText());
+            editedAddress.setStreet(userStreetInput.getText());
+            editedAddress.setNumber(userNumberInput.getText());
+            editedAddress.setCountry(userCountryComboBox.getSelectionModel().getSelectedItem());
+
+        editedUser.setAddress(editedAddress);
+
+        UserDAO.updateUser(editedUser.getId(), editedUser);
+
+        editUserButton.setDisable(false);
+        saveUserButton.setDisable(true);
+        setUserInputFieldDisable(true);
     }
+
 
     @FXML
     public void onExtendCardButtonClicked(ActionEvent actionEvent) {
