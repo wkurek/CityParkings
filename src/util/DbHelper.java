@@ -33,8 +33,10 @@ public class DbHelper {
             throw exception;
         }
 
-        String connectionString = getConnectionString();
-        connection = DriverManager.getConnection(connectionString);
+        if(connection == null) {
+            String connectionString = getConnectionString();
+            connection = DriverManager.getConnection(connectionString);
+        }
     }
 
     private static void disconnect() throws SQLException {
@@ -69,7 +71,6 @@ public class DbHelper {
                     statement.close();
                 }
 
-                disconnect();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -96,7 +97,6 @@ public class DbHelper {
                     statement.close();
                 }
 
-                disconnect();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
