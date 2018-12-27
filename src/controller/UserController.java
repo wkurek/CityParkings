@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.util.Callback;
 import model.user.User;
 import model.user.UserDAO;
 import model.vehicle.Vehicle;
@@ -150,8 +151,8 @@ public class UserController {
         new Thread(task).start();
     }
 
-    private TableView<User> generateUsersTable() {
-        TableView<User> table = new TableView<>();
+    private void generateUsersTable() {
+        usersTable = new TableView<>();
 
         TableColumn<User, Integer> idColumn = new TableColumn<>(USERS_TABLE_COLUMN_NAME_ID);
         idColumn.setCellValueFactory(param -> param.getValue().idProperty().asObject());
@@ -171,9 +172,22 @@ public class UserController {
         TableColumn<User, String> countryColumn = new TableColumn<>(USERS_TABLE_COLUMN_NAME_COUNTRY);
         countryColumn.setCellValueFactory(param -> param.getValue().getAddress().getCountry().nameProperty());
 
-        table.getColumns().addAll(idColumn, nameColumn, surnameColumn, phoneNumberColumn, cityColumn, countryColumn);
+        usersTable.getColumns().addAll(idColumn, nameColumn, surnameColumn, phoneNumberColumn, cityColumn, countryColumn);
 
-        return table;
+        usersTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        usersTable.sortPolicyProperty().set(param -> {
+            FXCollections.sort(usersList, param.getComparator());
+
+            int currentPageIndex = userPagination.getCurrentPageIndex();
+            int fromIndex = currentPageIndex * PAGINATION_USERS_PER_PAGE_NUMBER;
+            int toIndex = Math.min(fromIndex + PAGINATION_USERS_PER_PAGE_NUMBER, usersList.size());
+
+            usersTable.setItems(FXCollections.observableArrayList(usersList.subList(fromIndex, toIndex)));
+
+            return true;
+        });
+
     }
 
     private Node createUsersPage(int pageIndex) {
@@ -199,7 +213,7 @@ public class UserController {
 
     @FXML
     private void initialize () {
-        usersTable = generateUsersTable();
+        generateUsersTable();
         setUpUserPagination();
 
         scheduleLoadTask(usersLoadTask);

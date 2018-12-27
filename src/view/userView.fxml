@@ -25,7 +25,7 @@
                   <Pagination fx:id="userPagination" layoutY="44.0" prefHeight="267.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0" />
                   <ButtonBar layoutX="519.0" layoutY="14.0">
                      <buttons>
-                        <Button fx:id="refreshUserButton" mnemonicParsing="false" onAction="#onRefreshUserButtonClicked" text="Delete" />
+                        <Button fx:id="refreshUserButton" mnemonicParsing="false" onAction="#onRefreshUserButtonClicked" text="Refresh" />
                         <Button fx:id="newUserButton" mnemonicParsing="false" onAction="#onNewUserButtonClicked" text="New" />
                         <Button fx:id="deleteUserButton" layoutX="30.0" layoutY="10.0" mnemonicParsing="false" onAction="#onDeleteUserButtonClicked" text="Delete" />
                      </buttons>
