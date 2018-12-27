@@ -4,11 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import model.address.Address;
-import model.card.Card;
+import model.address.AddressDAO;
 import model.card.CardDAO;
 import model.country.Country;
 import model.country.CountryDAO;
@@ -18,34 +15,29 @@ import model.vehicle.Vehicle;
 import model.vehicle.VehicleDAO;
 
 import java.sql.Date;
-import java.time.LocalDate;
-import java.util.Calendar;
 
 
 public class UserController {
-    private static final int PAGINATION_USERS_PER_PAGE_NUMBER = 8;
-    private static final int PAGINATION_USERS_INIT_PAGE_NUMBER = 0;
-
-    private static final String USERS_TABLE_COLUMN_NAME_ID = "Id";
-    private static final String USERS_TABLE_COLUMN_NAME_NAME = "Name";
-    private static final String USERS_TABLE_COLUMN_NAME_SURNAME = "Surname";
-    private static final String USERS_TABLE_COLUMN_NAME_PHONE_NUMBER = "Phone number";
-    private static final String USERS_TABLE_COLUMN_NAME_CITY = "City";
-    private static final String USERS_TABLE_COLUMN_NAME_COUNTRY = "Country";
-
     private ObservableList<User> usersList;
     private ObservableList<Vehicle> vehicleList;
 
     private Task<ObservableList<User>> usersLoadTask;
-    private Task<ObservableList<Vehicle>> vehicleLoadTask;
 
+    @FXML
     private TableView<User> usersTable;
-
     @FXML
-    private Pagination userPagination;
-
+    private TableColumn<User, Integer> userIdColumn;
     @FXML
-    private Button newUserButton;
+    private TableColumn<User, String> userNameColumn;
+    @FXML
+    private TableColumn<User, String> userSurnameColumn;
+    @FXML
+    private TableColumn<User, String> userPhoneNumberColumn;
+    @FXML
+    private TableColumn<User, String> userCityColumn;
+    @FXML
+    private TableColumn<User, String> userCountryColumn;
+
     @FXML
     private Button deleteUserButton;
 
@@ -139,7 +131,6 @@ public class UserController {
         task.setOnSucceeded(event -> {
             usersList.clear();
             usersList.addAll(task.getValue());
-            setUpUserPagination();
         });
 
         task.setOnFailed(event -> {
@@ -156,73 +147,35 @@ public class UserController {
         new Thread(task).start();
     }
 
-    private void generateUsersTable() {
-        usersTable = new TableView<>();
-
-        TableColumn<User, Integer> idColumn = new TableColumn<>(USERS_TABLE_COLUMN_NAME_ID);
-        idColumn.setCellValueFactory(param -> param.getValue().idProperty().asObject());
-
-        TableColumn<User, String> nameColumn = new TableColumn<>(USERS_TABLE_COLUMN_NAME_NAME);
-        nameColumn.setCellValueFactory(param -> param.getValue().nameProperty());
-
-        TableColumn<User, String> surnameColumn = new TableColumn<>(USERS_TABLE_COLUMN_NAME_SURNAME);
-        surnameColumn.setCellValueFactory(param -> param.getValue().surnameProperty());
-
-        TableColumn<User, String> phoneNumberColumn = new TableColumn<>(USERS_TABLE_COLUMN_NAME_PHONE_NUMBER);
-        phoneNumberColumn.setCellValueFactory(param -> param.getValue().phoneNumberProperty());
-
-        TableColumn<User, String> cityColumn = new TableColumn<>(USERS_TABLE_COLUMN_NAME_CITY);
-        cityColumn.setCellValueFactory(param -> param.getValue().getAddress().cityProperty());
-
-        TableColumn<User, String> countryColumn = new TableColumn<>(USERS_TABLE_COLUMN_NAME_COUNTRY);
-        countryColumn.setCellValueFactory(param -> param.getValue().getAddress().getCountry().nameProperty());
-
-        usersTable.getColumns().addAll(idColumn, nameColumn, surnameColumn, phoneNumberColumn,
-                cityColumn, countryColumn);
+    private void setUpUsersTable() {
+        userIdColumn.setCellValueFactory(param -> param.getValue().idProperty().asObject());
+        userNameColumn.setCellValueFactory(param -> param.getValue().nameProperty());
+        userSurnameColumn.setCellValueFactory(param -> param.getValue().surnameProperty());
+        userPhoneNumberColumn.setCellValueFactory(param -> param.getValue().phoneNumberProperty());
+        userCityColumn.setCellValueFactory(param -> param.getValue().getAddress().cityProperty());
+        userCountryColumn.setCellValueFactory(param -> param.getValue().getAddress().getCountry().nameProperty());
 
         usersTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        usersTable.sortPolicyProperty().set(param -> {
-            usersTable.getSelectionModel().clearSelection();
-            usersTable.getItems().clear();
-            deleteUserButton.setDisable(true);
-
-            FXCollections.sort(usersList, param.getComparator());
-
-            int currentPageIndex = userPagination.getCurrentPageIndex();
-            int fromIndex = currentPageIndex * PAGINATION_USERS_PER_PAGE_NUMBER;
-            int toIndex = Math.min(fromIndex + PAGINATION_USERS_PER_PAGE_NUMBER, usersList.size());
-
-            usersTable.setItems(FXCollections.observableArrayList(usersList.subList(fromIndex, toIndex)));
-
-            return true;
-        });
 
         usersTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue != null) onUserSelected(newValue);
         });
 
+        usersTable.setItems(usersList);
     }
 
-    private Node createUsersPage(int pageIndex) {
-        int fromIndex = pageIndex * PAGINATION_USERS_PER_PAGE_NUMBER;
-        int toIndex = Math.min(fromIndex + PAGINATION_USERS_PER_PAGE_NUMBER, usersList.size());
+    private void setUpVehiclesTable() {
+        vehiclePlateNumberColumn.setCellValueFactory(param -> param.getValue().plateNumberProperty());
+        vehicleWeightColumn.setCellValueFactory(param -> param.getValue().weightProperty().asObject());
+        vehicleHeightColumn.setCellValueFactory(param -> param.getValue().heightProperty().asObject());
+        vehicleEngineTypeColumn.setCellValueFactory(param -> param.getValue().getEngine().typeProperty());
 
-        usersTable.setItems(FXCollections.observableArrayList(usersList.subList(fromIndex, toIndex)));
+        vehicleTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        vehicleTableView.setItems(vehicleList);
 
-        return new BorderPane(usersTable);
-    }
-
-    private int getUsersPagesCount() {
-        int pageCount = (int) Math.ceil(usersList.size() / PAGINATION_USERS_PER_PAGE_NUMBER);
-        return pageCount > 0 ? pageCount : 1;
-    }
-
-    private void setUpUserPagination() {
-        userPagination.setPageCount(getUsersPagesCount());
-        userPagination.setCurrentPageIndex(PAGINATION_USERS_INIT_PAGE_NUMBER);
-
-        userPagination.setPageFactory(this::createUsersPage);
+        vehicleTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null) deleteVehicleButton.setDisable(false);
+        });
     }
 
     private void onUserSelected(User selectedUser) {
@@ -253,7 +206,7 @@ public class UserController {
         cardIdInput.setText(Integer.toString(selectedUser.getCard().getCardId()));
         cardExpirationDateInput.setText(selectedUser.getCard().getExpirationDate().toString());
 
-        vehicleLoadTask = generateVehiclesLoadTask(selectedUser.getId());
+        Task<ObservableList<Vehicle>> vehicleLoadTask = generateVehiclesLoadTask(selectedUser.getId());
         scheduleLoadTask(vehicleLoadTask);
 
     }
@@ -272,22 +225,10 @@ public class UserController {
 
     @FXML
     private void initialize () {
-        generateUsersTable();
-        setUpUserPagination();
+        setUpUsersTable();
+        setUpVehiclesTable();
 
         userCountryComboBox.setItems(CountryDAO.getCountries());
-
-        vehiclePlateNumberColumn.setCellValueFactory(param -> param.getValue().plateNumberProperty());
-        vehicleWeightColumn.setCellValueFactory(param -> param.getValue().weightProperty().asObject());
-        vehicleHeightColumn.setCellValueFactory(param -> param.getValue().heightProperty().asObject());
-        vehicleEngineTypeColumn.setCellValueFactory(param -> param.getValue().getEngine().typeProperty());
-
-        vehicleTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        vehicleTableView.setItems(vehicleList);
-
-        vehicleTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue != null) deleteVehicleButton.setDisable(false);
-        });
 
         scheduleLoadTask(usersLoadTask);
     }
@@ -342,22 +283,24 @@ public class UserController {
 
     @FXML
     public void onSaveUserButtonClicked() {
-        User editedUser = usersTable.getSelectionModel().getSelectedItem();
+        int editedUserIndex = usersTable.getSelectionModel().getSelectedIndex();
+        User editedUser = usersList.get(editedUserIndex);
 
         editedUser.setName(userNameInput.getText());
         editedUser.setSurname(userSurnameInput.getText());
         editedUser.setPhoneNumber(userPhoneNumberInput.getText());
 
-            Address editedAddress = editedUser.getAddress();
+        editedUser.getAddress().setCity(userCityInput.getText());
+        editedUser.getAddress().setZipCode(userZIPCodeInput.getText());
+        editedUser.getAddress().setStreet(userStreetInput.getText());
+        editedUser.getAddress().setNumber(userNumberInput.getText());
 
-            editedAddress.setCity(userCityInput.getText());
-            editedAddress.setZipCode(userZIPCodeInput.getText());
-            editedAddress.setStreet(userStreetInput.getText());
-            editedAddress.setNumber(userNumberInput.getText());
-            editedAddress.setCountry(userCountryComboBox.getSelectionModel().getSelectedItem());
+        Country selectedCountry = userCountryComboBox.getSelectionModel().getSelectedItem();
+        editedUser.getAddress().getCountry().setName(selectedCountry.getName());
+        editedUser.getAddress().getCountry().setIso(selectedCountry.getIso());
 
-        editedUser.setAddress(editedAddress);
 
+        AddressDAO.updateAddress(editedUser.getAddress().getId(), editedUser.getAddress());
         UserDAO.updateUser(editedUser.getId(), editedUser);
 
         editUserButton.setDisable(false);

@@ -4,7 +4,6 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -22,11 +21,10 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="365.0" prefWidth="798.0">
                <children>
-                  <Pagination fx:id="userPagination" layoutY="44.0" prefHeight="267.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0" />
                   <ButtonBar layoutX="519.0" layoutY="14.0">
                      <buttons>
                         <Button mnemonicParsing="false" onAction="#onRefreshUserButtonClicked" text="Refresh" />
-                        <Button fx:id="newUserButton" mnemonicParsing="false" onAction="#onNewUserButtonClicked" text="New" />
+                        <Button mnemonicParsing="false" onAction="#onNewUserButtonClicked" text="New" />
                         <Button fx:id="deleteUserButton" disable="true" layoutX="30.0" layoutY="10.0" mnemonicParsing="false" onAction="#onDeleteUserButtonClicked" text="Delete" />
                      </buttons>
                   </ButtonBar>
@@ -35,6 +33,16 @@
                         <Font name="System Bold" size="23.0" />
                      </font>
                   </Text>
+                  <TableView fx:id="usersTable" layoutX="-2.0" layoutY="54.0" prefHeight="259.0" prefWidth="800.0">
+                    <columns>
+                      <TableColumn fx:id="userIdColumn" prefWidth="75.0" text="Id" />
+                      <TableColumn fx:id="userNameColumn" prefWidth="75.0" text="Name" />
+                        <TableColumn fx:id="userSurnameColumn" prefWidth="75.0" text="Surname" />
+                        <TableColumn fx:id="userPhoneNumberColumn" prefWidth="75.0" text="Phone number" />
+                        <TableColumn fx:id="userCityColumn" prefWidth="75.0" text="City" />
+                        <TableColumn fx:id="userCountryColumn" prefWidth="75.0" text="Country" />
+                    </columns>
+                  </TableView>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
