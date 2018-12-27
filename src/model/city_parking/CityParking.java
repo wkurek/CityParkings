@@ -7,12 +7,12 @@ public class CityParking {
 
     private Parking parking;
     private StringProperty parkType;
-    private BooleanProperty isZonePaid;
+    private BooleanProperty zonePaid;
 
     public CityParking(){
         parking = new Parking();
         parkType = new SimpleStringProperty();
-        isZonePaid = new SimpleBooleanProperty();
+        zonePaid = new SimpleBooleanProperty();
     }
 
     public Parking getParking() { return parking; }
@@ -25,9 +25,15 @@ public class CityParking {
 
     public void setParkType(String parkType) { this.parkType.set(parkType); }
 
-    public boolean isIsZonePaid() { return isZonePaid.get(); }
+    public boolean isZonePaid() {
+        return zonePaid.get();
+    }
 
-    public BooleanProperty isZonePaidProperty() { return isZonePaid; }
+    public BooleanProperty zonePaidProperty() {
+        return zonePaid;
+    }
 
-    public void setIsZonePaid(boolean isZonePaid) { this.isZonePaid.set(isZonePaid); }
+    public void setZonePaid(boolean zonePaid) {
+        this.zonePaid.set(zonePaid);
+    }
 }

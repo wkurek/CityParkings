@@ -8,9 +8,9 @@ import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
 
 public class EstateDAO {
-    private static class EstateContract {
-        static final String TABLE_NAME = "[dbo].[estates]";
-        static final String COLUMN_NAME_ESTATE_NAME = "estate_name";
+    public static class EstateContract {
+        public static final String TABLE_NAME = "[dbo].[estates]";
+        public static final String COLUMN_NAME_ESTATE_NAME = "estate_name";
     }
 
     public static Estate generateEstate(CachedRowSet resultSet) throws SQLException {

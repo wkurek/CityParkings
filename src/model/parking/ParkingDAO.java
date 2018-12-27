@@ -10,17 +10,17 @@ import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
 
 public class ParkingDAO {
-    private static class ParkingContract {
-        static final String TABLE_NAME = "[dbo].[parkings]";
-        static final String COLUMN_NAME_ID = "parking_id";
-        static final String COLUMN_NAME_STANDARD_LOTS = "standard_lots";
-        static final String COLUMN_NAME_DISABLED_LOTS = "disabled_lots";
-        static final String COLUMN_NAME_IS_ROOF = "is_roof";
-        static final String COLUMN_NAME_IS_GUARDED = "is_guarded";
-        static final String COLUMN_NAME_LAST_CONTROL = "last_control";
-        static final String COLUMN_NAME_WEIGHT = "max_weight";
-        static final String COLUMN_NAME_HEIGHT = "max_height";
-        static final String COLUMN_NAME_LOCATION_ID = "location_id";
+    public static class ParkingContract {
+        public static final String TABLE_NAME = "[dbo].[parkings]";
+        public static final String COLUMN_NAME_ID = "parking_id";
+        public static final String COLUMN_NAME_STANDARD_LOTS = "standard_lots";
+        public static final String COLUMN_NAME_DISABLED_LOTS = "disabled_lots";
+        public static final String COLUMN_NAME_IS_ROOF = "is_roof";
+        public static final String COLUMN_NAME_IS_GUARDED = "is_guarded";
+        public static final String COLUMN_NAME_LAST_CONTROL = "last_control";
+        public static final String COLUMN_NAME_WEIGHT = "max_weight";
+        public static final String COLUMN_NAME_HEIGHT = "max_height";
+        public static final String COLUMN_NAME_LOCATION_ID = "location_id";
     }
 
     public static Parking generateParking(CachedRowSet resultSet) throws SQLException {
