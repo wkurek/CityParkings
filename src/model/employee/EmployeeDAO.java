@@ -113,9 +113,10 @@ public class EmployeeDAO {
                 ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_LOCATION_ID,
                 LocationDAO.LocationContract.TABLE_NAME, LocationDAO.LocationContract.COLUMN_NAME_ID
 
-                );
+        );
 
     }
+
 
     private static String generateSelectWhereQuery(int id) {
         String sql = generateSelectQuery();
