@@ -14,14 +14,14 @@ public class KissRideDAO {
     private static class KissRideContract {
         static final String TABLE_NAME = "[dbo].[kiss_rides]";
         static final String COLUMN_NAME_ID = "parking_id";
-        static final String COLUMN_NAME_MAX_STOP = "max_stop";
+        static final String COLUMN_NAME_MAX_STOP_MINUTES = "max_stop_minutes";
         static final String COLUMN_NAME_ARE_GATES = "are_gates";
     }
 
     private static String generateSelectQuery() {
         return String.format("SELECT %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, " +
                         "%s.%s, %s.%s FROM %s LEFT JOIN %s ON %s.%s=%s.%s LEFT JOIN %s ON %s.%s=%s.%s",
-                KissRideContract.TABLE_NAME, KissRideContract.COLUMN_NAME_MAX_STOP,
+                KissRideContract.TABLE_NAME, KissRideContract.COLUMN_NAME_MAX_STOP_MINUTES,
                 KissRideContract.TABLE_NAME, KissRideContract.COLUMN_NAME_ARE_GATES,
 
                 ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_ID,
@@ -54,7 +54,7 @@ public class KissRideDAO {
         kissRide.setParking(parking);
 
         kissRide.setAreGates(resultSet.getBoolean(KissRideContract.COLUMN_NAME_ARE_GATES));
-        kissRide.setMaxStop(resultSet.getDate(KissRideContract.COLUMN_NAME_MAX_STOP));
+        kissRide.setMaxStopMinutes(resultSet.getInt(KissRideContract.COLUMN_NAME_MAX_STOP_MINUTES));
 
         return kissRide;
     }
@@ -108,8 +108,8 @@ public class KissRideDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES (0, '%s', %b)", KissRideContract.TABLE_NAME,
-                kissRide.getMaxStop(), kissRide.isAreGates());
+        String sql = String.format("INSERT INTO %s VALUES (0, %d, %b)", KissRideContract.TABLE_NAME,
+                kissRide.getMaxStopMinutes(), kissRide.isAreGates());
 
         DbHelper.executeUpdateQuery(sql);
     }
@@ -120,8 +120,8 @@ public class KissRideDAO {
             return;
         }
 
-        String sql = String.format("UPDATE %s SET %s = '%s', %s = %b WHERE %s = %d", KissRideContract.TABLE_NAME,
-                KissRideContract.COLUMN_NAME_MAX_STOP, updatedKissRide.getMaxStop(),
+        String sql = String.format("UPDATE %s SET %s = %d, %s = %b WHERE %s = %d", KissRideContract.TABLE_NAME,
+                KissRideContract.COLUMN_NAME_MAX_STOP_MINUTES, updatedKissRide.getMaxStopMinutes(),
                 KissRideContract.COLUMN_NAME_ARE_GATES, updatedKissRide.isAreGates(),
                 KissRideContract.COLUMN_NAME_ID, id);
 

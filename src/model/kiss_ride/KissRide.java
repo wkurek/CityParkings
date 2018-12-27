@@ -8,12 +8,12 @@ import java.sql.Date;
 public class KissRide {
 
     private Parking parking;
-    private SimpleObjectProperty<Date> maxStop;
+    private IntegerProperty maxStopMinutes;
     private BooleanProperty areGates;
 
     public KissRide(){
         parking = new Parking();
-        maxStop = new SimpleObjectProperty<>();
+        maxStopMinutes = new SimpleIntegerProperty();
         areGates = new SimpleBooleanProperty();
     }
 
@@ -21,15 +21,21 @@ public class KissRide {
 
     public void setParking(Parking parking) { this.parking = parking; }
 
-    public Date getMaxStop() { return maxStop.get(); }
-
-    public SimpleObjectProperty<Date> maxStopProperty() { return maxStop; }
-
-    public void setMaxStop(Date maxStop) { this.maxStop.set(maxStop); }
-
     public boolean isAreGates() { return areGates.get(); }
 
     public BooleanProperty areGatesProperty() { return areGates; }
 
     public void setAreGates(boolean areGates) { this.areGates.set(areGates); }
+
+    public int getMaxStopMinutes() {
+        return maxStopMinutes.get();
+    }
+
+    public IntegerProperty maxStopMinutesProperty() {
+        return maxStopMinutes;
+    }
+
+    public void setMaxStopMinutes(int maxStopMinutes) {
+        this.maxStopMinutes.set(maxStopMinutes);
+    }
 }
