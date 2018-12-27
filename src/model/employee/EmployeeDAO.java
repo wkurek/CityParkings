@@ -7,7 +7,9 @@ import model.address.AddressDAO;
 import model.country.CountryDAO;
 import model.department.Department;
 import model.department.DepartmentDAO;
+import model.location.LocationDAO;
 import model.parking.Parking;
+import model.parking.ParkingDAO;
 import util.DbHelper;
 
 import javax.sql.rowset.CachedRowSet;
@@ -28,13 +30,13 @@ public class EmployeeDAO {
     public static Employee generateEmployee(CachedRowSet resultSet) throws SQLException {
         Employee employee = new Employee();
 
-        Department department = new Department();
+        Department department = DepartmentDAO.generateDepartment(resultSet);
         employee.setDepartment(department);
 
-        Address address = new Address();
+        Address address = AddressDAO.generateAddress(resultSet);
         employee.setAddress(address);
 
-        Parking parking = new Parking();
+        Parking parking = ParkingDAO.generateParking(resultSet);
         employee.setParking(parking);
 
         employee.setId(resultSet.getInt(EmployeeContract.COLUMN_NAME_ID));
@@ -56,21 +58,60 @@ public class EmployeeDAO {
         return employeesList;
     }
 
+
     private static String generateSelectQuery() {
-        return String.format("SELECT %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, " +
-                "%s.%s, %s.%s, %s.%s, %s.%s FROM %s LEFT JOIN %s ON %s.%s=%s.%s LEFT JOIN %s ON %s.%s=%s.%s " +
-                "LEFT JOIN %s ON %s.%s=%s.%s",
+        return String.format("SELECT %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, " +
+                        "%s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s FROM %s " +
+                        "LEFT JOIN %s ON %s.%s=%s.%s LEFT JOIN %s ON %s.%s=%s.%s LEFT JOIN %s ON %s.%s=%s.%s " +
+                        "LEFT JOIN %s ON %s.%s=%s.%s LEFT JOIN %s ON %s.%s=%s.%s",
                 EmployeeContract.TABLE_NAME, EmployeeContract.COLUMN_NAME_ID,
                 EmployeeContract.TABLE_NAME, EmployeeContract.COLUMN_NAME_NAME,
                 EmployeeContract.TABLE_NAME, EmployeeContract.COLUMN_NAME_SURNAME,
                 EmployeeContract.TABLE_NAME, EmployeeContract.COLUMN_NAME_SALARY,
+
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_ID,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_STANDARD_LOTS,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_DISABLED_LOTS,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_IS_ROOF,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_IS_GUARDED,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_LAST_CONTROL,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_WEIGHT,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_HEIGHT,
+
+                LocationDAO.LocationContract.TABLE_NAME, LocationDAO.LocationContract.COLUMN_NAME_ID,
+                LocationDAO.LocationContract.TABLE_NAME, LocationDAO.LocationContract.COLUMN_NAME_LATITUDE,
+                LocationDAO.LocationContract.TABLE_NAME, LocationDAO.LocationContract.COLUMN_NAME_LONGITUDE,
+
                 CountryDAO.CountryContract.TABLE_NAME, CountryDAO.CountryContract.COLUMN_NAME_COUNTRY,
                 CountryDAO.CountryContract.TABLE_NAME, CountryDAO.CountryContract.COLUMN_NAME_ISO,
+
                 AddressDAO.AddressContract.TABLE_NAME, AddressDAO.AddressContract.COLUMN_NAME_ID,
                 AddressDAO.AddressContract.TABLE_NAME, AddressDAO.AddressContract.COLUMN_NAME_CITY,
                 AddressDAO.AddressContract.TABLE_NAME, AddressDAO.AddressContract.COLUMN_NAME_ZIP_CODE,
                 AddressDAO.AddressContract.TABLE_NAME, AddressDAO.AddressContract.COLUMN_NAME_STREET,
                 AddressDAO.AddressContract.TABLE_NAME, AddressDAO.AddressContract.COLUMN_NAME_NUMBER,
+
+                DepartmentDAO.DepartmentContract.TABLE_NAME, DepartmentDAO.DepartmentContract.COLUMN_NAME_DEPARTMENT_NAME,
+
+                EmployeeContract.TABLE_NAME, DepartmentDAO.DepartmentContract.TABLE_NAME,
+                EmployeeContract.TABLE_NAME, EmployeeContract.COLUMN_NAME_DEPARTMENT_NAME,
+                DepartmentDAO.DepartmentContract.TABLE_NAME, DepartmentDAO.DepartmentContract.COLUMN_NAME_DEPARTMENT_NAME,
+
+                AddressDAO.AddressContract.TABLE_NAME,
+                EmployeeContract.TABLE_NAME, EmployeeContract.COLUMN_NAME_ADDRESS_ID,
+                AddressDAO.AddressContract.TABLE_NAME, AddressDAO.AddressContract.COLUMN_NAME_ID,
+
+                CountryDAO.CountryContract.TABLE_NAME,
+                AddressDAO.AddressContract.TABLE_NAME, AddressDAO.AddressContract.COLUMN_NAME_COUNTRY,
+                CountryDAO.CountryContract.TABLE_NAME, CountryDAO.CountryContract.COLUMN_NAME_COUNTRY,
+
+                ParkingDAO.ParkingContract.TABLE_NAME,
+                EmployeeContract.TABLE_NAME, EmployeeContract.COLUMN_NAME_PARKING_ID,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_ID,
+
+                LocationDAO.LocationContract.TABLE_NAME,
+                ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_LOCATION_ID,
+                LocationDAO.LocationContract.TABLE_NAME, LocationDAO.LocationContract.COLUMN_NAME_ID
 
                 );
 
