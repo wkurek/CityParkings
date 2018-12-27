@@ -12,7 +12,7 @@ public class Vehicle {
     private Engine engine;
     private User user;
 
-    Vehicle() {
+    public Vehicle() {
         id = new SimpleIntegerProperty();
         plateNumber = new SimpleStringProperty();
         weight = new SimpleFloatProperty();
