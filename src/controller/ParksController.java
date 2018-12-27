@@ -13,8 +13,31 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import model.address.Address;
+import model.user.User;
+import model.vehicle.Vehicle;
 
 public class ParksController {
+
+    private static final int PAGINATION_PARKS_PER_PAGE_NUMBER = 8;
+    private static final int PAGINATION_PARKS_INIT_PAGE_NUMBER = 0;
+
+    private static final String PARKS_TABLE_COLUMN_NAME_DATE= "Park date";
+    private static final String PARKS_TABLE_COLUMN_NAME_VEHICLE_ID= "Vehicle ID";
+    private static final String PARKS_TABLE_COLUMN_NAME_PARKING_ID= "Parking ID";
+
+    private ObservableList<User> usersList;
+
+    private Task<ObservableList<User>> usersLoadTask;
+
+    private TableView<User> usersTable;
+
+    public ParksController() {
+        usersList = FXCollections.observableArrayList();
+        vehicleList = FXCollections.observableArrayList();
+
+        usersLoadTask = generateUsersLoadTask();
+    }
+
 
     @FXML
     private Pagination parkingsPagination;
