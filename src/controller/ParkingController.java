@@ -1,23 +1,50 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import model.parking.Parking;
+import model.parking.ParkingDAO;
+import model.user.User;
+import model.vehicle.Vehicle;
+import model.vehicle.VehicleDAO;
 
 public class ParkingController {
+    private ObservableList<Parking> parkingList;
+    //private ObservableList<Parks> parksList;
+
+    private Task<ObservableList<Parking>> parkingLoadTask;
 
     @FXML
-    private TableColumn<?, ?> parkingIdColumn;
+    public TableView<Parking> parkingsTable;
 
     @FXML
-    private TableColumn<?, ?> parkVehiclePlateNumberColumn;
+    private TableColumn<Parking, Integer> parkingIdColumn;
 
     @FXML
-    private TableColumn<?, ?> parkDateColumn;
+    private TableColumn<Parking, Integer> parkingStandardLotsNumberColumn;
+
+    @FXML
+    private TableColumn<Parking, Integer> parkingDisabledLotsNumerColumn;
+
+    @FXML
+    private TableColumn<Parking, String > parkingLastControlColumn;
+
+    @FXML
+    private TableColumn<Parking, Float> parkingMaxWeightColumn;
+
+    @FXML
+    private TableColumn<Parking, Float> parkingsMaxHeightColumn;
+
+    //Parks table
+    //@FXML
+    //private TableColumn<Parks, Integer> parkVehicleIdColumn;
+
+    //@FXML
+    //private TableColumn<Parks, String> parkDateColumn;
 
     @FXML
     private Button addParkButton;
@@ -78,6 +105,69 @@ public class ParkingController {
 
     @FXML
     private TextField employeeDepartmentNameInput;
+
+    public ParkingController() {
+        parkingList = FXCollections.observableArrayList();
+        //parksList = FXCollections.observableArrayList();
+
+        parkingLoadTask = generateParkingLoadTask();
+
+    }
+
+    private Task<ObservableList<Parking>> generateParkingLoadTask() {
+        Task<ObservableList<Parking>> task = new Task<ObservableList<Parking>>() {
+            @Override
+            protected ObservableList<Parking> call() {
+                return ParkingDAO.getParkings();
+            }
+        };
+
+        task.setOnSucceeded(event -> {
+            parkingList.clear();
+            parkingList.setAll(task.getValue());
+        });
+
+        task.setOnFailed(event -> {
+            //TODO: show alert
+            System.err.println(task.getException().getMessage());
+        });
+
+        return task;
+    }
+
+    @FXML
+    private void initialize() {
+        setUpParkingsTable();
+        scheduleLoadTask(parkingLoadTask);
+
+    }
+
+    private void setUpParkingsTable() {
+        parkingIdColumn.setCellValueFactory(param -> param.getValue().parkingIdProperty().asObject());
+        parkingDisabledLotsNumerColumn.setCellValueFactory(param -> param.getValue().disabledLotsProperty().asObject());
+        parkingLastControlColumn.setCellValueFactory(param -> param.getValue().lastControlProperty().asString());
+        parkingStandardLotsNumberColumn.setCellValueFactory(param -> param.getValue().standardLotsProperty().asObject());
+        parkingMaxWeightColumn.setCellValueFactory(param -> param.getValue().maxWeightProperty().asObject());
+        parkingsMaxHeightColumn.setCellValueFactory(param -> param.getValue().maxHeightProperty().asObject());
+
+        parkingsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        parkingsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null) onParkingSelected(newValue);
+        });
+
+        parkingsTable.setItems(parkingList);
+    }
+
+    private void onParkingSelected(Parking selectedParking) {
+
+    }
+
+    private void scheduleLoadTask(Task task) {
+        if(task != null && task.isRunning()) task.cancel();
+
+        new Thread(task).start();
+    }
 
     @FXML
     void onAddParkButtonClicked(ActionEvent event) {
