@@ -8,16 +8,18 @@ import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
 
 public class LocationDAO {
-    private static class LocationContract {
-        static final String TABLE_NAME = "[dbo].[locations]";
-        static final String COLUMN_NAME_LATITUDE = "latitude";
-        static final String COLUMN_NAME_LONGITUDE = "longitude";
+    public static class LocationContract {
+        public static final String TABLE_NAME = "[dbo].[locations]";
+        public static final String COLUMN_NAME_ID = "location_id";
+        public static final String COLUMN_NAME_LATITUDE = "latitude";
+        public static final String COLUMN_NAME_LONGITUDE = "longitude";
     }
 
     public static Location generateLocation(CachedRowSet resultSet) throws SQLException {
         Location location = new Location();
-        location.setLatitude(resultSet.getFloat(LocationDAO.LocationContract.COLUMN_NAME_LATITUDE));
-        location.setLongitude(resultSet.getFloat(LocationDAO.LocationContract.COLUMN_NAME_LONGITUDE));
+        location.setLocationId(resultSet.getInt(LocationContract.COLUMN_NAME_ID));
+        location.setLatitude(resultSet.getFloat(LocationContract.COLUMN_NAME_LATITUDE));
+        location.setLongitude(resultSet.getFloat(LocationContract.COLUMN_NAME_LONGITUDE));
 
         return location;
     }
@@ -48,9 +50,9 @@ public class LocationDAO {
         return locationList;
     }
 
-    public static Location getLocation(float locationLatitude, float locationLongitude) {
-        String sql = String.format("SELECT * FROM %s WHERE %s=%.2f AND %s=%.2f", LocationContract.TABLE_NAME,
-                LocationContract.COLUMN_NAME_LATITUDE, locationLatitude, LocationContract.COLUMN_NAME_LONGITUDE, locationLongitude);
+    public static Location getLocation(int locationId) {
+        String sql = String.format("SELECT * FROM %s WHERE %s=%d", LocationContract.TABLE_NAME,
+                LocationContract.COLUMN_NAME_ID, locationId);
 
         CachedRowSet result = DbHelper.executeQuery(sql);
 
@@ -71,15 +73,29 @@ public class LocationDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES ('%.2f, %.2f')", LocationContract.TABLE_NAME, location.getLatitude(),
-                location.getLongitude());
+        String sql = String.format("INSERT INTO %s VALUES (0, %.2f, %.2f)", LocationContract.TABLE_NAME,
+                location.getLatitude(), location.getLongitude());
 
         DbHelper.executeUpdateQuery(sql);
     }
 
-    public static void deleteLocation(float locationLatitude, float locationLongitude) {
-        String sql = String.format("DELETE FROM %s WHERE %s = %.2f AND %s = %.2f", LocationContract.TABLE_NAME,
-                LocationContract.COLUMN_NAME_LATITUDE, locationLatitude, LocationContract.COLUMN_NAME_LONGITUDE, locationLongitude);
+    public static void updateLocation(int locationId, Location updatedLocation) {
+        if(updatedLocation == null) {
+            System.err.println("Empty object.");
+            return;
+        }
+
+        String sql = String.format("UPDATE %s SET %s = %.2f, %s = %.2f WHERE %s = %d", LocationContract.TABLE_NAME,
+                LocationContract.COLUMN_NAME_LATITUDE, updatedLocation.getLatitude(),
+                LocationContract.COLUMN_NAME_LONGITUDE, updatedLocation.getLongitude(),
+                LocationContract.COLUMN_NAME_ID, updatedLocation.getLocationId());
+
+        DbHelper.executeUpdateQuery(sql);
+    }
+
+    public static void deleteLocation(int locationId) {
+        String sql = String.format("DELETE FROM %s WHERE %s=%d", LocationContract.TABLE_NAME,
+                LocationContract.COLUMN_NAME_ID, locationId);
 
         DbHelper.executeUpdateQuery(sql);
     }

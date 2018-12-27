@@ -10,8 +10,8 @@ public class Parking {
     private IntegerProperty parkingId;
     private IntegerProperty standardLots;
     private IntegerProperty disabledLots;
-    private BooleanProperty isRoof;
-    private BooleanProperty isGuarded;
+    private BooleanProperty roofed;
+    private BooleanProperty guarded;
     private SimpleObjectProperty<Date> lastControl;
     private FloatProperty maxWeight;
     private FloatProperty maxHeight;
@@ -21,8 +21,8 @@ public class Parking {
         parkingId = new SimpleIntegerProperty();
         standardLots = new SimpleIntegerProperty();
         disabledLots = new SimpleIntegerProperty();
-        isRoof = new SimpleBooleanProperty();
-        isGuarded = new SimpleBooleanProperty();
+        roofed = new SimpleBooleanProperty();
+        guarded = new SimpleBooleanProperty();
         lastControl = new SimpleObjectProperty<>();
         maxWeight = new SimpleFloatProperty();
         maxHeight = new SimpleFloatProperty();
@@ -47,18 +47,6 @@ public class Parking {
 
     public void setDisabledLots(int disabledLots) { this.disabledLots.set(disabledLots); }
 
-    public boolean isIsRoof() { return isRoof.get(); }
-
-    public BooleanProperty isRoofProperty() { return isRoof; }
-
-    public void setIsRoof(boolean isRoof) { this.isRoof.set(isRoof); }
-
-    public boolean isIsGuarded() { return isGuarded.get(); }
-
-    public BooleanProperty isGuardedProperty() { return isGuarded; }
-
-    public void setIsGuarded(boolean isGuarded) { this.isGuarded.set(isGuarded); }
-
     public Date getLastControl() { return lastControl.get(); }
 
     public SimpleObjectProperty<Date> lastControlProperty() { return lastControl; }
@@ -80,4 +68,28 @@ public class Parking {
     public Location getLocation() { return location; }
 
     public void setLocation(Location location) { this.location = location; }
+
+    public boolean isGuarded() {
+        return guarded.get();
+    }
+
+    public BooleanProperty guardedProperty() {
+        return guarded;
+    }
+
+    public void setGuarded(boolean guarded) {
+        this.guarded.set(guarded);
+    }
+
+    public boolean isRoofed() {
+        return roofed.get();
+    }
+
+    public BooleanProperty roofedProperty() {
+        return roofed;
+    }
+
+    public void setRoofed(boolean roofed) {
+        this.roofed.set(roofed);
+    }
 }

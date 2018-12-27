@@ -20,8 +20,7 @@ public class ParkingDAO {
         static final String COLUMN_NAME_LAST_CONTROL = "last_control";
         static final String COLUMN_NAME_WEIGHT = "max_weight";
         static final String COLUMN_NAME_HEIGHT = "max_height";
-        static final String COLUMN_NAME_LATITUDE = "latitude";
-        static final String COLUMN_NAME_LONGITUDE = "longitude";
+        static final String COLUMN_NAME_LOCATION_ID = "location_id";
     }
 
     public static Parking generateParking(CachedRowSet resultSet) throws SQLException {
@@ -33,8 +32,8 @@ public class ParkingDAO {
         parking.setParkingId(resultSet.getInt(ParkingContract.COLUMN_NAME_ID));
         parking.setStandardLots(resultSet.getInt(ParkingContract.COLUMN_NAME_STANDARD_LOTS));
         parking.setDisabledLots(resultSet.getInt(ParkingContract.COLUMN_NAME_DISABLED_LOTS));
-        parking.setIsRoof(resultSet.getBoolean(ParkingContract.COLUMN_NAME_IS_ROOF));
-        parking.setIsGuarded(resultSet.getBoolean(ParkingContract.COLUMN_NAME_IS_GUARDED));
+        parking.setRoofed(resultSet.getBoolean(ParkingContract.COLUMN_NAME_IS_ROOF));
+        parking.setGuarded(resultSet.getBoolean(ParkingContract.COLUMN_NAME_IS_GUARDED));
         parking.setLastControl(resultSet.getDate(ParkingContract.COLUMN_NAME_LAST_CONTROL));
         parking.setMaxWeight(resultSet.getFloat(ParkingContract.COLUMN_NAME_WEIGHT));
         parking.setMaxHeight(resultSet.getFloat(ParkingContract.COLUMN_NAME_HEIGHT));
@@ -54,7 +53,25 @@ public class ParkingDAO {
 
 
     private static String generateSelectQuery() {
-        //@TODO
+        return String.format("SELECT %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s" +
+                        " FROM %s LEFT JOIN %s ON %s.%s=%s.%s", ParkingContract.TABLE_NAME,
+                    ParkingContract.TABLE_NAME, ParkingContract.COLUMN_NAME_ID,
+                    ParkingContract.TABLE_NAME, ParkingContract.COLUMN_NAME_STANDARD_LOTS,
+                    ParkingContract.TABLE_NAME, ParkingContract.COLUMN_NAME_DISABLED_LOTS,
+                    ParkingContract.TABLE_NAME, ParkingContract.COLUMN_NAME_IS_ROOF,
+                    ParkingContract.TABLE_NAME, ParkingContract.COLUMN_NAME_IS_GUARDED,
+                    ParkingContract.TABLE_NAME, ParkingContract.COLUMN_NAME_LAST_CONTROL,
+                    ParkingContract.TABLE_NAME, ParkingContract.COLUMN_NAME_WEIGHT,
+                    ParkingContract.TABLE_NAME, ParkingContract.COLUMN_NAME_HEIGHT,
+
+                    LocationDAO.LocationContract.TABLE_NAME, LocationDAO.LocationContract.COLUMN_NAME_ID,
+                    LocationDAO.LocationContract.TABLE_NAME, LocationDAO.LocationContract.COLUMN_NAME_LATITUDE,
+                    LocationDAO.LocationContract.TABLE_NAME, LocationDAO.LocationContract.COLUMN_NAME_LONGITUDE,
+
+                    ParkingContract.TABLE_NAME, LocationDAO.LocationContract.TABLE_NAME,
+                    ParkingContract.TABLE_NAME, ParkingContract.COLUMN_NAME_LOCATION_ID,
+                    LocationDAO.LocationContract.TABLE_NAME, LocationDAO.LocationContract.COLUMN_NAME_ID
+                );
     }
 
 
@@ -102,12 +119,10 @@ public class ParkingDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES (0, %d, %d, %b, %b, '%s', " +
-                        "%.2f, %.2f, %.2f, %.2f)",
+        String sql = String.format("INSERT INTO %s VALUES (0, %d, %d, %b, %b, '%s', %.2f, %.2f, %d)",
                 ParkingContract.TABLE_NAME, parking.getStandardLots(), parking.getDisabledLots(),
-                parking.isIsRoof(), parking.isIsGuarded(), parking.getLastControl(),
-                parking.getMaxWeight(), parking.getMaxHeight(), parking.getLocation().getLatitude(),
-                parking.getLocation().getLongitude());
+                parking.isRoofed(), parking.isGuarded(), parking.getLastControl(),
+                parking.getMaxWeight(), parking.getMaxHeight(), parking.getLocation().getLocationId());
 
         DbHelper.executeUpdateQuery(sql);
     }
@@ -118,18 +133,17 @@ public class ParkingDAO {
             return;
         }
 
-        String sql = String.format("UPDATE %s SET %s = %d, %s = %d, %s = %b, %s = %b, %s = '%s', " +
-                        "%s = %.2f, %s = %.2f, %s = %.2f, %s = %.2f WHERE %s = %d",
+        String sql = String.format("UPDATE %s SET %s = %d, %s = %d, %s = %b, %s = %b, %s = '%s', %s = %.2f, " +
+                        "%s = %.2f, %s = %d WHERE %s = %d",
                 ParkingContract.TABLE_NAME,
                 ParkingContract.COLUMN_NAME_STANDARD_LOTS, updatedParking.getStandardLots(),
                 ParkingContract.COLUMN_NAME_DISABLED_LOTS, updatedParking.getDisabledLots(),
-                ParkingContract.COLUMN_NAME_IS_ROOF, updatedParking.isIsRoof(),
-                ParkingContract.COLUMN_NAME_IS_GUARDED, updatedParking.isIsGuarded(),
+                ParkingContract.COLUMN_NAME_IS_ROOF, updatedParking.isRoofed(),
+                ParkingContract.COLUMN_NAME_IS_GUARDED, updatedParking.isGuarded(),
                 ParkingContract.COLUMN_NAME_LAST_CONTROL, updatedParking.getLastControl(),
                 ParkingContract.COLUMN_NAME_WEIGHT, updatedParking.getMaxWeight(),
                 ParkingContract.COLUMN_NAME_HEIGHT, updatedParking.getMaxHeight(),
-                ParkingContract.COLUMN_NAME_LATITUDE, updatedParking.getLocation().getLatitude(),
-                ParkingContract.COLUMN_NAME_LONGITUDE, updatedParking.getLocation().getLongitude(),
+                ParkingContract.COLUMN_NAME_LOCATION_ID, updatedParking.getLocation().getLocationId(),
                 ParkingContract.COLUMN_NAME_ID, id);
 
         DbHelper.executeUpdateQuery(sql);
