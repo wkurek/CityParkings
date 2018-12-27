@@ -3,7 +3,6 @@ package controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -18,7 +17,10 @@ import model.user.UserDAO;
 import model.vehicle.Vehicle;
 import model.vehicle.VehicleDAO;
 
-import java.util.Comparator;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Calendar;
+
 
 public class UserController {
     private static final int PAGINATION_USERS_PER_PAGE_NUMBER = 8;
@@ -42,8 +44,6 @@ public class UserController {
     @FXML
     private Pagination userPagination;
 
-    @FXML
-    private Button refreshUserButton;
     @FXML
     private Button newUserButton;
     @FXML
@@ -97,10 +97,6 @@ public class UserController {
 
     @FXML
     private Button extendCardButton;
-    @FXML
-    private Button generateCardButton;
-    @FXML
-    private Button deleteCardButton;
 
     public UserController() {
         usersList = FXCollections.observableArrayList();
@@ -112,7 +108,7 @@ public class UserController {
     private Task<ObservableList<Vehicle>> generateVehiclesLoadTask(final int userId) {
         Task<ObservableList<Vehicle>> task = new Task<ObservableList<Vehicle>>() {
             @Override
-            protected ObservableList<Vehicle> call() throws Exception {
+            protected ObservableList<Vehicle> call() {
                 return VehicleDAO.getUserVehicles(userId);
             }
         };
@@ -135,7 +131,7 @@ public class UserController {
     private Task<ObservableList<User>> generateUsersLoadTask() {
         Task<ObservableList<User>> task = new Task<ObservableList<User>>() {
             @Override
-            protected ObservableList<User> call() throws Exception {
+            protected ObservableList<User> call() {
                 return UserDAO.getUsers();
             }
         };
@@ -234,6 +230,8 @@ public class UserController {
         saveUserButton.setDisable(true);
         editUserButton.setDisable(false);
 
+        extendCardButton.setDisable(false);
+
         setUserInputFieldDisable(true);
 
         deleteVehicleButton.setDisable(true);
@@ -252,24 +250,24 @@ public class UserController {
 
         userCountryComboBox.getSelectionModel().select(selectedUser.getAddress().getCountry());
 
-        if(selectedUser.getCard().getExpirationDate() != null) {
-            //card already exists
-            deleteCardButton.setDisable(false);
-            extendCardButton.setDisable(false);
-            generateCardButton.setDisable(true);
-
-            cardIdInput.setText(Integer.toString(selectedUser.getCard().getCardId()));
-            cardExpirationDateInput.setText(selectedUser.getCard().getExpirationDate().toString());
-        } else {
-            //card not exist
-            deleteCardButton.setDisable(true);
-            extendCardButton.setDisable(true);
-            generateCardButton.setDisable(false);
-        }
+        cardIdInput.setText(Integer.toString(selectedUser.getCard().getCardId()));
+        cardExpirationDateInput.setText(selectedUser.getCard().getExpirationDate().toString());
 
         vehicleLoadTask = generateVehiclesLoadTask(selectedUser.getId());
         scheduleLoadTask(vehicleLoadTask);
 
+    }
+
+    private void setUserInputFieldDisable(boolean disable) {
+        userNameInput.setDisable(disable);
+        userSurnameInput.setDisable(disable);
+        userPhoneNumberInput.setDisable(disable);
+        userCityInput.setDisable(disable);
+        userZIPCodeInput.setDisable(disable);
+        userStreetInput.setDisable(disable);
+        userNumberInput.setDisable(disable);
+
+        userCountryComboBox.setDisable(disable);
     }
 
     @FXML
@@ -295,21 +293,21 @@ public class UserController {
     }
 
     @FXML
-    public void onRefreshUserButtonClicked(ActionEvent actionEvent) {
+    public void onRefreshUserButtonClicked() {
         scheduleLoadTask(usersLoadTask);
     }
 
     @FXML
-    public void onNewUserButtonClicked(ActionEvent actionEvent) {
+    public void onNewUserButtonClicked() {
         //TODO: invoke popup with UserForm
     }
 
     @FXML
-    public void onDeleteUserButtonClicked(ActionEvent actionEvent) {
+    public void onDeleteUserButtonClicked() {
         User selectedUser = usersTable.getSelectionModel().getSelectedItem();
         int selectedUserIndex = usersTable.getSelectionModel().getSelectedIndex();
 
-        if(selectedUser != null && selectedUserIndex > 0) {
+        if(selectedUser != null && selectedUserIndex >= 0) {
             UserDAO.deleteUser(selectedUser.getId());
             usersList.remove(selectedUserIndex);
         } else {
@@ -318,15 +316,15 @@ public class UserController {
     }
 
     @FXML
-    public void onAddVehicleButtonClicked(ActionEvent actionEvent) {
+    public void onAddVehicleButtonClicked() {
     }
 
     @FXML
-    public void onDeleteVehicleButtonClicked(ActionEvent actionEvent) {
+    public void onDeleteVehicleButtonClicked() {
         Vehicle selectedVehicle = vehicleTableView.getSelectionModel().getSelectedItem();
         int selectedVehicleIndex = vehicleTableView.getSelectionModel().getSelectedIndex();
 
-        if(selectedVehicle != null && selectedVehicleIndex > 0) {
+        if(selectedVehicle != null && selectedVehicleIndex >= 0) {
             VehicleDAO.deleteVehicle(selectedVehicle.getId());
             vehicleList.remove(selectedVehicleIndex);
         } else {
@@ -335,27 +333,15 @@ public class UserController {
     }
 
     @FXML
-    public void onEditUserButtonClicked(ActionEvent actionEvent) {
+    public void onEditUserButtonClicked() {
         editUserButton.setDisable(true);
         saveUserButton.setDisable(false);
 
         setUserInputFieldDisable(false);
     }
 
-    private void setUserInputFieldDisable(boolean disable) {
-        userNameInput.setDisable(disable);
-        userSurnameInput.setDisable(disable);
-        userPhoneNumberInput.setDisable(disable);
-        userCityInput.setDisable(disable);
-        userZIPCodeInput.setDisable(disable);
-        userStreetInput.setDisable(disable);
-        userNumberInput.setDisable(disable);
-
-        userCountryComboBox.setDisable(disable);
-    }
-
     @FXML
-    public void onSaveUserButtonClicked(ActionEvent actionEvent) {
+    public void onSaveUserButtonClicked() {
         User editedUser = usersTable.getSelectionModel().getSelectedItem();
 
         editedUser.setName(userNameInput.getText());
@@ -381,14 +367,16 @@ public class UserController {
 
 
     @FXML
-    public void onExtendCardButtonClicked(ActionEvent actionEvent) {
-    }
+    public void onExtendCardButtonClicked() {
+        User selectedUser = usersTable.getSelectionModel().getSelectedItem();
 
-    @FXML
-    public void onGenerateCardButtonClicked(ActionEvent actionEvent) {
-    }
+        if(selectedUser != null && selectedUser.getCard() != null) {
+            Date date = selectedUser.getCard().getExpirationDate();
 
-    @FXML
-    public void onDeleteCardButtonClicked(ActionEvent actionEvent) {
+            selectedUser.getCard().setExpirationDate(Date.valueOf(date.toLocalDate().plusYears(1)));
+            cardExpirationDateInput.setText(selectedUser.getCard().getExpirationDate().toString());
+
+            CardDAO.updateCard(selectedUser.getCard().getCardId(), selectedUser.getCard());
+        }
     }
 }
