@@ -9,12 +9,12 @@ import java.sql.SQLException;
 
 public class LocationDAO {
     private static class LocationContract {
-        static final String TABLE_NAME = "locations";
+        static final String TABLE_NAME = "[dbo].[locations]";
         static final String COLUMN_NAME_LATITUDE = "latitude";
         static final String COLUMN_NAME_LONGITUDE = "longitude";
     }
 
-    private static Location generateLocation(CachedRowSet resultSet) throws SQLException {
+    public static Location generateLocation(CachedRowSet resultSet) throws SQLException {
         Location location = new Location();
         location.setLatitude(resultSet.getFloat(LocationDAO.LocationContract.COLUMN_NAME_LATITUDE));
         location.setLongitude(resultSet.getFloat(LocationDAO.LocationContract.COLUMN_NAME_LONGITUDE));
