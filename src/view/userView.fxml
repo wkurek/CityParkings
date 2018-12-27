@@ -70,13 +70,13 @@
                         <HBox alignment="BOTTOM_RIGHT" spacing="12.0">
                            <children>
                               <Label alignment="CENTER" contentDisplay="CENTER" text="Id" textAlignment="CENTER" />
-                              <TextField fx:id="userIdInput" alignment="CENTER" disable="true" nodeOrientation="LEFT_TO_RIGHT" />
+                              <TextField fx:id="userIdInput" alignment="BOTTOM_LEFT" disable="true" nodeOrientation="LEFT_TO_RIGHT" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                               <Label alignment="CENTER" text="Name" />
-                              <TextField fx:id="userNameInput" alignment="CENTER" disable="true" />
+                              <TextField fx:id="userNameInput" disable="true" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
@@ -154,10 +154,10 @@
                         </HBox>
                      </children>
                   </VBox>
-                  <ButtonBar layoutX="405.0" layoutY="432.0" prefHeight="25.0" prefWidth="395.0">
+                  <ButtonBar layoutX="490.0" layoutY="432.0" prefHeight="25.0" prefWidth="281.0">
                      <buttons>
-                        <Button fx:id="extendCardButton" disable="true" mnemonicParsing="false" onAction="#onExtendCardButtonClicked" prefHeight="25.0" prefWidth="127.0" text="Extend validity" />
-                        <Button fx:id="generateCardButton" disable="true" mnemonicParsing="false" onAction="#onGenerateCardButtonClicked" text="Generate new" />
+                        <Button fx:id="extendCardButton" disable="true" mnemonicParsing="false" onAction="#onExtendCardButtonClicked" prefHeight="25.0" prefWidth="127.0" text="Extend" />
+                        <Button fx:id="generateCardButton" disable="true" mnemonicParsing="false" onAction="#onGenerateCardButtonClicked" text="Generate" />
                         <Button fx:id="deleteCardButton" disable="true" mnemonicParsing="false" onAction="#onDeleteCardButtonClicked" text="Delete" />
                      </buttons>
                   </ButtonBar>

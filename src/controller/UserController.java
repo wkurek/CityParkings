@@ -112,12 +112,14 @@ public class UserController {
         Task<ObservableList<Vehicle>> task = new Task<ObservableList<Vehicle>>() {
             @Override
             protected ObservableList<Vehicle> call() throws Exception {
-                return VehicleDAO.getVehicles();
+                return VehicleDAO.getUserVehicles(userId);
             }
         };
 
         task.setOnSucceeded(event -> {
-            vehicleList = task.getValue();
+            vehicleTableView.getSelectionModel().clearSelection();
+            vehicleList.clear();
+            vehicleList.setAll(task.getValue());
         });
 
         task.setOnFailed(event -> {
@@ -137,7 +139,8 @@ public class UserController {
         };
 
         task.setOnSucceeded(event -> {
-            usersList = task.getValue();
+            usersList.clear();
+            usersList.addAll(task.getValue());
             setUpUserPagination();
         });
 
@@ -254,8 +257,8 @@ public class UserController {
             generateCardButton.setDisable(false);
         }
 
-        //TODO: fill vehicle section
-
+        vehicleLoadTask = generateVehiclesLoadTask(selectedUser.getId());
+        scheduleLoadTask(vehicleLoadTask);
 
     }
 
@@ -266,9 +269,15 @@ public class UserController {
 
         userCountryComboBox.setItems(CountryDAO.getCountries());
 
+        vehiclePlateNumberColumn.setCellValueFactory(param -> param.getValue().plateNumberProperty());
+        vehicleWeightColumn.setCellValueFactory(param -> param.getValue().weightProperty().asObject());
+        vehicleHeightColumn.setCellValueFactory(param -> param.getValue().heightProperty().asObject());
+        vehicleEngineTypeColumn.setCellValueFactory(param -> param.getValue().getEngine().typeProperty());
+
+        vehicleTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        vehicleTableView.setItems(vehicleList);
+
         scheduleLoadTask(usersLoadTask);
-
-
     }
 
     @FXML
