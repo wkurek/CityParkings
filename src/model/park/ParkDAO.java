@@ -102,11 +102,13 @@ public class ParkDAO {
     public static Park generatePark(CachedRowSet resultSet) throws SQLException {
         Park park = new Park();
 
-        Vehicle vehicle = new Vehicle();
+        Vehicle vehicle = VehicleDAO.generateVehicle(resultSet);
         park.setVehicle(vehicle);
 
         Parking parking = ParkingDAO.generateParking(resultSet);
         park.setParking(parking);
+
+        park.setDateTime(resultSet.getDate(ParkContract.COLUMN_NAME_DATE_TIME));
 
         return park;
     }
