@@ -8,7 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.util.Callback;
+import model.country.Country;
+import model.country.CountryDAO;
 import model.user.User;
 import model.user.UserDAO;
 import model.vehicle.Vehicle;
@@ -77,9 +78,8 @@ public class UserController {
     private TextField userNumberInput;
     
     @FXML
-    private ChoiceBox userCountryChoiceBox;
+    private ComboBox<Country> userCountryComboBox;
 
-    
     @FXML
     private Button editUserButton;
     @FXML
@@ -172,7 +172,8 @@ public class UserController {
         TableColumn<User, String> countryColumn = new TableColumn<>(USERS_TABLE_COLUMN_NAME_COUNTRY);
         countryColumn.setCellValueFactory(param -> param.getValue().getAddress().getCountry().nameProperty());
 
-        usersTable.getColumns().addAll(idColumn, nameColumn, surnameColumn, phoneNumberColumn, cityColumn, countryColumn);
+        usersTable.getColumns().addAll(idColumn, nameColumn, surnameColumn, phoneNumberColumn,
+                cityColumn, countryColumn);
 
         usersTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -186,6 +187,10 @@ public class UserController {
             usersTable.setItems(FXCollections.observableArrayList(usersList.subList(fromIndex, toIndex)));
 
             return true;
+        });
+
+        usersTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            onUserSelected(newValue);
         });
 
     }
@@ -211,12 +216,41 @@ public class UserController {
         userPagination.setPageFactory(this::createUsersPage);
     }
 
+    private void onUserSelected(User selectedUser) {
+        saveUserButton.setDisable(true);
+        editUserButton.setDisable(false);
+
+        //TODO: fill textInputs
+        userIdInput.setText(Integer.toString(selectedUser.getId()));
+        userNameInput.setText(selectedUser.getName());
+        userSurnameInput.setText(selectedUser.getSurname());
+        userPhoneNumberInput.setText(selectedUser.getPhoneNumber());
+
+        if(selectedUser.getAddress() != null) {
+            userCityInput.setText(selectedUser.getAddress().getCity());
+            userStreetInput.setText(selectedUser.getAddress().getStreet());
+            userNumberInput.setText(selectedUser.getAddress().getNumber());
+            userZIPCodeInput.setText(selectedUser.getAddress().getZipCode());
+
+            userCountryComboBox.getSelectionModel().select(selectedUser.getAddress().getCountry());
+        }
+
+
+
+
+
+    }
+
     @FXML
     private void initialize () {
         generateUsersTable();
         setUpUserPagination();
 
+        userCountryComboBox.setItems(CountryDAO.getCountries());
+
         scheduleLoadTask(usersLoadTask);
+
+
     }
 
     @FXML
@@ -226,6 +260,7 @@ public class UserController {
 
     @FXML
     public void onNewUserButtonClicked(ActionEvent actionEvent) {
+        //TODO: invoke popup with UserForm
     }
 
     @FXML

@@ -35,4 +35,9 @@ public class Country {
     public void setIso(String iso) {
         this.iso.set(iso);
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s - %s", getName(), getIso());
+    }
 }

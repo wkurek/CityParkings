@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.Separator?>
@@ -26,27 +26,32 @@
                   <ButtonBar layoutX="519.0" layoutY="14.0">
                      <buttons>
                         <Button fx:id="refreshUserButton" mnemonicParsing="false" onAction="#onRefreshUserButtonClicked" text="Refresh" />
-                        <Button fx:id="newUserButton" mnemonicParsing="false" onAction="#onNewUserButtonClicked" text="New" />
-                        <Button fx:id="deleteUserButton" layoutX="30.0" layoutY="10.0" mnemonicParsing="false" onAction="#onDeleteUserButtonClicked" text="Delete" />
+                        <Button fx:id="newUserButton" disable="true" mnemonicParsing="false" onAction="#onNewUserButtonClicked" text="New" />
+                        <Button fx:id="deleteUserButton" disable="true" layoutX="30.0" layoutY="10.0" mnemonicParsing="false" onAction="#onDeleteUserButtonClicked" text="Delete" />
                      </buttons>
                   </ButtonBar>
+                  <Text layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Users">
+                     <font>
+                        <Font name="System Bold" size="23.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
                   <Separator layoutX="410.0" orientation="VERTICAL" prefHeight="481.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="0.0" />
                   <Separator layoutX="410.0" layoutY="319.0" prefHeight="2.0" prefWidth="384.0" />
-                  <Text layoutX="422.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicles">
+                  <Text layoutX="422.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User's vehicles">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Text>
-                  <Text layoutX="422.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Card">
+                  <Text layoutX="420.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User's card">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Text>
-                  <TableView fx:id="vehicleTableView" layoutX="412.0" layoutY="31.0" prefHeight="244.0" prefWidth="384.0">
+                  <TableView fx:id="vehicleTableView" layoutX="412.0" layoutY="43.0" prefHeight="232.0" prefWidth="384.0">
                     <columns>
                         <TableColumn fx:id="vehiclePlateNumberColumn" prefWidth="120.0" text="Plate number" />
                         <TableColumn fx:id="vehicleWeightColumn" prefWidth="59.0" text="Weight" />
@@ -56,81 +61,81 @@
                   </TableView>
                   <ButtonBar layoutX="605.0" layoutY="282.0">
                      <buttons>
-                        <Button fx:id="addVehicleButton" mnemonicParsing="false" onAction="#onAddVehicleButtonClicked" text="Add new" />
-                        <Button fx:id="deleteVehicleButton" mnemonicParsing="false" onAction="#onDeleteVehicleButtonClicked" text="Delete" />
+                        <Button fx:id="addVehicleButton" disable="true" mnemonicParsing="false" onAction="#onAddVehicleButtonClicked" text="Add new" />
+                        <Button fx:id="deleteVehicleButton" disable="true" mnemonicParsing="false" onAction="#onDeleteVehicleButtonClicked" text="Delete" />
                      </buttons>
                   </ButtonBar>
-                  <VBox alignment="TOP_RIGHT" layoutX="13.0" layoutY="39.0" spacing="8.0">
+                  <VBox alignment="TOP_RIGHT" layoutX="18.0" layoutY="55.0" spacing="8.0">
                      <children>
                         <HBox alignment="BOTTOM_RIGHT" spacing="12.0">
                            <children>
                               <Label alignment="CENTER" contentDisplay="CENTER" text="Id" textAlignment="CENTER" />
-                              <TextField fx:id="userIdInput" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" />
+                              <TextField fx:id="userIdInput" alignment="CENTER" disable="true" nodeOrientation="LEFT_TO_RIGHT" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                               <Label alignment="CENTER" text="Name" />
-                              <TextField fx:id="userNameInput" alignment="CENTER" />
+                              <TextField fx:id="userNameInput" alignment="CENTER" disable="true" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                               <Label text="Surname" />
-                              <TextField fx:id="userSurnameInput" />
+                              <TextField fx:id="userSurnameInput" disable="true" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="12.0">
                            <children>
                               <Label text="Phone Number" />
-                              <TextField fx:id="userPhoneNumberInput" />
+                              <TextField fx:id="userPhoneNumberInput" disable="true" />
                            </children>
                         </HBox>
                      </children>
                   </VBox>
-                  <VBox layoutX="17.0" layoutY="222.0" spacing="12.0">
+                  <VBox layoutX="51.0" layoutY="227.0" spacing="12.0">
                      <children>
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                               <Label text="City" />
-                              <TextField fx:id="userCityInput" />
+                              <TextField fx:id="userCityInput" disable="true" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                               <Label text="Street" />
-                              <TextField fx:id="userStreetInput" />
+                              <TextField fx:id="userStreetInput" disable="true" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                               <Label text="ZIP Code" />
-                              <TextField fx:id="userZIPCodeInput" />
+                              <TextField fx:id="userZIPCodeInput" disable="true" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                               <Label text="Number" />
-                              <TextField fx:id="userNumberInput" />
+                              <TextField fx:id="userNumberInput" disable="true" />
                            </children>
                         </HBox>
                      </children>
                   </VBox>
-                  <HBox alignment="CENTER" layoutX="17.0" layoutY="373.0" spacing="12.0">
+                  <HBox alignment="CENTER" layoutX="55.0" layoutY="370.0" spacing="12.0">
                      <children>
                         <Label text="Country" />
-                        <ChoiceBox fx:id="userCountryChoiceBox" prefHeight="25.0" prefWidth="246.0" />
+                        <ComboBox fx:id="userCountryComboBox" disable="true" prefHeight="25.0" prefWidth="199.0" />
                      </children>
                   </HBox>
-                  <Text layoutX="11.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User details">
+                  <Text layoutX="13.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User details">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="System Bold" size="23.0" />
                      </font>
                   </Text>
                   <ButtonBar layoutX="219.0" layoutY="432.0">
                      <buttons>
-                        <Button fx:id="editUserButton" mnemonicParsing="false" onAction="#onEditUserButtonClicked" text="Edit" />
-                        <Button fx:id="saveUserButton" mnemonicParsing="false" onAction="#onSaveUserButtonClicked" text="Save" />
+                        <Button fx:id="editUserButton" disable="true" mnemonicParsing="false" onAction="#onEditUserButtonClicked" text="Edit" />
+                        <Button fx:id="saveUserButton" disable="true" mnemonicParsing="false" onAction="#onSaveUserButtonClicked" text="Save" />
                      </buttons>
                   </ButtonBar>
                   <VBox layoutX="442.0" layoutY="353.0" spacing="8.0">
@@ -138,22 +143,22 @@
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                               <Label text="Id" />
-                              <TextField fx:id="cardIdInput" />
+                              <TextField fx:id="cardIdInput" disable="true" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                               <Label text="Expiration date " />
-                              <TextField fx:id="cardExpirationDateInput" />
+                              <TextField fx:id="cardExpirationDateInput" disable="true" />
                            </children>
                         </HBox>
                      </children>
                   </VBox>
                   <ButtonBar layoutX="465.0" layoutY="432.0">
                      <buttons>
-                        <Button fx:id="extendCardButton" mnemonicParsing="false" onAction="#onExtendCardButtonClicked" text="Extend validity" />
-                        <Button fx:id="generateCardButton" mnemonicParsing="false" onAction="#onGenerateCardButtonClicked" text="Generate new" />
-                        <Button fx:id="deleteCardButton" mnemonicParsing="false" onAction="#onDeleteCardButtonClicked" text="Delete" />
+                        <Button fx:id="extendCardButton" disable="true" mnemonicParsing="false" onAction="#onExtendCardButtonClicked" text="Extend validity" />
+                        <Button fx:id="generateCardButton" disable="true" mnemonicParsing="false" onAction="#onGenerateCardButtonClicked" text="Generate new" />
+                        <Button fx:id="deleteCardButton" disable="true" mnemonicParsing="false" onAction="#onDeleteCardButtonClicked" text="Delete" />
                      </buttons>
                   </ButtonBar>
                   <Separator layoutX="86.0" layoutY="195.0" prefHeight="3.0" prefWidth="266.0" />
