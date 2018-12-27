@@ -46,7 +46,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <TableView layoutX="412.0" layoutY="31.0" prefHeight="244.0" prefWidth="384.0">
+                  <TableView fx:id="vehicleTableView" layoutX="412.0" layoutY="31.0" prefHeight="244.0" prefWidth="384.0">
                     <columns>
                         <TableColumn fx:id="vehiclePlateNumberColumn" prefWidth="120.0" text="Plate number" />
                         <TableColumn fx:id="vehicleWeightColumn" prefWidth="59.0" text="Weight" />
