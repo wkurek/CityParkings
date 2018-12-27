@@ -125,7 +125,7 @@
                                   <buttons>
                                       <Button fx:id="editParkingButton" mnemonicParsing="false" onAction="#onEditParkingButtonClicked" text="Edit" />
                                       <Button fx:id="saveParkingButton" mnemonicParsing="false" onAction="#onSaveParkingButtonClicked" text="Save" />
-                              <Button fx:id="newParkingButton" layoutX="125.0" layoutY="10.0" mnemonicParsing="false" onAction="#onNewParkingButtonClicked" text="Save" />
+                              <Button fx:id="newParkingButton" layoutX="125.0" layoutY="10.0" mnemonicParsing="false" onAction="#onNewParkingButtonClicked" text="New" />
                                   </buttons>
                               </ButtonBar>
                             </children>
