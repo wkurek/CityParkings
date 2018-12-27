@@ -22,21 +22,21 @@
             <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="365.0" prefWidth="798.0">
                     <children>
-                  <VBox prefHeight="310.0" prefWidth="798.0">
+                  <VBox fx:id="parkingsTableb" prefHeight="310.0" prefWidth="798.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Parkings">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </Text>
-                        <TableView prefHeight="298.0" prefWidth="620.0">
+                        <TableView fx:id="parkingsTable" prefHeight="298.0" prefWidth="620.0">
                           <columns>
                             <TableColumn fx:id="parkingIdColumn" prefWidth="95.0" text="Parking id" />
-                            <TableColumn prefWidth="114.0" text="Standard lots" />
-                              <TableColumn prefWidth="114.0" text="Distabled lots" />
-                              <TableColumn prefWidth="114.0" text="Last control" />
-                              <TableColumn prefWidth="114.0" text="Max weight" />
-                              <TableColumn prefWidth="114.0" text="Max height" />
+                            <TableColumn fx:id="parkingStandardLotsNumberColumn" prefWidth="114.0" text="Standard lots" />
+                              <TableColumn fx:id="parkingDisabledLotsNumerColumn" prefWidth="114.0" text="Distabled lots" />
+                              <TableColumn fx:id="parkingLastControlColumn" prefWidth="114.0" text="Last control" />
+                              <TableColumn fx:id="parkingMaxWeightColumn" prefWidth="114.0" text="Max weight" />
+                              <TableColumn fx:id="parkingsMaxHeightColumn" prefWidth="114.0" text="Max height" />
                           </columns>
                         </TableView>
                      </children>
@@ -59,7 +59,7 @@
                         </Text>
                         <TableView layoutX="412.0" layoutY="31.0" prefHeight="244.0" prefWidth="384.0">
                             <columns>
-                                <TableColumn fx:id="parkVehiclePlateNumberColumn" prefWidth="203.0" text="Plate number" />
+                                <TableColumn fx:id="parkVehicleIdColumn" prefWidth="203.0" text="Vehicle ID" />
                                 <TableColumn fx:id="parkDateColumn" prefWidth="180.0" text="Date" />
                             </columns>
                         </TableView>
