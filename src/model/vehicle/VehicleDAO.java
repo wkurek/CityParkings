@@ -116,6 +116,23 @@ public class VehicleDAO {
         return vehiclesList;
     }
 
+    public static ObservableList<Vehicle> getUserVehicles(int userId) {
+        String sql = String.format("%s WHERE %s.%s=%d", generateSelectQuery(),
+                VehicleContract.TABLE_NAME, VehicleContract.COLUMN_NAME_USER_ID, userId);
+
+        CachedRowSet result = DbHelper.executeQuery(sql);
+
+        ObservableList<Vehicle> vehiclesList = null;
+
+        try {
+            vehiclesList = generateVehiclesList(result);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return vehiclesList;
+    }
+
     public static Vehicle getVehicle(int id) {
         String sql = generateSelectWhereQuery(id);
 
