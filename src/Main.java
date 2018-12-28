@@ -1,6 +1,7 @@
 import controller.NewUserController;
 import controller.RootController;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -8,10 +9,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.park.Park;
 import model.park.ParkDAO;
+import model.parking.Parking;
+import model.parking.ParkingDAO;
 import model.vehicle.Vehicle;
+import model.vehicle.VehicleDAO;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
-import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Main extends Application {
     private static final String WINDOW_TITLE = "City parking";
@@ -51,6 +58,20 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+
+
+/*
+        Park park = new Park();
+        Vehicle vehicle = VehicleDAO.getVehicle(20);
+        Parking parking = ParkingDAO.getParking(13);
+
+        park.setVehicle(vehicle);
+        park.setParking(parking);
+
+        ParkDAO.savePark(park);
+        ObservableList<Park> parks = ParkDAO.getParks();
+
+*/
         launch(args);
     }
 }
