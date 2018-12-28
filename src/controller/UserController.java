@@ -292,6 +292,26 @@ public class UserController {
 
     @FXML
     public void onAddVehicleButtonClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(UserController.class.getResource("../view/newVehicleView.fxml"));
+            AnchorPane page = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Create New Vehicle");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(stage);
+
+            NewVehicleController controller = loader.getController();
+            controller.setStage(dialogStage);
+            controller.setOwner(usersTable.getSelectionModel().getSelectedItem());
+
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            dialogStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

@@ -27,8 +27,26 @@ public class Validator {
     }
 
     public static boolean isNumberValid(String number) {
-        return !number.isEmpty() && number.matches("^(\\d){1,8}$");
+        return !number.isEmpty()
+                && number.matches("^(\\d){1,8}$");
     }
 
+    public static boolean isPlateNumberValid(String plateNumber) {
+        return !plateNumber.isEmpty() && plateNumber.matches("[a-zA-Z0-9- ]+$") && plateNumber.length() < 9;
+    }
+
+    public static boolean isWeightValid(String weight) {
+        try{
+            Float.parseFloat(weight);
+        } catch(NumberFormatException e){
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean isHeightValid(String height) {
+        return isWeightValid(height);
+    }
 
 }
