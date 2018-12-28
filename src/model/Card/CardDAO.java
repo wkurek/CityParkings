@@ -1,7 +1,6 @@
-package model.Card;
+package model.card;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import util.DbHelper;
 
 import javax.sql.rowset.CachedRowSet;
@@ -15,29 +14,29 @@ public class CardDAO {
     }
 
     public static model.card.Card generateCard(CachedRowSet resultSet) throws SQLException {
-        model.card.Card card = new model.card.Card();
+        model.card.Card card = new Card();
         card.setCardId(resultSet.getInt(CardContract.COLUMN_NAME_ID));
         card.setExpirationDate(resultSet.getDate(CardContract.COLUMN_NAME_EXPIRATION_DATE));
 
         return card;
     }
 
-    private static ObservableList<model.card.Card> generateCardList(CachedRowSet resultSet) throws SQLException {
-        ObservableList<model.card.Card> cardsList = FXCollections.observableArrayList();
+    private static ObservableList<Card> generateCardList(CachedRowSet resultSet) throws SQLException {
+        ObservableList<Card> cardsList = FXCollections.observableArrayList();
 
         while (resultSet.next()) {
-            model.card.Card card = generateCard(resultSet);
+            Card card = generateCard(resultSet);
             cardsList.add(card);
         }
 
         return cardsList;
     }
 
-    public static ObservableList<model.card.Card> getCards() {
+    public static ObservableList<Card> getCards() {
         String sql = String.format("SELECT * FROM %s", CardContract.TABLE_NAME);
         CachedRowSet result = DbHelper.executeQuery(sql);
 
-        ObservableList<model.card.Card> cardsList = null;
+        ObservableList<Card> cardsList = null;
 
         try {
             cardsList = generateCardList(result);
@@ -48,13 +47,13 @@ public class CardDAO {
         return cardsList;
     }
 
-    public static model.card.Card getCard(int id) {
+    public static Card getCard(int id) {
         String sql = String.format("SELECT * FROM %s WHERE %s=%d", CardContract.TABLE_NAME,
                 CardContract.COLUMN_NAME_ID, id);
 
         CachedRowSet result = DbHelper.executeQuery(sql);
 
-        model.card.Card card = null;
+        Card card = null;
 
         try {
             card = generateCard(result);
@@ -63,17 +62,6 @@ public class CardDAO {
         }
 
         return card;
-    }
-
-    public static void saveCard(model.card.Card card) {
-        if(card == null) {
-            System.err.println("Empty object.");
-            return;
-        }
-
-        String sql = String.format("INSERT INTO %s VALUES (0, '%s')", CardContract.TABLE_NAME, card.getExpirationDate());
-
-        DbHelper.executeUpdateQuery(sql);
     }
 
     public static Integer getSavedCardIndex() {
@@ -94,7 +82,18 @@ public class CardDAO {
         return index;
     }
 
-    public static void updateCard(int id, model.card.Card updatedCard) {
+    public static void saveCard(Card card) {
+        if(card == null) {
+            System.err.println("Empty object.");
+            return;
+        }
+
+        String sql = String.format("INSERT INTO %s VALUES (0, '%s')", CardContract.TABLE_NAME, card.getExpirationDate());
+
+        DbHelper.executeUpdateQuery(sql);
+    }
+
+    public static void updateCard(int id, Card updatedCard) {
         if(updatedCard == null) {
             System.err.println("Empty object.");
             return;
