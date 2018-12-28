@@ -17,7 +17,7 @@ public class Main extends Application {
             primaryStage.setTitle(WINDOW_TITLE);
 
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("view/parkingView.fxml"));
+            loader.setLocation(Main.class.getResource("view/parksView.fxml"));
             rootView = loader.load();
 
             primaryStage.setScene(new Scene(rootView));
