@@ -14,7 +14,13 @@ import model.user.User;
 import model.vehicle.Vehicle;
 import model.vehicle.VehicleDAO;
 
+import java.sql.Date;
+
 public class ParkingController {
+    public Button deleteParkingButton;
+    public TextField parkingIsGuardeInput;
+    public TextField parkingIsRoofedInput;
+    public TextField parkingLastControlInput;
     private ObservableList<Parking> parkingList;
     private ObservableList<Park> parksList;
 
@@ -203,8 +209,40 @@ public class ParkingController {
     }
 
     private void onParkingSelected(Parking selectedParking) {
+        deleteParkButton.setDisable(false);
+        saveParkingButton.setDisable(true);
+        editParkingButton.setDisable(false);
+
+        setParkingInputFieldDisable(true);
+
+        deleteParkButton.setDisable(true);
+
+        parkingIdInput.setText(Integer.toString(selectedParking.getParkingId()));
+        parkingStandardSlotsNumberInput.setText(Integer.toString(selectedParking.getStandardLots()));
+        parkingDisabledLotsNumberInput.setText(Integer.toString(selectedParking.getDisabledLots()));
+        parkingIsRoofedInput.setText(Boolean.toString(selectedParking.isRoofed()));
+        parkingIsGuardeInput.setText(Boolean.toString(selectedParking.isGuarded()));
+        parkingLastControlInput.setText(selectedParking.getLastControl().toString());
+        maxHeightInput.setText(Float.toString(selectedParking.getMaxHeight()));
+        maxWeightInput.setText(Float.toString(selectedParking.getMaxWeight()));
+        locationInput.setText(Float.toString(selectedParking.getLocation().getLatitude()) +
+                ", " + Float.toString(selectedParking.getLocation().getLongitude()));
+
         Task<ObservableList<Park>> parkingLoadTask = generateParksLoadTask(selectedParking.getParkingId());
         scheduleLoadTask(parkingLoadTask);
+    }
+
+    private void setParkingInputFieldDisable(boolean disable) {
+        parkingIdInput.setDisable(disable);
+        parkingStandardSlotsNumberInput.setDisable(disable);
+        parkingDisabledLotsNumberInput.setDisable(disable);
+        parkingIsRoofedInput.setDisable(disable);
+        parkingIsGuardeInput.setDisable(disable);
+        parkingLastControlInput.setDisable(disable);
+        maxWeightInput.setDisable(disable);
+        maxHeightInput.setDisable(disable);
+        locationInput.setDisable(disable);
+
     }
 
     private void scheduleLoadTask(Task task) {
@@ -220,12 +258,26 @@ public class ParkingController {
 
     @FXML
     void onDeleteParkButtonClicked(ActionEvent event) {
+        Park selectedPark = parksTable.getSelectionModel().getSelectedItem();
+        int selectedParkIndex = parksTable.getSelectionModel().getSelectedIndex();
 
+        if(selectedPark != null && selectedParkIndex >= 0) {
+            ParkDAO.deletePark(selectedPark.getDateTime().toString(), selectedPark.getVehicle().getId());
+            parksList.remove(selectedParkIndex);
+        } else {
+            deleteParkButton.setDisable(true);
+        }
     }
 
     @FXML
     void onEditParkingButtonClicked(ActionEvent event) {
+        editParkingButton.setDisable(true);
+        saveParkingButton.setDisable(false);
 
+        setParkingInputFieldDisable(false);
+
+        parkingIdInput.setDisable(true);
+        locationInput.setDisable(true);
     }
 
     @FXML
@@ -236,6 +288,37 @@ public class ParkingController {
     @FXML
     void onSaveParkingButtonClicked(ActionEvent event) {
 
+        int editedParkingIndex = parkingsTable.getSelectionModel().getSelectedIndex();
+        Parking editParking = parkingList.get(editedParkingIndex);
+
+        editParking.setStandardLots(Integer.valueOf(parkingStandardSlotsNumberInput.getText()));
+        editParking.setDisabledLots(Integer.valueOf(parkingDisabledLotsNumberInput.getText()));
+        editParking.setRoofed(Boolean.getBoolean(parkingIsRoofedInput.getText()));
+        editParking.setGuarded(Boolean.getBoolean(parkingIsGuardeInput.getText()));
+        editParking.setLastControl(Date.valueOf(parkingLastControlInput.getText()));
+
+        editParking.setMaxHeight(Float.valueOf(maxHeightInput.getText()));
+        editParking.setMaxWeight(Float.valueOf(maxWeightInput.getText()));
+
+        editParkingButton.setDisable(false);
+        saveParkingButton.setDisable(true);
+        setParkingInputFieldDisable(true);
+
     }
 
+    public void onDeleteParkingButtonClicked(ActionEvent actionEvent) {
+        Parking selectedParking = parkingsTable.getSelectionModel().getSelectedItem();
+        int selectedParkingIndex = parkingsTable.getSelectionModel().getSelectedIndex();
+
+        if(selectedParking != null && selectedParkingIndex >= 0) {
+            ParkingDAO.deleteParking(selectedParking.getParkingId());
+            parkingList.remove(selectedParkingIndex);
+        } else {
+            deleteParkingButton.setDisable(true);
+        }
+    }
+
+    public void onRefreshParkingButtonClicked(ActionEvent actionEvent) {
+        scheduleLoadTask(parkingLoadTask);
+    }
 }
