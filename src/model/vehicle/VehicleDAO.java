@@ -3,7 +3,7 @@ package model.vehicle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.address.AddressDAO;
-import model.Card.CardDAO;
+import model.card.CardDAO;
 import model.country.CountryDAO;
 import model.engine.Engine;
 import model.engine.EngineDAO;

@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 import model.address.Address;
 import model.address.AddressDAO;
 import model.card.Card;
-import model.Card.CardDAO;
+import model.card.CardDAO;
 import model.country.CountryDAO;
 import util.DbHelper;
 
