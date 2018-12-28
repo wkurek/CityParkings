@@ -61,6 +61,44 @@ public class RootController {
         }
     }
 
+    @FXML
+    public void onNewParkingClicked() {}
+
+    @FXML
+    public void onPreviewParkingsClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(RootController.class.getResource("../view/parkingView.fxml"));
+            AnchorPane anchorPane = loader.load();
+
+            rootContainer.setCenter(anchorPane);
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    public void onNewParkClicked() {}
+
+    @FXML
+    public void onPreviewParksClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(RootController.class.getResource("../view/parksView.fxml"));
+            AnchorPane anchorPane = loader.load();
+
+            rootContainer.setCenter(anchorPane);
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    public void onNewEmployeeClicked() {}
+
+    @FXML
+    public void onPreviewEmployeesClicked() {}
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }

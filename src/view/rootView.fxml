@@ -16,14 +16,14 @@
                     <items>
                         <Menu mnemonicParsing="false" text="Parkingi">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Nowy" />
-                            <MenuItem mnemonicParsing="false" text="Przeglądaj" />
+                            <MenuItem mnemonicParsing="false" onAction="#onNewParkingClicked" text="Nowy" />
+                            <MenuItem mnemonicParsing="false" onAction="#onPreviewParkingsClicked" text="Przeglądaj" />
                           </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Zaparkowania">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Nowe" />
-                            <MenuItem mnemonicParsing="false" text="Przeglądaj" />
+                            <MenuItem mnemonicParsing="false" onAction="#onNewParkClicked" text="Nowe" />
+                            <MenuItem mnemonicParsing="false" onAction="#onPreviewParksClicked" text="Przeglądaj" />
                           </items>
                         </Menu>
                     </items>
@@ -34,16 +34,10 @@
                         <MenuItem mnemonicParsing="false" onAction="#onPreviewUsersClicked" text="Przeglądaj" />
                     </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Pojazdy">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Nowy" />
-                        <MenuItem mnemonicParsing="false" text="Przeglądaj" />
-                    </items>
-                  </Menu>
                   <Menu mnemonicParsing="false" text="Pracownicy">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Nowy" />
-                        <MenuItem mnemonicParsing="false" text="Przeglądaj" />
+                        <MenuItem mnemonicParsing="false" onAction="#onNewEmployeeClicked" text="Nowy" />
+                        <MenuItem mnemonicParsing="false" onAction="#onPreviewEmployeesClicked" text="Przeglądaj" />
                     </items>
                   </Menu>
                </menus>
