@@ -54,7 +54,7 @@ public class ParkingDAO {
 
     private static String generateSelectQuery() {
         return String.format("SELECT %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s" +
-                        " FROM %s LEFT JOIN %s ON %s.%s=%s.%s", ParkingContract.TABLE_NAME,
+                        " FROM %s LEFT JOIN %s ON %s.%s=%s.%s",
                     ParkingContract.TABLE_NAME, ParkingContract.COLUMN_NAME_ID,
                     ParkingContract.TABLE_NAME, ParkingContract.COLUMN_NAME_STANDARD_LOTS,
                     ParkingContract.TABLE_NAME, ParkingContract.COLUMN_NAME_DISABLED_LOTS,
