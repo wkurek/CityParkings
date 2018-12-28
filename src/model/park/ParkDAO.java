@@ -190,4 +190,21 @@ public class ParkDAO {
 
         DbHelper.executeUpdateQuery(sql);
     }
+
+    public static ObservableList<Park> getParkingParks(int ParkingId) {
+        String sql = String.format("%s WHERE %s.%s=%d", generateSelectQuery(),
+                ParkContract.TABLE_NAME, ParkContract.COLUMN_NAME_PARKING_ID, ParkingId);
+
+        CachedRowSet result = DbHelper.executeQuery(sql);
+
+        ObservableList<Park> parkList = null;
+
+        try {
+            parkList = generateParkList(result);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return parkList;
+    }
 }

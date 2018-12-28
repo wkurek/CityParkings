@@ -31,7 +31,7 @@ public class Main extends Application {
             primaryStage.setTitle(WINDOW_TITLE);
 
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("view/rootView.fxml"));
+            loader.setLocation(Main.class.getResource("view/parkingView.fxml"));
             rootView = loader.load();
 
             RootController controller = loader.getController();
@@ -54,8 +54,8 @@ public class Main extends Application {
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
-    }
 
+    }
 
     public static void main(String[] args) {
 
