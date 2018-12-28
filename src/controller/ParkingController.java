@@ -6,6 +6,8 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import model.park.Park;
+import model.park.ParkDAO;
 import model.parking.Parking;
 import model.parking.ParkingDAO;
 import model.user.User;
@@ -14,12 +16,15 @@ import model.vehicle.VehicleDAO;
 
 public class ParkingController {
     private ObservableList<Parking> parkingList;
-    //private ObservableList<Parks> parksList;
+    private ObservableList<Park> parksList;
 
     private Task<ObservableList<Parking>> parkingLoadTask;
 
     @FXML
     public TableView<Parking> parkingsTable;
+
+    @FXML
+    public TableView<Park> parksTable;
 
     @FXML
     private TableColumn<Parking, Integer> parkingIdColumn;
@@ -40,11 +45,11 @@ public class ParkingController {
     private TableColumn<Parking, Float> parkingsMaxHeightColumn;
 
     //Parks table
-    //@FXML
-    //private TableColumn<Parks, Integer> parkVehicleIdColumn;
+    @FXML
+    private TableColumn<Park, Integer> parkVehicleIdColumn;
 
-    //@FXML
-    //private TableColumn<Parks, String> parkDateColumn;
+    @FXML
+    private TableColumn<Park, String> parkDateColumn;
 
     @FXML
     private Button addParkButton;
@@ -108,11 +113,35 @@ public class ParkingController {
 
     public ParkingController() {
         parkingList = FXCollections.observableArrayList();
-        //parksList = FXCollections.observableArrayList();
+        parksList = FXCollections.observableArrayList();
 
         parkingLoadTask = generateParkingLoadTask();
 
     }
+
+    private Task<ObservableList<Park>> generateParksLoadTask(final int parkingId) {
+        Task<ObservableList<Park>> task = new Task<ObservableList<Park>>() {
+            @Override
+            protected ObservableList<Park> call() {
+                return ParkDAO.getParkingParks(parkingId);
+            }
+        };
+
+        task.setOnSucceeded(event -> {
+            parksTable.getSelectionModel().clearSelection();
+
+            parksList.clear();
+            parksList.setAll(task.getValue());
+        });
+
+        task.setOnFailed(event -> {
+            //TODO: show alert
+            System.err.println(task.getException().getMessage());
+        });
+
+        return task;
+    }
+
 
     private Task<ObservableList<Parking>> generateParkingLoadTask() {
         Task<ObservableList<Parking>> task = new Task<ObservableList<Parking>>() {
@@ -138,6 +167,8 @@ public class ParkingController {
     @FXML
     private void initialize() {
         setUpParkingsTable();
+        setUpParksTable();
+
         scheduleLoadTask(parkingLoadTask);
 
     }
@@ -159,8 +190,21 @@ public class ParkingController {
         parkingsTable.setItems(parkingList);
     }
 
-    private void onParkingSelected(Parking selectedParking) {
+    private void setUpParksTable() {
+        parkVehicleIdColumn.setCellValueFactory(param -> param.getValue().getVehicle().idProperty().asObject());
+        parkDateColumn.setCellValueFactory(param -> param.getValue().dateTimeProperty().asString());
 
+        parksTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        parksTable.setItems(parksList);
+
+        parksTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            //if(newValue != null) deleteVehicleButton.setDisable(false);
+        });
+    }
+
+    private void onParkingSelected(Parking selectedParking) {
+        Task<ObservableList<Park>> parkingLoadTask = generateParksLoadTask(selectedParking.getParkingId());
+        scheduleLoadTask(parkingLoadTask);
     }
 
     private void scheduleLoadTask(Task task) {

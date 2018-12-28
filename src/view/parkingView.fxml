@@ -57,7 +57,7 @@
                                 <Font size="14.0" />
                             </font>
                         </Text>
-                        <TableView layoutX="412.0" layoutY="31.0" prefHeight="244.0" prefWidth="384.0">
+                        <TableView fx:id="parksTable" layoutX="412.0" layoutY="31.0" prefHeight="244.0" prefWidth="384.0">
                             <columns>
                                 <TableColumn fx:id="parkVehicleIdColumn" prefWidth="203.0" text="Vehicle ID" />
                                 <TableColumn fx:id="parkDateColumn" prefWidth="180.0" text="Date" />
