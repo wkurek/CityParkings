@@ -14,86 +14,90 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EmployeeController">
    <children>
       <SplitPane dividerPositions="0.39348370927318294" layoutX="201.0" layoutY="103.0" orientation="VERTICAL" prefHeight="800.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="365.0" prefWidth="798.0">
                <children>
-                  <Pagination fx:id="employeePagination" layoutY="44.0" prefHeight="267.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0" />
+                   <VBox fx:id="employeeTableb" prefHeight="310.0" prefWidth="798.0">
+                       <children>
+                           <HBox prefHeight="63.0" prefWidth="798.0">
+                               <children>
+                                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Employees">
+                                       <font>
+                                           <Font size="22.0" />
+                                       </font>
+                                   </Text>
+                                   <Button fx:id="deleteEmployeeButton" alignment="TOP_LEFT" contentDisplay="RIGHT" disable="true" mnemonicParsing="false" onAction="#onDeleteEmployeeButtonClicked" text="Delete" />
+                                   <Button mnemonicParsing="false" onAction="#onRefreshEmployeeButtonClicked" text="Refresh" />
+                               </children>
+                           </HBox>
+                           <TableView fx:id="employeeTable" prefHeight="298.0" prefWidth="620.0">
+                               <columns>
+                                   <TableColumn fx:id="employeeIdColumn" prefWidth="100.0" text="Employee id" />
+                                   <TableColumn fx:id="nameColumn" prefWidth="114.0" text="Name" />
+                                   <TableColumn fx:id="surnameColumn" prefWidth="114.0" text="Surname" />
+                                   <TableColumn fx:id="salaryColumn" prefWidth="114.0" text="Salary" />
+                                   <TableColumn fx:id="departmentColumn" prefWidth="114.0" text="Department" />
+                               </columns>
+                           </TableView>
+                       </children>
+                   </VBox>
                </children>
           </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                   <Separator layoutX="410.0" orientation="VERTICAL" prefHeight="481.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="0.0" />
-                   <Separator layoutX="410.0" layoutY="305.0" prefHeight="2.0" prefWidth="384.0" />
+                   <Separator layoutX="410.0" orientation="VERTICAL" prefHeight="481.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="0.0" />
+
                    <Text layoutX="422.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parking detail">
                        <font>
                            <Font size="14.0" />
                        </font>
                    </Text>
-                   <Text layoutX="422.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address detail">
-                       <font>
-                           <Font size="14.0" />
-                       </font>
-                   </Text>
-                   <Text layoutX="42.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee detail">
+                   <Text layoutX="12.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address detail">
                        <font>
                            <Font size="14.0" />
                        </font>
                    </Text>
                   <VBox alignment="TOP_RIGHT" layoutX="13.0" layoutY="39.0" spacing="8.0">
-                     <children>
-                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                   <children>
+                       <HBox alignment="CENTER_LEFT" spacing="12.0">
                            <children>
-                               <Label alignment="CENTER" contentDisplay="CENTER" text="Id" textAlignment="CENTER" />
-                               <TextField fx:id="employeeIdInput" alignment="CENTER" />
+                               <Label alignment="CENTER" text="ZIP" />
+                               <TextField fx:id="employeeZipCodeInput" alignment="CENTER" translateX="32.0" />
                            </children>
-                        </HBox>
-                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                             <children>
-                                 <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" text="Name" textAlignment="CENTER" />
-                                 <TextField fx:id="employeeNameInput" alignment="CENTER_RIGHT" />
-                             </children>
-                         </HBox>
-                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                             <children>
-                                 <Label alignment="CENTER" contentDisplay="CENTER" text="Surname" textAlignment="CENTER" />
-                                 <TextField fx:id="employeeSurnameInput" alignment="CENTER" />
-                             </children>
-                         </HBox>
-                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                             <children>
-                                 <Label alignment="CENTER" contentDisplay="CENTER" text="Salary" textAlignment="CENTER" />
-                                 <TextField fx:id="employeeSalaryInput" alignment="CENTER" />
-                             </children>
-                         </HBox>
-                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                             <children>
-                                 <Label alignment="CENTER" contentDisplay="CENTER" text="Department" textAlignment="CENTER" />
-                                 <TextField fx:id="employeeDepartmentInput" alignment="CENTER" />
-                             </children>
-                         </HBox>
-                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                             <children>
-                                 <Label alignment="CENTER" contentDisplay="CENTER" text="Address Id" textAlignment="CENTER" />
-                                 <TextField fx:id="employeeAddressInput" alignment="CENTER" />
-                             </children>
-                         </HBox>
-                         <ButtonBar>
-                             <buttons>
-                                 <Button fx:id="editEmployeeButton" mnemonicParsing="false" onAction="#onEditParkingButtonClicked" text="Edit" />
-                                 <Button fx:id="saveEmployeeButton" mnemonicParsing="false" onAction="#onSaveParkingButtonClicked" text="Save" />
-                                 <Button fx:id="newEmployeeButton" layoutX="125.0" layoutY="10.0" mnemonicParsing="false" onAction="#onNewParkingButtonClicked" text="New" />
-                             </buttons>
-                         </ButtonBar>
+                       </HBox>
+                       <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                           <children>
+                               <Label alignment="CENTER_LEFT" text="Street" />
+                               <TextField fx:id="employeeStreetInput" alignment="CENTER" translateX="13.0" />
+
+                               <Label alignment="CENTER_RIGHT" text="Nr:" translateX="10.0" />
+                               <TextField fx:id="employeeNumberInput" alignment="CENTER" prefWidth="40" />
+                           </children>
+                       </HBox>
+                       <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="44.0" spacing="12.0">
+                           <children>
+                               <Label alignment="CENTER" text="City" />
+                               <TextField fx:id="employeeCityInput" alignment="CENTER" translateX="27.0" />
+                           </children>
+                       </HBox>
+                       <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="44.0" spacing="12.0">
+                           <children>
+                               <Label alignment="CENTER" text="Country" />
+                               <TextField fx:id="employeeCountryInput" alignment="CENTER" />
+                           </children>
+                       </HBox>
                      </children>
                   </VBox>
                    <VBox alignment="TOP_RIGHT" layoutX="426.0" layoutY="31.0" spacing="8.0">
                        <children>
                            <HBox alignment="BOTTOM_RIGHT" spacing="12.0">
                                <children>
-                                   <Label alignment="CENTER" contentDisplay="CENTER" text="Standard lots" textAlignment="CENTER" />
+                                   <Label alignment="CENTER" text="Standard lots" />
                                    <TextField fx:id="employeeStandardLotsNumberInput" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" />
                                </children>
                            </HBox>
@@ -137,37 +141,6 @@
                                <children>
                                    <Label alignment="CENTER" text="Longitude" />
                                    <TextField fx:id="employeeLongitudeInput" alignment="CENTER" />
-                               </children>
-                           </HBox>
-                       </children>
-                   </VBox>
-                   <VBox alignment="TOP_RIGHT" layoutX="436.0" layoutY="340.0" spacing="8.0">
-                       <children>
-                           <HBox alignment="CENTER_LEFT" spacing="12.0">
-                               <children>
-                                   <Label alignment="CENTER" text="ZIP" />
-                                   <TextField fx:id="employeeZipCodeInput" alignment="CENTER" translateX="32.0" />
-                               </children>
-                           </HBox>
-                           <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                               <children>
-                                   <Label alignment="CENTER_LEFT" text="Street" />
-                                   <TextField fx:id="employeeStreetInput" alignment="CENTER" translateX="13.0" />
-
-                                   <Label alignment="CENTER_RIGHT" text="Nr:" translateX="10.0" />
-                                   <TextField fx:id="employeeNumberInput" alignment="CENTER" prefWidth="40" />
-                               </children>
-                           </HBox>
-                           <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="44.0" spacing="12.0">
-                               <children>
-                                   <Label alignment="CENTER" text="City" />
-                                   <TextField fx:id="employeeCityInput" alignment="CENTER" translateX="27.0" />
-                               </children>
-                           </HBox>
-                           <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="44.0" spacing="12.0">
-                               <children>
-                                   <Label alignment="CENTER" text="Country" />
-                                   <TextField fx:id="employeeCountryInput" alignment="CENTER" />
                                </children>
                            </HBox>
                        </children>
