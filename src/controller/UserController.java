@@ -11,7 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.address.AddressDAO;
-import model.Card.CardDAO;
+import model.card.CardDAO;
 import model.country.Country;
 import model.country.CountryDAO;
 import model.user.User;
@@ -250,6 +250,7 @@ public class UserController {
 
     @FXML
     public void onRefreshUserButtonClicked() {
+        usersLoadTask = generateUsersLoadTask();
         scheduleLoadTask(usersLoadTask);
     }
 

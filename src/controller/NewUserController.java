@@ -6,10 +6,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.Card.CardDAO;
+import model.address.Address;
+import model.address.AddressDAO;
+import model.card.CardDAO;
 import model.country.Country;
 import model.country.CountryDAO;
 import model.user.User;
+import model.user.UserDAO;
 import util.Validator;
 
 import java.sql.Date;
@@ -55,24 +58,31 @@ public class NewUserController {
                CardDAO.saveCard(card);
                Integer cardIndex = CardDAO.getSavedCardIndex();
 
-               if(cardIndex != null) {
+               Country selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
+
+               Address address = new Address();
+               address.setCity(cityInput.getText());
+               address.setZipCode(zipCodeInput.getText());
+               address.setStreet(streetInput.getText());
+               address.setNumber(numberInput.getText());
+               address.setCountry(selectedCountry);
+
+
+               AddressDAO.saveAddress(address);
+               Integer addressIndex = AddressDAO.getSavedAddressIndex();
+
+
+               if(cardIndex != null && addressIndex != null) {
                    User user = new User();
 
                    user.setName(nameInput.getText());
                    user.setSurname(surnameInput.getText());
                    user.setPhoneNumber(phoneNumberInput.getText());
 
-                   user.getAddress().setCity(cityInput.getText());
-                   user.getAddress().setZipCode(zipCodeInput.getText());
-                   user.getAddress().setStreet(streetInput.getText());
-                   user.getAddress().setNumber(numberInput.getText());
-
-                   Country selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
-                   user.getAddress().getCountry().setName(selectedCountry.getName());
-                   user.getAddress().getCountry().setIso(selectedCountry.getIso());
-
                    user.getCard().setCardId(cardIndex);
-                   user.getCard().setExpirationDate(date);
+                   user.getAddress().setId(addressIndex);
+
+                   UserDAO.saveUser(user);
 
                } else {
                    throw new SQLException("Cannot add new user.");

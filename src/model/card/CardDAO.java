@@ -1,6 +1,7 @@
 package model.card;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import util.DbHelper;
 
 import javax.sql.rowset.CachedRowSet;
@@ -88,7 +89,7 @@ public class CardDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES (0, '%s')", CardContract.TABLE_NAME, card.getExpirationDate());
+        String sql = String.format("INSERT INTO %s VALUES ('%s')", CardContract.TABLE_NAME, card.getExpirationDate());
 
         DbHelper.executeUpdateQuery(sql);
     }
