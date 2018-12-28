@@ -4,7 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import model.address.AddressDAO;
 import model.card.CardDAO;
 import model.country.Country;
@@ -13,11 +18,15 @@ import model.user.User;
 import model.user.UserDAO;
 import model.vehicle.Vehicle;
 import model.vehicle.VehicleDAO;
+import util.Validator;
 
+import java.io.IOException;
 import java.sql.Date;
 
 
 public class UserController {
+    private Stage stage;
+
     private ObservableList<User> usersList;
     private ObservableList<Vehicle> vehicleList;
 
@@ -113,8 +122,11 @@ public class UserController {
         });
 
         task.setOnFailed(event -> {
-            //TODO: show alert
-            System.err.println(task.getException().getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initOwner(stage);
+            alert.setTitle("SQL Error");
+            alert.setHeaderText(event.getSource().getException().getMessage());
+            alert.show();
         });
 
         return task;
@@ -134,8 +146,11 @@ public class UserController {
         });
 
         task.setOnFailed(event -> {
-            //TODO: show alert
-            System.err.println(task.getException().getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initOwner(stage);
+            alert.setTitle("SQL Error");
+            alert.setHeaderText(event.getSource().getException().getMessage());
+            alert.show();
         });
 
         return task;
@@ -235,12 +250,31 @@ public class UserController {
 
     @FXML
     public void onRefreshUserButtonClicked() {
+        usersLoadTask = generateUsersLoadTask();
         scheduleLoadTask(usersLoadTask);
     }
 
     @FXML
     public void onNewUserButtonClicked() {
-        //TODO: invoke popup with UserForm
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(UserController.class.getResource("../view/newUserView.fxml"));
+            AnchorPane page = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Create New User");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(stage);
+
+            NewUserController controller = loader.getController();
+            controller.setStage(dialogStage);
+
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            dialogStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -281,31 +315,45 @@ public class UserController {
         setUserInputFieldDisable(false);
     }
 
+    private boolean areEditedFieldsValid() {
+        return Validator.isNameValid(userNameInput.getText()) && Validator.isSurnameValid(userSurnameInput.getText()) &&
+                Validator.isPhoneNumberValid(userPhoneNumberInput.getText()) &&
+                Validator.isCityValid(userCityInput.getText()) && Validator.isStreetValid(userStreetInput.getText()) &&
+                Validator.isNumberValid(userNameInput.getText()) && Validator.isZIPCodeValid(userZIPCodeInput.getText());
+    }
+
     @FXML
     public void onSaveUserButtonClicked() {
-        int editedUserIndex = usersTable.getSelectionModel().getSelectedIndex();
-        User editedUser = usersList.get(editedUserIndex);
+        if(areEditedFieldsValid()) {
+            int editedUserIndex = usersTable.getSelectionModel().getSelectedIndex();
+            User editedUser = usersList.get(editedUserIndex);
 
-        editedUser.setName(userNameInput.getText());
-        editedUser.setSurname(userSurnameInput.getText());
-        editedUser.setPhoneNumber(userPhoneNumberInput.getText());
+            editedUser.setName(userNameInput.getText());
+            editedUser.setSurname(userSurnameInput.getText());
+            editedUser.setPhoneNumber(userPhoneNumberInput.getText());
 
-        editedUser.getAddress().setCity(userCityInput.getText());
-        editedUser.getAddress().setZipCode(userZIPCodeInput.getText());
-        editedUser.getAddress().setStreet(userStreetInput.getText());
-        editedUser.getAddress().setNumber(userNumberInput.getText());
+            editedUser.getAddress().setCity(userCityInput.getText());
+            editedUser.getAddress().setZipCode(userZIPCodeInput.getText());
+            editedUser.getAddress().setStreet(userStreetInput.getText());
+            editedUser.getAddress().setNumber(userNumberInput.getText());
 
-        Country selectedCountry = userCountryComboBox.getSelectionModel().getSelectedItem();
-        editedUser.getAddress().getCountry().setName(selectedCountry.getName());
-        editedUser.getAddress().getCountry().setIso(selectedCountry.getIso());
+            Country selectedCountry = userCountryComboBox.getSelectionModel().getSelectedItem();
+            editedUser.getAddress().getCountry().setName(selectedCountry.getName());
+            editedUser.getAddress().getCountry().setIso(selectedCountry.getIso());
 
 
-        AddressDAO.updateAddress(editedUser.getAddress().getId(), editedUser.getAddress());
-        UserDAO.updateUser(editedUser.getId(), editedUser);
+            AddressDAO.updateAddress(editedUser.getAddress().getId(), editedUser.getAddress());
+            UserDAO.updateUser(editedUser.getId(), editedUser);
 
-        editUserButton.setDisable(false);
-        saveUserButton.setDisable(true);
-        setUserInputFieldDisable(true);
+            editUserButton.setDisable(false);
+            saveUserButton.setDisable(true);
+            setUserInputFieldDisable(true);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initOwner(stage);
+            alert.setTitle("Invalid field(s)");
+            alert.show();
+        }
     }
 
 
@@ -321,5 +369,9 @@ public class UserController {
 
             CardDAO.updateCard(selectedUser.getCard().getCardId(), selectedUser.getCard());
         }
+    }
+
+    void setStage(Stage stage) {
+        this.stage = stage;
     }
 }
