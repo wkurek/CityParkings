@@ -2,10 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -17,13 +14,37 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ParkingController">
     <children>
-        <SplitPane dividerPositions="0.3458646616541353" layoutX="201.0" layoutY="103.0" orientation="VERTICAL" prefHeight="800.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <SplitPane dividerPositions="0.39348370927318294" layoutX="201.0" layoutY="103.0" orientation="VERTICAL" prefHeight="800.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="365.0" prefWidth="798.0">
                     <children>
-                        <Pagination fx:id="parkingsPagination" layoutY="44.0" prefHeight="267.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0" />
+                        <VBox fx:id="parkingsTableb" prefHeight="310.0" prefWidth="798.0">
+                            <children>
+                                <HBox prefHeight="53.0" prefWidth="798.0">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Parkings">
+                                            <font>
+                                                <Font size="22.0" />
+                                            </font>
+                                        </Text>
+                                        <Button fx:id="deleteParkingButton" alignment="TOP_LEFT" contentDisplay="RIGHT" disable="true" mnemonicParsing="false" onAction="#onDeleteParkingButtonClicked" text="Delete" />
+                                        <Button mnemonicParsing="false" onAction="#onRefreshParkingButtonClicked" text="Refresh" />
+                                    </children>
+                                </HBox>
+                                <TableView fx:id="parkingsTable" prefHeight="298.0" prefWidth="620.0">
+                                    <columns>
+                                        <TableColumn fx:id="parkingIdColumn" prefWidth="95.0" text="Parking id" />
+                                        <TableColumn fx:id="parkingStandardLotsNumberColumn" prefWidth="114.0" text="Standard lots" />
+                                        <TableColumn fx:id="parkingDisabledLotsNumerColumn" prefWidth="114.0" text="Distabled lots" />
+                                        <TableColumn fx:id="parkingLastControlColumn" prefWidth="114.0" text="Last control" />
+                                        <TableColumn fx:id="parkingMaxWeightColumn" prefWidth="114.0" text="Max weight" />
+                                        <TableColumn fx:id="parkingsMaxHeightColumn" prefWidth="114.0" text="Max height" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
                     </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
@@ -35,21 +56,15 @@
                                 <Font size="14.0" />
                             </font>
                         </Text>
-                        <Text layoutX="422.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee">
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                        </Text>
-                        <TableView layoutX="412.0" layoutY="31.0" prefHeight="244.0" prefWidth="384.0">
+                        <TableView fx:id="parksTable" layoutX="412.0" layoutY="31.0" prefHeight="244.0" prefWidth="384.0">
                             <columns>
-                                <TableColumn fx:id="parkVehiclePlateNumberColumn" prefWidth="203.0" text="Plate number" />
+                                <TableColumn fx:id="parkVehicleIdColumn" prefWidth="203.0" text="Vehicle ID" />
                                 <TableColumn fx:id="parkDateColumn" prefWidth="180.0" text="Date" />
                             </columns>
                         </TableView>
                         <ButtonBar layoutX="584.0" layoutY="283.0">
                             <buttons>
-                                <Button fx:id="addParkButton" mnemonicParsing="false" onAction="#onAddParkButtonClicked" text="Add new" />
-                                <Button fx:id="deleteParkButton" mnemonicParsing="false" onAction="#onDeleteParkButtonClicked" text="Delete" />
+                                <Button fx:id="deleteParkButton" disable="true" mnemonicParsing="false" onAction="#onDeleteParkButtonClicked" text="Delete" />
                             </buttons>
                         </ButtonBar>
                         <VBox alignment="TOP_RIGHT" layoutX="13.0" layoutY="39.0" spacing="8.0">
@@ -57,77 +72,65 @@
                                 <HBox alignment="BOTTOM_RIGHT" spacing="12.0">
                                     <children>
                                         <Label alignment="CENTER" contentDisplay="CENTER" text="Id" textAlignment="CENTER" />
-                                        <TextField fx:id="parkingIdInput" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" />
+                                        <TextField fx:id="parkingIdInput" alignment="CENTER" disable="true" nodeOrientation="LEFT_TO_RIGHT" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label alignment="CENTER" text="Standard lots" />
-                                        <TextField fx:id="parkingStandardSlotsNumberInput" alignment="CENTER" />
+                                        <TextField fx:id="parkingStandardSlotsNumberInput" alignment="CENTER" disable="true" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label prefHeight="16.0" prefWidth="91.0" text="Distabled lots" />
-                                        <TextField fx:id="parkingDisabledLotsNumberInput" />
+                                        <TextField fx:id="parkingDisabledLotsNumberInput" disable="true" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" prefWidth="246.0" spacing="12.0">
                                     <children>
                                         <Label text="Is roofed" />
-                              <ChoiceBox fx:id="isRoofedChoiceBox" prefWidth="150.0" />
+                                        <TextField fx:id="parkingIsRoofedInput" disable="true" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="78.0" spacing="12.0">
                                     <children>
                                         <Label prefHeight="16.0" prefWidth="76.0" text="Is guarded" />
-                              <ChoiceBox fx:id="isGuardedChoiceBox" prefWidth="150.0" />
+                                        <TextField fx:id="parkingIsGuardeInput" disable="true" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label text="Last control" />
-                              <DatePicker fx:id="lastControlDatePicker" />
+                                        <TextField fx:id="parkingLastControlInput" disable="true" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label text="Max weight" />
-                                        <TextField fx:id="maxWeightInput" />
+                                        <TextField fx:id="maxWeightInput" disable="true" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label text="Max height" />
-                                        <TextField fx:id="maxHeightInput" />
+                                        <TextField fx:id="maxHeightInput" disable="true" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label text="Location" />
-                                        <TextField fx:id="locationInput" />
+                                        <TextField fx:id="locationInput" disable="true" />
                                     </children>
                                 </HBox>
-                        <Separator prefWidth="200.0" />
-                        <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="282.0" spacing="12.0">
-                           <children>
-                              <Label text="col1" />
-                              <TextField fx:id="col1Input" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="327.0" spacing="12.0">
-                           <children>
-                              <Label text="col2" />
-                              <TextField fx:id="col2Input" />
-                           </children>
-                        </HBox>
-                              <ButtonBar>
-                                  <buttons>
-                                      <Button fx:id="editParkingButton" mnemonicParsing="false" onAction="#onEditParkingButtonClicked" text="Edit" />
-                                      <Button fx:id="saveParkingButton" mnemonicParsing="false" onAction="#onSaveParkingButtonClicked" text="Save" />
-                              <Button fx:id="newParkingButton" layoutX="125.0" layoutY="10.0" mnemonicParsing="false" onAction="#onNewParkingButtonClicked" text="New" />
-                                  </buttons>
-                              </ButtonBar>
+                                <Separator prefWidth="200.0" />
+                                <ButtonBar>
+                                    <buttons>
+                                        <Button fx:id="editParkingButton" disable="true" mnemonicParsing="false" onAction="#onEditParkingButtonClicked" text="Edit" />
+                                        <Button fx:id="saveParkingButton" disable="true" mnemonicParsing="false" onAction="#onSaveParkingButtonClicked" text="Save" />
+                                        <Button fx:id="newParkingButton" disable="true" layoutX="125.0" layoutY="10.0" mnemonicParsing="false" onAction="#onNewParkingButtonClicked" text="New" />
+                                    </buttons>
+                                </ButtonBar>
                             </children>
                         </VBox>
                         <Text layoutX="11.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Details">
@@ -135,34 +138,7 @@
                                 <Font size="14.0" />
                             </font>
                         </Text>
-                        <VBox layoutX="442.0" layoutY="353.0" spacing="8.0">
-                            <children>
-                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                                    <children>
-                                        <Label text="Id" />
-                                        <TextField fx:id="employeeIdInput" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                                    <children>
-                                        <Label text="Name" />
-                                        <TextField fx:id="employeeNameInput" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="44.0" spacing="12.0">
-                                    <children>
-                                        <Label text="Surname" />
-                                        <TextField fx:id="employeeSurnameInput" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="78.0" spacing="12.0">
-                                    <children>
-                                        <Label text="Department" />
-                                        <TextField fx:id="employeeDepartmentNameInput" />
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
+                        <VBox layoutX="442.0" layoutY="353.0" spacing="8.0" />
                     </children>
                 </AnchorPane>
             </items>
