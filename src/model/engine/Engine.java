@@ -21,4 +21,9 @@ public class Engine {
     public void setType(String type) {
         this.type.set(type);
     }
+
+    @Override
+    public String toString() {
+        return this.getType().toUpperCase();
+    }
 }

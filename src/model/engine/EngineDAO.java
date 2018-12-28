@@ -31,7 +31,7 @@ public class EngineDAO {
         return engineList;
     }
 
-    public static ObservableList<Engine> getEngine() {
+    public static ObservableList<Engine> getEngines() {
         String sql = String.format("SELECT * FROM %s", EngineContract.TABLE_NAME);
         CachedRowSet result = DbHelper.executeQuery(sql);
 

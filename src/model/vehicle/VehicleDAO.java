@@ -13,6 +13,7 @@ import util.DbHelper;
 
 import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
+import java.util.Locale;
 
 public class VehicleDAO {
     public static class VehicleContract {
@@ -155,7 +156,7 @@ public class VehicleDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES (0, '%s', %.2f, %.2f, '%s', %d)", VehicleContract.TABLE_NAME,
+        String sql = String.format(Locale.US, "INSERT INTO %s VALUES ('%s', %.2f, %.2f, '%s', %d)", VehicleContract.TABLE_NAME,
                 vehicle.getPlateNumber(), vehicle.getWeight(), vehicle.getHeight(), vehicle.getEngine().getType(),
                 vehicle.getUser().getId());
 

@@ -92,14 +92,33 @@ public class AddressDAO {
         return address;
     }
 
+    public static Integer getSavedAddressIndex() {
+        String sql = String.format("SELECT IDENT_CURRENT ('%s') AS %s", AddressContract.TABLE_NAME,
+                AddressContract.COLUMN_NAME_ID);
+        CachedRowSet result = DbHelper.executeQuery(sql);
+
+        Integer index = null;
+
+        try {
+            if(result.next()) {
+                index = result.getInt(AddressContract.COLUMN_NAME_ID);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return index;
+    }
+
     public static void saveAddress(Address address) {
         if(address == null) {
             System.err.println("Empty object.");
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES (0, '%s', '%s', '%s', '%s', '%s')", AddressContract.TABLE_NAME,
-                address.getCity(), address.getZipCode(), address.getStreet(), address.getNumber(), address.getCountry());
+        String sql = String.format("INSERT INTO %s VALUES ('%s', '%s', '%s', '%s', '%s')", AddressContract.TABLE_NAME,
+                address.getCity(), address.getZipCode(), address.getStreet(), address.getNumber(),
+                address.getCountry().getName());
 
         DbHelper.executeUpdateQuery(sql);
     }
