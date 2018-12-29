@@ -7,6 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.department.Department;
+import model.department.DepartmentDAO;
 import model.park.Park;
 import model.park.ParkDAO;
 import model.parking.Parking;
@@ -31,7 +33,7 @@ public class Main extends Application {
             primaryStage.setTitle(WINDOW_TITLE);
 
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("view/parkingView.fxml"));
+            loader.setLocation(Main.class.getResource("view/rootView.fxml"));
             rootView = loader.load();
 
             RootController controller = loader.getController();

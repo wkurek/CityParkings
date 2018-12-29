@@ -32,7 +32,7 @@ public class DepartmentDAO {
     }
 
     public static ObservableList<Department> getDepartment() {
-        String sql = String.format("SELECT * FROM %s", DepartmentContract.TABLE_NAME);
+        String sql = String.format("SELECT TOP(10) [department_name] FROM %s", DepartmentContract.TABLE_NAME);
         CachedRowSet result = DbHelper.executeQuery(sql);
 
         ObservableList<Department> departmentList = null;
