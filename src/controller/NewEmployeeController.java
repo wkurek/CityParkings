@@ -63,6 +63,7 @@ public class NewEmployeeController {
                 
                 Parking selectedParking = parkingIdComboBox.getSelectionModel().getSelectedItem();
                 Country selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
+                Department selectedDepartment = departmentComboBox.getSelectionModel().getSelectedItem();
 
                 Address address = new Address();
                 address.setCity(cityInput.getText());
@@ -71,10 +72,8 @@ public class NewEmployeeController {
                 address.setNumber(numberInput.getText());
                 address.setCountry(selectedCountry);
 
-
                 AddressDAO.saveAddress(address);
                 Integer addressIndex = AddressDAO.getSavedAddressIndex();
-
 
                 if(addressIndex != null) {
                     Employee employee = new Employee();
@@ -86,7 +85,7 @@ public class NewEmployeeController {
                     employee.setSalary(salary);
 
                     employee.getAddress().setId(addressIndex);
-                    employee.setDepartment(departmentComboBox.getSelectionModel().getSelectedItem());
+                    employee.getDepartment().setDepartmentName(selectedDepartment.getDepartmentName());
                     employee.getParking().setParkingId(selectedParking.getParkingId());
 
                     EmployeeDAO.saveEmployee(employee);

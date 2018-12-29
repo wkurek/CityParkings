@@ -123,6 +123,9 @@ public class RootController {
             loader.setLocation(RootController.class.getResource("../view/employeeView.fxml"));
             AnchorPane anchorPane = loader.load();
 
+            EmployeeController controller = loader.getController();
+            controller.setStage(stage);
+
             rootContainer.setCenter(anchorPane);
         } catch (IOException e) {
             System.err.println(e.getMessage());
