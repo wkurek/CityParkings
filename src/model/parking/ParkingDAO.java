@@ -2,6 +2,7 @@ package model.parking;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.employee.EmployeeDAO;
 import model.location.Location;
 import model.location.LocationDAO;
 import util.DbHelper;
@@ -74,11 +75,18 @@ public class ParkingDAO {
                 );
     }
 
-
-
     private static String generateSelectWhereQuery(int id) {
         String sql = generateSelectQuery();
         return String.format("%s WHERE %s.%s=%d", sql, ParkingContract.TABLE_NAME, ParkingContract.COLUMN_NAME_ID, id);
+    }
+
+    private static String generateSelectNoEmployeeQuery(){
+        String sql = generateSelectQuery();
+        return String.format("%s LEFT JOIN %s ON %s.%s=%s.%s WHERE %s.%s IS NULL",
+                sql, EmployeeDAO.EmployeeContract.TABLE_NAME,
+                EmployeeDAO.EmployeeContract.TABLE_NAME, EmployeeDAO.EmployeeContract.COLUMN_NAME_PARKING_ID,
+                ParkingContract.TABLE_NAME, ParkingContract.COLUMN_NAME_ID,
+                EmployeeDAO.EmployeeContract.TABLE_NAME, EmployeeDAO.EmployeeContract.COLUMN_NAME_PARKING_ID);
     }
 
     public static ObservableList<Parking> getParkings() {
@@ -111,6 +119,22 @@ public class ParkingDAO {
         }
 
         return parking;
+    }
+
+    public static ObservableList<Parking> getNoEmployeeParkings() {
+        String sql = generateSelectNoEmployeeQuery();
+
+        CachedRowSet result = DbHelper.executeQuery(sql);
+
+        ObservableList<Parking> parkingList = null;
+
+        try {
+            parkingList = generateParkingsList(result);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return parkingList;
     }
 
     public static void saveParking(Parking parking) {

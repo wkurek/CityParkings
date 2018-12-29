@@ -15,6 +15,8 @@ import model.department.Department;
 import model.department.DepartmentDAO;
 import model.employee.Employee;
 import model.employee.EmployeeDAO;
+import model.parking.Parking;
+import model.parking.ParkingDAO;
 import util.Validator;
 import java.sql.SQLException;
 
@@ -47,14 +49,19 @@ public class NewEmployeeController {
     private ComboBox<Country> countryComboBox;
 
     @FXML
+    private ComboBox<Parking> parkingIdComboBox;
+
+    @FXML
     private void initialize() {
         countryComboBox.setItems(CountryDAO.getCountries());
         departmentComboBox.setItems(DepartmentDAO.getDepartment());
+        parkingIdComboBox.setItems(ParkingDAO.getNoEmployeeParkings());
 
         saveEmployeeTask = new Task<Void>() {
             @Override
             protected Void call() throws SQLException {
                 
+                Parking selectedParking = parkingIdComboBox.getSelectionModel().getSelectedItem();
                 Country selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
 
                 Address address = new Address();
@@ -80,6 +87,7 @@ public class NewEmployeeController {
 
                     employee.getAddress().setId(addressIndex);
                     employee.setDepartment(departmentComboBox.getSelectionModel().getSelectedItem());
+                    employee.getParking().setParkingId(selectedParking.getParkingId());
 
                     EmployeeDAO.saveEmployee(employee);
 

@@ -64,31 +64,34 @@
                    </Text>
                   <VBox alignment="TOP_RIGHT" layoutX="13.0" layoutY="39.0" spacing="8.0">
                    <children>
-                       <HBox alignment="CENTER_LEFT" spacing="12.0">
+                       <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                                <Label alignment="CENTER" text="ZIP" />
-                               <TextField fx:id="employeeZipCodeInput" alignment="CENTER" translateX="32.0" />
+                               <TextField fx:id="addressZipCodeInput" alignment="CENTER" />
                            </children>
                        </HBox>
                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
                            <children>
                                <Label alignment="CENTER_LEFT" text="Street" />
-                               <TextField fx:id="employeeStreetInput" alignment="CENTER" translateX="13.0" />
-
-                               <Label alignment="CENTER_RIGHT" text="Nr:" translateX="10.0" />
-                               <TextField fx:id="employeeNumberInput" alignment="CENTER" prefWidth="40" />
+                               <TextField fx:id="addressStreetInput" alignment="CENTER" />
                            </children>
                        </HBox>
-                       <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="44.0" spacing="12.0">
+                       <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                           <children>
+                               <Label alignment="CENTER_RIGHT" text="Number" />
+                               <TextField fx:id="addressNumberInput" alignment="CENTER"  />
+                           </children>
+                       </HBox>
+                       <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="44.0" spacing="12.0">
                            <children>
                                <Label alignment="CENTER" text="City" />
-                               <TextField fx:id="employeeCityInput" alignment="CENTER" translateX="27.0" />
+                               <TextField fx:id="addressCityInput" alignment="CENTER" />
                            </children>
                        </HBox>
-                       <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="44.0" spacing="12.0">
+                       <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="44.0" spacing="12.0">
                            <children>
                                <Label alignment="CENTER" text="Country" />
-                               <TextField fx:id="employeeCountryInput" alignment="CENTER" />
+                               <TextField fx:id="addressCountryInput" alignment="CENTER" />
                            </children>
                        </HBox>
                      </children>
@@ -98,49 +101,49 @@
                            <HBox alignment="BOTTOM_RIGHT" spacing="12.0">
                                <children>
                                    <Label alignment="CENTER" text="Standard lots" />
-                                   <TextField fx:id="employeeStandardLotsNumberInput" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" />
+                                   <TextField fx:id="parkingStandardLotsNumberInput" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" />
                                </children>
                            </HBox>
                            <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                <children>
                                    <Label alignment="CENTER" text="Disabled lots" />
-                                   <TextField fx:id="employeeDisabledParkLotsInput" alignment="CENTER" />
+                                   <TextField fx:id="parkingDisabledLotsNumberInput" alignment="CENTER" />
                                </children>
                            </HBox>
                            <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                <children>
                                    <Label prefHeight="16.0" prefWidth="70.0" text="Is roofed" />
-                                   <ChoiceBox fx:id="employeeIsRoofedChoiceBox" prefWidth="170.0" />
+                                   <TextField fx:id="parkingIsRoofedInput" alignment="CENTER" />
                                </children>
                            </HBox>
-                           <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="78.0" spacing="12.0">
+                           <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                <children>
                                    <Label prefHeight="16.0" prefWidth="70.0" text="Is guarded" />
-                                   <ChoiceBox fx:id="employeeIsGuardedChoiceBox" prefWidth="170.0" />
+                                   <TextField fx:id="parkingIsGuardedInput" alignment="CENTER" />
                                </children>
                            </HBox>
-                           <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="44.0" spacing="12.0">
+                           <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                               <children>
+                                   <Label alignment="CENTER" text="Last control" />
+                                   <TextField fx:id="parkingLastControlInput" alignment="CENTER" />
+                               </children>
+                           </HBox>
+                           <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                <children>
                                    <Label alignment="CENTER" text="Max weight" />
-                                   <TextField fx:id="employeeMaxWeightInput" alignment="CENTER" />
+                                   <TextField fx:id="parkingMaxWeightInput" alignment="CENTER" />
                                </children>
                            </HBox>
-                           <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="146.0" spacing="12.0">
+                           <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                <children>
                                    <Label alignment="CENTER" text="Max height" />
-                                   <TextField fx:id="employeeMaxHeightInput" alignment="CENTER" />
+                                   <TextField fx:id="parkingMaxHeightInput" alignment="CENTER" />
                                </children>
                            </HBox>
-                           <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="146.0" spacing="12.0">
+                           <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                <children>
-                                   <Label alignment="CENTER" text="Latitude" />
-                                   <TextField fx:id="employeeParkLatitudeInput" alignment="CENTER" />
-                               </children>
-                           </HBox>
-                           <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="214.0" spacing="12.0">
-                               <children>
-                                   <Label alignment="CENTER" text="Longitude" />
-                                   <TextField fx:id="employeeLongitudeInput" alignment="CENTER" />
+                                   <Label alignment="CENTER" text="Location" />
+                                   <TextField fx:id="parkingLocationInput" alignment="CENTER" />
                                </children>
                            </HBox>
                        </children>

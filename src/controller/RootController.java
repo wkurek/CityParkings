@@ -117,7 +117,17 @@ public class RootController {
     }
 
     @FXML
-    public void onPreviewEmployeesClicked() {}
+    public void onPreviewEmployeesClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(RootController.class.getResource("../view/employeeView.fxml"));
+            AnchorPane anchorPane = loader.load();
+
+            rootContainer.setCenter(anchorPane);
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
 
     public void setStage(Stage stage) {
         this.stage = stage;
