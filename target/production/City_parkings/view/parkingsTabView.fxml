@@ -37,13 +37,13 @@
                             <TextField fx:id="maxWeightInput" layoutX="185.0" layoutY="66.0" prefHeight="31.0" prefWidth="60.0" />
                             <Button fx:id="parkingsFilterButton" layoutX="707.0" layoutY="107.0" mnemonicParsing="false" onAction="#onParkingsFilterClicked" text="Filter" />
                             <Text layoutX="377.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Columns:" />
-                     <MenuButton fx:id="columnMenuButton" layoutX="377.0" layoutY="66.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="96.0" text="MenuButton">
+                     <MenuButton fx:id="columnMenuButton" layoutX="377.0" layoutY="66.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="96.0" text="Colums">
                        <items>
                          <MenuItem mnemonicParsing="false" text="Action 1" />
                          <MenuItem mnemonicParsing="false" text="Action 2" />
                        </items>
                      </MenuButton>
-                     <MenuButton fx:id="parkingTypeMenuButton" layoutX="377.0" layoutY="122.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="96.0" text="MenuButton">
+                     <MenuButton fx:id="parkingTypeMenuButton" layoutX="377.0" layoutY="122.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="96.0" text="Parking Type">
                        <items>
                          <MenuItem mnemonicParsing="false" text="Action 1" />
                          <MenuItem mnemonicParsing="false" text="Action 2" />

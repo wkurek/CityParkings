@@ -21,7 +21,6 @@ public class EmployeesViewDAO {
             "Surname",
             "Salary",
             "Country",
-            "Country ISO",
             "City",
             "ZIP Code",
             "Street",
