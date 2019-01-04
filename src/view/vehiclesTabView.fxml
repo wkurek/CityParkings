@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.VehiclesTabController"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.VehiclesTabController">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="800.0">
             <children>
                 <SplitPane dividerPositions="0.23" orientation="VERTICAL" prefHeight="722.0" prefWidth="800.0">
@@ -33,13 +32,13 @@
                                 <Text layoutX="69.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
                                 <Text layoutX="69.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
                                 <Text layoutX="164.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Engine type:" />
-                                <ChoiceBox fx:id="engineTypeSelect" layoutX="164.0" layoutY="57.0" prefHeight="31.0" prefWidth="100.0" />
                                 <Text layoutX="285.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country:" />
-                                <ChoiceBox fx:id="vehiclesCountrySelect" layoutX="285.0" layoutY="57.0" prefHeight="31.0" prefWidth="100.0" />
                                 <CheckBox fx:id="parkedCheckBox" layoutX="164.0" layoutY="114.0" mnemonicParsing="false" text="Parked only" />
                                 <Button fx:id="vehiclesFilterButton" layoutX="578.0" layoutY="57.0" mnemonicParsing="false" onAction="#onVehiclesFilterClicked" text="Filter" />
-                                <ChoiceBox fx:id="vehiclesColumnsSelect" layoutX="407.0" layoutY="57.0" prefHeight="31.0" prefWidth="126.0" />
-                                <Text layoutX="407.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Columns:" />
+                                <Text layoutX="399.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Columns:" />
+                                <MenuButton fx:id="engineTypeMenuButton" layoutX="164.0" layoutY="57.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="106.0" text="Engine Typw"/>
+                                <MenuButton fx:id="countryMenuButton" layoutX="285.0" layoutY="57.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="106.0" text="Country"/>
+                                <MenuButton fx:id="columnsMenuButton" layoutX="399.0" layoutY="57.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="106.0" text="Columns"/>
                             </children></AnchorPane>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="530.0" prefWidth="798.0" />
                     </items>
