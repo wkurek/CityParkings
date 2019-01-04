@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.UsersTabController"
+            prefHeight="400.0" prefWidth="600.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="800.0">
+        <children>
+            <SplitPane dividerPositions="0.23" layoutX="1.0" orientation="VERTICAL" prefHeight="722.0" prefWidth="800.0">
+                <items>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="798.0">
+                        <children>
+                            <Text layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filters:">
+                                <font>
+                                    <Font name="System Bold" size="20.0" />
+                                </font>
+                            </Text>
+                            <Text layoutX="17.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country:" />
+                            <Text layoutX="147.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of vehicles:" />
+                            <Text layoutX="313.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Card expiration date:" />
+                            <ChoiceBox fx:id="usersCountrySelect" layoutX="14.0" layoutY="64.0" prefHeight="4.0" prefWidth="96.0" />
+                            <DatePicker fx:id="expirationMinInput" layoutX="356.0" layoutY="64.0" prefHeight="19.0" prefWidth="160.0" />
+                            <Text layoutX="313.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From" />
+                            <Text layoutX="313.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To" />
+                            <DatePicker fx:id="expirationMaxInput" layoutX="356.0" layoutY="93.0" prefHeight="31.0" prefWidth="160.0" />
+                            <TextField fx:id="vehiclesMaxInput" layoutX="205.0" layoutY="62.0" prefHeight="31.0" prefWidth="39.0" />
+                            <TextField fx:id="vehiclesMinInput" layoutX="147.0" layoutY="62.0" prefHeight="31.0" prefWidth="39.0" />
+                            <Text layoutX="191.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
+                            <Button fx:id="usersFilterButton" layoutX="713.0" layoutY="62.0" mnemonicParsing="false" onAction="#onUsersFilterClicked" text="Filter" />
+                            <Text layoutX="539.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Columns:" />
+                            <ChoiceBox fx:id="usersColumsSelect" layoutX="539.0" layoutY="64.0" prefHeight="31.0" prefWidth="135.0" />
+                        </children></AnchorPane>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="550.0" prefWidth="798.0" />
+                </items>
+            </SplitPane>
+        </children>
+    </AnchorPane>
+</AnchorPane>
