@@ -1,70 +1,56 @@
 package controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+
+import java.util.List;
 
 
 public class ReportsController {
 
     private Stage stage;
 
-
-
-
-
-
     public ReportsController()
     {
-
-
-
-        //employeesCountryChoices =
     }
 
     @FXML
     private void initialize()
     {
-
     }
 
 
+    public static void setColumns(TableView tableView, List<TableColumn> columns, MenuButton menuButton)
+    {
+
+        tableView.getColumns().clear();
+        if(((CheckMenuItem)menuButton.getItems().get(0)).isSelected())
+        {
+            for(int i = 0; i<columns.size();i++) {
+                tableView.getColumns().add(columns.get(i));
+            }
+            tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+            return;
+        }
+        for(int i = 1; i<columns.size();i++)
+        {
+            if(((CheckMenuItem)menuButton.getItems().get(i)).isSelected())
+                tableView.getColumns().add(columns.get(i-1));
+        }
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        if(tableView.getColumns().size()==0)
+        {
+            for(int i = 0; i<columns.size();i++) {
+                tableView.getColumns().add(columns.get(i));
+            }
+            tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+            return;
+        }
+    }
 
 
-
-
-
-//
-//
-//    private Task<ObservableList<User>> generateUsersLoadTask() {
-//        Task<ObservableList<User>> task = new Task<ObservableList<User>>() {
-//            @Override
-//            protected ObservableList<User> call() {
-//                return UserDAO.getUsers();
-//            }
-//        };
-//
-//        task.setOnSucceeded(event -> {
-//            usersList.clear();
-//            usersList.addAll(task.getValue());
-//        });
-//
-//        task.setOnFailed(event -> {
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.initOwner(stage);
-//            alert.setTitle("SQL Error");
-//            alert.setHeaderText(event.getSource().getException().getMessage());
-//            alert.show();
-//        });
-//
-//        return task;
-//    }
 
     public void setStage(Stage stage)
     {

@@ -3,8 +3,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -13,7 +13,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UsersTabController">
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="800.0">
         <children>
-            <SplitPane dividerPositions="0.23" layoutX="1.0" orientation="VERTICAL" prefHeight="722.0" prefWidth="800.0">
+            <SplitPane dividerPositions="0.23" layoutX="1.0" orientation="VERTICAL" prefHeight="760.0" prefWidth="800.0">
                 <items>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="798.0">
                         <children>
@@ -34,10 +34,14 @@
                             <Text layoutX="191.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
                             <Button fx:id="usersFilterButton" layoutX="713.0" layoutY="62.0" mnemonicParsing="false" onAction="#onUsersFilterClicked" text="Filter" />
                             <Text layoutX="539.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Columns:" />
-                     <MenuButton fx:id="countryMenuButton" layoutX="17.0" layoutY="64.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="104.0" text="Country"/>
-                     <MenuButton fx:id="columnMenuButton" layoutX="539.0" layoutY="62.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="104.0" text="Columns"/>
+                     <MenuButton fx:id="countryMenuButton" layoutX="17.0" layoutY="64.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="104.0" text="Country" />
+                     <MenuButton fx:id="columnMenuButton" layoutX="539.0" layoutY="62.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="104.0" text="Columns" />
                         </children></AnchorPane>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="550.0" prefWidth="798.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="550.0" prefWidth="798.0">
+                  <children>
+                     <TableView prefHeight="330.0" prefWidth="800.0">
+                     </TableView>
+                  </children></AnchorPane>
                 </items>
             </SplitPane>
         </children>

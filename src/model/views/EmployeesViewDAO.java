@@ -13,7 +13,7 @@ import java.util.List;
 
 public class EmployeesViewDAO {
 
-    private static class UserContract {
+    private static class EmployeesViewContract {
         public static final String TABLE_NAME = "[dbo].[employees_view]";
         public static final String COLUMN_NAME_ID = "employee_id";
         public static final String COLUMN_NAME_NAME = "name";
@@ -47,24 +47,24 @@ public class EmployeesViewDAO {
 
     private static String generateSelectWhereQuery(String salaryMin, String salaryMax, List<String> countries, List<String> departments) {
         String sql = generateSelectQuery();
-        sql+=" WHERE 1=1";
+        sql+=" WHERE 1=1 ";
         if(salaryMin!=null && Validator.isWeightValid(salaryMin)){
-            sql+="and salary>="+salaryMin+" ";
+            sql+="and "+EmployeesViewContract.COLUMN_NAME_SALARY+">="+salaryMin+" ";
         }
         if(salaryMax!=null && Validator.isWeightValid(salaryMax)){
-            sql+="and salary<="+salaryMax+" ";
+            sql+="and "+EmployeesViewContract.COLUMN_NAME_SALARY+"<="+salaryMax+" ";
         }
         if(countries.size()!=0&&countries.get(0)!="Select All") {
             sql+="and(";
             for(String s : countries) {
-                sql+="country = '"+s+"' or ";
+                sql+=EmployeesViewContract.COLUMN_NAME_COUNTRY+" = '"+s+"' or ";
             }
             sql+="1=0) ";
         }
         if(departments.size()!=0&&departments.get(0)!="Select All") {
             sql+="and(";
             for(String s : departments) {
-                sql+="department_name = '"+s+"' or ";
+                sql+=EmployeesViewContract.COLUMN_NAME_DEPARTMENT_NAME+" = '"+s+"' or ";
             }
             sql+="1=0)";
         }
@@ -84,7 +84,7 @@ public class EmployeesViewDAO {
 
     private static String generateSelectQuery()
     {
-        return "SELECT * FROM " + UserContract.TABLE_NAME;
+        return "SELECT * FROM " + EmployeesViewContract.TABLE_NAME;
     }
     public static EmployeesView generateEmployeesView(CachedRowSet resultSet) throws SQLException {
         EmployeesView employeesView = new EmployeesView();
@@ -93,17 +93,17 @@ public class EmployeesViewDAO {
 
         employeesView.setDepartment(department);
 
-        employeesView.setId(resultSet.getInt(UserContract.COLUMN_NAME_ID));
-        employeesView.setName(resultSet.getString(UserContract.COLUMN_NAME_NAME));
-        employeesView.setSurname(resultSet.getString(UserContract.COLUMN_NAME_SURNAME));
-        employeesView.setSalary(resultSet.getFloat(UserContract.COLUMN_NAME_SALARY));
-        employeesView.setCountry(resultSet.getString(UserContract.COLUMN_NAME_COUNTRY));
-        employeesView.setCity(resultSet.getString(UserContract.COLUMN_NAME_CITY));
-        employeesView.setZip_code(resultSet.getString(UserContract.COLUMN_NAME_ZIP_CODE));
-        employeesView.setStreet(resultSet.getString(UserContract.COLUMN_NAME_STREET));
-        employeesView.setNumber(resultSet.getString(UserContract.COLUMN_NAME_NUMBER));
-        employeesView.setParking_id(resultSet.getInt(UserContract.COLUMN_NAME_PARKING_ID));
-        employeesView.setLastControl(resultSet.getDate(UserContract.COLUMN_NAME_LAST_CONTROL));
+        employeesView.setId(resultSet.getInt(EmployeesViewContract.COLUMN_NAME_ID));
+        employeesView.setName(resultSet.getString(EmployeesViewContract.COLUMN_NAME_NAME));
+        employeesView.setSurname(resultSet.getString(EmployeesViewContract.COLUMN_NAME_SURNAME));
+        employeesView.setSalary(resultSet.getFloat(EmployeesViewContract.COLUMN_NAME_SALARY));
+        employeesView.setCountry(resultSet.getString(EmployeesViewContract.COLUMN_NAME_COUNTRY));
+        employeesView.setCity(resultSet.getString(EmployeesViewContract.COLUMN_NAME_CITY));
+        employeesView.setZip_code(resultSet.getString(EmployeesViewContract.COLUMN_NAME_ZIP_CODE));
+        employeesView.setStreet(resultSet.getString(EmployeesViewContract.COLUMN_NAME_STREET));
+        employeesView.setNumber(resultSet.getString(EmployeesViewContract.COLUMN_NAME_NUMBER));
+        employeesView.setParkingID(resultSet.getInt(EmployeesViewContract.COLUMN_NAME_PARKING_ID));
+        employeesView.setLastControl(resultSet.getDate(EmployeesViewContract.COLUMN_NAME_LAST_CONTROL));
 
         return employeesView;
     }

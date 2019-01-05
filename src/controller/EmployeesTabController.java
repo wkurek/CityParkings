@@ -44,7 +44,7 @@ public class EmployeesTabController {
     @FXML
     public MenuButton columnMenuButton;
     @FXML
-    public TableView<EmployeesView> employeesTable;
+    public TableView<EmployeesView> employeesViewTable;
     @FXML
     private TextField salaryMinInput;
     @FXML
@@ -61,6 +61,7 @@ public class EmployeesTabController {
 
     public EmployeesTabController()
     {
+        columns = new ArrayList<>();
         countryItems = new ArrayList<>();
         departmentItems = new ArrayList<>();
         columnItems = new ArrayList<>();
@@ -72,12 +73,12 @@ public class EmployeesTabController {
     @FXML
     private void initialize()
     {
-        menuButtonsSet();
-        autoShowOff();
-        generateTableColumns();
-        setColumns();
-        employeesTable.setItems(employeesViewList);
-        scheduleLoadTask(employeesViewLoadTask);
+          menuButtonsSet();
+          autoShowOff();
+          generateTableColumns();
+          ReportsController.setColumns(employeesViewTable, columns, columnMenuButton);
+          employeesViewTable.setItems(employeesViewList);
+          scheduleLoadTask(employeesViewLoadTask);
     }
 
     private void menuButtonsSet() {
@@ -117,8 +118,8 @@ public class EmployeesTabController {
             @Override
             protected ObservableList<EmployeesView> call() {
                 return EmployeesViewDAO.getEmployeesViews(salaryMinInput.getText(), salaryMaxInput.getText(),
-                                                        selectedMenuItemsToStringList(countryMenuButton.getItems()),
-                                                        selectedMenuItemsToStringList(departmentMenuButton.getItems()));
+                                                        RootController.selectedMenuItemsToStringList(countryMenuButton.getItems()),
+                                                        RootController.selectedMenuItemsToStringList(departmentMenuButton.getItems()));
             }
         };
 
@@ -144,7 +145,6 @@ public class EmployeesTabController {
     }
     private void generateTableColumns()
     {
-        columns = new ArrayList<>();
         TableColumn<EmployeesView, Integer> ID = new TableColumn<>("ID");
         ID.setCellValueFactory(param->param.getValue().idProperty().asObject());
         columns.add(ID);
@@ -176,57 +176,22 @@ public class EmployeesTabController {
         department.setCellValueFactory(param->param.getValue().getDepartment().departmentNameProperty());
         columns.add(department);
         TableColumn<EmployeesView, Integer> parkingID= new TableColumn<>("Parking ID");
-        parkingID.setCellValueFactory(param->param.getValue().parking_idProperty().asObject());
+        parkingID.setCellValueFactory(param->param.getValue().parkingIDProperty().asObject());
         columns.add(parkingID);
         TableColumn<EmployeesView, Date> lastControl = new TableColumn<>("Last Control Date");
         lastControl.setCellValueFactory(param->param.getValue().lastControlProperty());
         columns.add(lastControl);
     }
-     public void setColumns()
-    {
-        employeesTable.getColumns().clear();
-        if(((CheckMenuItem)columnMenuButton.getItems().get(0)).isSelected())
-        {
-            for(int i = 0; i<columns.size();i++) {
-                employeesTable.getColumns().add(columns.get(i));
-            }
-            employeesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-            return;
-        }
-        for(int i = 1; i<columns.size();i++)
-        {
-            if(((CheckMenuItem)columnMenuButton.getItems().get(i)).isSelected())
-                employeesTable.getColumns().add(columns.get(i-1));
-            employeesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        }
-        if(employeesTable.getColumns().size()==0)
-        {
-            for(int i = 0; i<columns.size();i++) {
-                employeesTable.getColumns().add(columns.get(i));
-            }
-            employeesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-            return;
-        }
-    }
 
-    private List<String> selectedMenuItemsToStringList(List<MenuItem> items)
-    {
-        List<String> result = new ArrayList<>();
-        for(MenuItem m : items)
-        {
-            CheckMenuItem item = (CheckMenuItem)m;
-            if(item.isSelected())
-               result.add(m.getText());
-        }
-        return result;
-    }
+
+
     @FXML
     public void onFilterButtonClicked() {
-        setColumns();
+        ReportsController.setColumns(employeesViewTable, columns, columnMenuButton);
         employeesViewList=EmployeesViewDAO.getEmployeesViews(salaryMinInput.getText(), salaryMaxInput.getText(),
-                  selectedMenuItemsToStringList(countryMenuButton.getItems()),
-                  selectedMenuItemsToStringList(departmentMenuButton.getItems()));
-        employeesTable.setItems(employeesViewList);
+                  RootController.selectedMenuItemsToStringList(countryMenuButton.getItems()),
+                  RootController.selectedMenuItemsToStringList(departmentMenuButton.getItems()));
+        employeesViewTable.setItems(employeesViewList);
     }
 }
 

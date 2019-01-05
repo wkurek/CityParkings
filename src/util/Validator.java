@@ -48,5 +48,15 @@ public class Validator {
     public static boolean isHeightValid(String height) {
         return isWeightValid(height);
     }
-
+    public static boolean isIntegerInputValid(String integer)
+    {
+        try{
+            Integer.parseInt(integer);
+        }
+        catch (NumberFormatException e)
+        {
+            return false;
+        }
+        return true;
+    }
 }

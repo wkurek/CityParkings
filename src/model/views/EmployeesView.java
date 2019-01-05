@@ -19,7 +19,7 @@ public class EmployeesView {
     private StringProperty street;
     private StringProperty number;
     private Department department;
-    private IntegerProperty parking_id;
+    private IntegerProperty parkingID;
     private SimpleObjectProperty<Date> lastControl;
 
 
@@ -34,7 +34,7 @@ public class EmployeesView {
         street = new SimpleStringProperty();
         number = new SimpleStringProperty();
         department = new Department();
-        parking_id = new SimpleIntegerProperty();
+        parkingID = new SimpleIntegerProperty();
         lastControl = new SimpleObjectProperty<>();
     }
 
@@ -154,16 +154,16 @@ public class EmployeesView {
         this.department = department;
     }
 
-    public int getParking_id() {
-        return parking_id.get();
+    public int getParkingID() {
+        return parkingID.get();
     }
 
-    public IntegerProperty parking_idProperty() {
-        return parking_id;
+    public IntegerProperty parkingIDProperty() {
+        return parkingID;
     }
 
-    public void setParking_id(int parking_id) {
-        this.parking_id.set(parking_id);
+    public void setParkingID(int parking_id) {
+        this.parkingID.set(parking_id);
     }
 
     public Date getLastControl() {
