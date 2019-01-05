@@ -1,9 +1,6 @@
 package model.views;
 
-import javafx.beans.property.FloatProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import model.address.Address;
 import model.department.Department;
 
@@ -16,14 +13,29 @@ public class EmployeesView {
     private StringProperty name;
     private StringProperty surname;
     private FloatProperty salary;
-    private Address address;
+    private StringProperty country;
+    private StringProperty city;
+    private StringProperty zip_code;
+    private StringProperty street;
+    private StringProperty number;
     private Department department;
     private IntegerProperty parking_id;
     private SimpleObjectProperty<Date> lastControl;
 
 
     public EmployeesView() {
-
+        id = new SimpleIntegerProperty();
+        name = new SimpleStringProperty();
+        surname = new SimpleStringProperty();
+        salary = new SimpleFloatProperty();
+        country = new SimpleStringProperty();
+        city = new SimpleStringProperty();
+        zip_code = new SimpleStringProperty();
+        street = new SimpleStringProperty();
+        number = new SimpleStringProperty();
+        department = new Department();
+        parking_id = new SimpleIntegerProperty();
+        lastControl = new SimpleObjectProperty<>();
     }
 
     public int getId() {
@@ -74,12 +86,64 @@ public class EmployeesView {
         this.salary.set(salary);
     }
 
-    public Address getAddress() {
-        return address;
+    public String getCountry() {
+        return country.get();
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public StringProperty countryProperty() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country.set(country);
+    }
+
+    public String getCity() {
+        return city.get();
+    }
+
+    public StringProperty cityProperty() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city.set(city);
+    }
+
+    public String getZip_code() {
+        return zip_code.get();
+    }
+
+    public StringProperty zip_codeProperty() {
+        return zip_code;
+    }
+
+    public void setZip_code(String zip_code) {
+        this.zip_code.set(zip_code);
+    }
+
+    public String getStreet() {
+        return street.get();
+    }
+
+    public StringProperty streetProperty() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street.set(street);
+    }
+
+    public String getNumber() {
+        return number.get();
+    }
+
+    public StringProperty numberProperty() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number.set(number);
     }
 
     public Department getDepartment() {
