@@ -10,8 +10,8 @@ public class Validator {
     }
 
     public static boolean isPhoneNumberValid(String phoneNumber) {
-        return !phoneNumber.isEmpty() && phoneNumber.matches("[0-9]+$")
-                && phoneNumber.length() <= 13 && phoneNumber.length() >= 9;
+        return !phoneNumber.isEmpty() && phoneNumber.matches("[0-9 +]+$")
+                && phoneNumber.length() <= 15 && phoneNumber.length() >= 9;
     }
 
     public static boolean isCityValid(String city) {

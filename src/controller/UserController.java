@@ -335,11 +335,34 @@ public class UserController {
         setUserInputFieldDisable(false);
     }
 
+    private String getFieldsValidationString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if(!Validator.isNameValid(userNameInput.getText())) {
+            stringBuilder.append("Invalid name.");
+        } else  if(!Validator.isSurnameValid(userSurnameInput.getText())) {
+            stringBuilder.append("Invalid surname.");
+        } else if(!Validator.isPhoneNumberValid(userPhoneNumberInput.getText())) {
+            stringBuilder.append("Invalid phone number.");
+        } else if(!Validator.isCityValid(userCityInput.getText())) {
+            stringBuilder.append("Invalid city name.");
+        } else if(!Validator.isStreetValid(userStreetInput.getText())) {
+            stringBuilder.append("Invalid street name.");
+        } else if(!Validator.isNumberValid(userNumberInput.getText())) {
+            stringBuilder.append("Invalid home number.");
+        } else if(!Validator.isZIPCodeValid(userZIPCodeInput.getText())) {
+            stringBuilder.append("Invalid zip code.");
+        }
+
+        return stringBuilder.toString();
+    }
+
+
     private boolean areEditedFieldsValid() {
         return Validator.isNameValid(userNameInput.getText()) && Validator.isSurnameValid(userSurnameInput.getText()) &&
                 Validator.isPhoneNumberValid(userPhoneNumberInput.getText()) &&
                 Validator.isCityValid(userCityInput.getText()) && Validator.isStreetValid(userStreetInput.getText()) &&
-                Validator.isNumberValid(userNameInput.getText()) && Validator.isZIPCodeValid(userZIPCodeInput.getText());
+                Validator.isNumberValid(userNumberInput.getText()) && Validator.isZIPCodeValid(userZIPCodeInput.getText());
     }
 
     @FXML
@@ -372,6 +395,7 @@ public class UserController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initOwner(stage);
             alert.setTitle("Invalid field(s)");
+            alert.setContentText(getFieldsValidationString());
             alert.show();
         }
     }
