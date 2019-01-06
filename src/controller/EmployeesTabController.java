@@ -65,7 +65,7 @@ public class EmployeesTabController {
         departmentItems = new ArrayList<>();
         columnItems = new ArrayList<>();
         employeesViewList = FXCollections.observableArrayList();
-
+        employeesViewTable = new TableView<>();
        // employeesViewLoadTask = generateEmployeesViewsLoadTask();
     }
 
@@ -173,6 +173,24 @@ public class EmployeesTabController {
         department.setCellValueFactory(param->param.getValue().getDepartment().departmentNameProperty());
         columns.add(department);
         TableColumn<EmployeesView, Integer> parkingID= new TableColumn<>(COLUMN_NAMES.get(10));
+        parkingID.setCellFactory(tc -> {
+            return new TableCell<>() {
+                @Override
+                protected void updateItem(Integer item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setText(null);
+                    } else {
+                        int value = item;
+                        if (value == 0) {
+                            setText("");
+                        } else {
+                            setText(Integer.toString(value));
+                        }
+                    }
+                }
+            };
+        });
         parkingID.setCellValueFactory(param->param.getValue().parkingIDProperty().asObject());
         columns.add(parkingID);
         TableColumn<EmployeesView, Date> lastControl = new TableColumn<>(COLUMN_NAMES.get(11));
@@ -190,8 +208,8 @@ public class EmployeesTabController {
     {
         ReportsController.setColumns(employeesViewTable, columns, columnMenuButton);
         employeesViewList = EmployeesViewDAO.getEmployeesViews(salaryMinInput.getText(), salaryMaxInput.getText(),
-                RootController.selectedMenuItemsToStringList(countryMenuButton.getItems()),
-                RootController.selectedMenuItemsToStringList(departmentMenuButton.getItems()));
+                ReportsController.selectedMenuItemsToStringList(countryMenuButton.getItems()),
+                ReportsController.selectedMenuItemsToStringList(departmentMenuButton.getItems()));
         employeesViewTable.setItems(employeesViewList);
     }
 }

@@ -86,6 +86,7 @@ public class EmployeesViewDAO {
     {
         return "SELECT * FROM " + EmployeesViewContract.TABLE_NAME;
     }
+
     public static EmployeesView generateEmployeesView(CachedRowSet resultSet) throws SQLException {
         EmployeesView employeesView = new EmployeesView();
 

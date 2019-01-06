@@ -119,17 +119,7 @@ public class RootController {
             System.err.println(e.getMessage());
         }
     }
-    public static List<String> selectedMenuItemsToStringList(List<MenuItem> items)
-    {
-        List<String> result = new ArrayList<>();
-        for(MenuItem m : items)
-        {
-            CheckMenuItem item = (CheckMenuItem)m;
-            if(item.isSelected())
-                result.add(m.getText());
-        }
-        return result;
-    }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }

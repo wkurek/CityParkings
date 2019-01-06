@@ -23,11 +23,11 @@
                                         <Font name="System Bold" size="20.0" />
                                     </font>
                                 </Text>
-                                <Text layoutX="12.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height:" />
-                                <Text layoutX="12.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:" />
-                                <TextField fx:id="vheightMinInput" layoutX="14.0" layoutY="57.0" prefHeight="31.0" prefWidth="55.0" />
+                                <Text layoutX="12.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height(cm):" />
+                                <Text layoutX="12.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight(kg):" />
+                                <TextField fx:id="heightMinInput" layoutX="14.0" layoutY="57.0" prefHeight="31.0" prefWidth="55.0" />
                                 <TextField fx:id="weightMinInput" layoutX="14.0" layoutY="109.0" prefHeight="31.0" prefWidth="55.0" />
-                                <TextField fx:id="vheightMaxInput" layoutX="83.0" layoutY="57.0" prefHeight="31.0" prefWidth="55.0" />
+                                <TextField fx:id="heightMaxInput" layoutX="83.0" layoutY="57.0" prefHeight="31.0" prefWidth="55.0" />
                                 <TextField fx:id="weightMaxInput" layoutX="83.0" layoutY="109.0" prefHeight="31.0" prefWidth="55.0" />
                                 <Text layoutX="69.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
                                 <Text layoutX="69.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
@@ -39,10 +39,11 @@
                                 <MenuButton fx:id="engineTypeMenuButton" layoutX="164.0" layoutY="57.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="106.0" text="Engine Type" />
                                 <MenuButton fx:id="countryMenuButton" layoutX="285.0" layoutY="57.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="106.0" text="Country" />
                                 <MenuButton fx:id="columnMenuButton" layoutX="399.0" layoutY="57.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="106.0" text="Columns" />
-                            </children></AnchorPane>
+                            </children>
+                        </AnchorPane>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="530.0" prefWidth="798.0">
                   <children>
-                     <TableView prefHeight="330.0" prefWidth="800.0">
+                     <TableView fx:id="vehiclesViewTable" prefHeight="330.0" prefWidth="800.0">
                      </TableView>
                   </children></AnchorPane>
                     </items>
