@@ -165,6 +165,9 @@ public class EmployeeController {
         parkingLocationInput.setText(Float.toString(selectedEmployee.getParking().getLocation().getLatitude()) +
                 ", " + Float.toString(selectedEmployee.getParking().getLocation().getLongitude()));
 
+        employeeDepartmentComboBox.getSelectionModel().select(selectedEmployee.getDepartment());
+        addressCountryComboBox.getSelectionModel().select(selectedEmployee.getAddress().getCountry());
+
     }
 
     private void setEmployeeInputFieldDisable(boolean disable) {
