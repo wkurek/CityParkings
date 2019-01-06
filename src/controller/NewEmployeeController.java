@@ -33,7 +33,6 @@ public class NewEmployeeController {
     private TextField salaryInput;
     @FXML
     private ComboBox<Department> departmentComboBox;
-
     @FXML
     private TextField cityInput;
     @FXML
@@ -42,9 +41,7 @@ public class NewEmployeeController {
     private TextField zipCodeInput;
     @FXML
     private TextField numberInput;
-
     private Task<Void> saveEmployeeTask;
-
     @FXML
     private ComboBox<Country> countryComboBox;
 

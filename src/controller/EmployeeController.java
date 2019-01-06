@@ -39,7 +39,6 @@ public class EmployeeController {
     public TextField addressStreetInput;
     public TextField addressNumberInput;
     public TextField addressCityInput;
-    public TextField addressCountryInput;
 
     @FXML
     private Button deleteEmployeeButton;
@@ -83,7 +82,6 @@ public class EmployeeController {
 
     @FXML
     private TableColumn<Employee, String> countryColumn;
-
 
     public EmployeeController(){
         employeeList = FXCollections.observableArrayList();
@@ -147,7 +145,6 @@ public class EmployeeController {
         saveEmployeeButton.setDisable(true);
         editEmployeeButton.setDisable(false);
         setEmployeeInputFieldDisable(true);
-
 
         employeeNameInput.setText(selectedEmployee.getName());
         employeeSurnameInput.setText(selectedEmployee.getSurname());

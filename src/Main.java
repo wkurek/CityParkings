@@ -61,19 +61,6 @@ public class Main extends Application {
 
     public static void main(String[] args) {
 
-
-/*
-        Park park = new Park();
-        Vehicle vehicle = VehicleDAO.getVehicle(20);
-        Parking parking = ParkingDAO.getParking(13);
-
-        park.setVehicle(vehicle);
-        park.setParking(parking);
-
-        ParkDAO.savePark(park);
-        ObservableList<Park> parks = ParkDAO.getParks();
-
-*/
         launch(args);
     }
 }
