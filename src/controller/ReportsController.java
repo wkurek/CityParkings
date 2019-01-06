@@ -24,7 +24,8 @@ public class ReportsController {
 
     public static void setColumns(TableView tableView, List<TableColumn> columns, MenuButton menuButton)
     {
-
+        if(tableView==null)
+            tableView = new TableView();
         tableView.getColumns().clear();
         if(((CheckMenuItem)menuButton.getItems().get(0)).isSelected())
         {
@@ -34,10 +35,11 @@ public class ReportsController {
             tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
             return;
         }
-        for(int i = 1; i<columns.size();i++)
+        for(int i = 1; i<menuButton.getItems().size();i++)
         {
-            if(((CheckMenuItem)menuButton.getItems().get(i)).isSelected())
+            if(((CheckMenuItem)menuButton.getItems().get(i)).isSelected()){
                 tableView.getColumns().add(columns.get(i-1));
+            }
         }
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         if(tableView.getColumns().size()==0)
@@ -46,7 +48,6 @@ public class ReportsController {
                 tableView.getColumns().add(columns.get(i));
             }
             tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-            return;
         }
     }
 

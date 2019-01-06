@@ -6,18 +6,17 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import model.parking.Parking;
 import model.views.ParkingsView;
 import model.views.ParkingsViewDAO;
 
-import java.sql.Array;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.sql.Date;
 import java.util.List;
 
 public class ParkingsTabController {
-    private static final List<String> COMMON_NAMES = new ArrayList<>(Arrays.asList(
+    private static final List<String> COLUMN_NAMES = new ArrayList<>(Arrays.asList(
             "ID",
             "Standard Lots",
             "Disabled Lots",
@@ -27,28 +26,13 @@ public class ParkingsTabController {
             "Last control",
             "Max weight",
             "Max height",
-            "Location ID"
-            /*"Park type",
+            "Location ID",
+            "Park type",
             "In paid zone",
-            "Estate name",
+            "Communication node",
+            "Is automatic",
             "Has gates",
             "Max stop time(min)",
-            "Communication node",
-            "Is automatic"*/
-    ));
-    private static final List<String> CITY_PARKINGS_COLUMN_NAMES = new ArrayList<>(Arrays.asList(
-            "Park type",
-            "In paid zone"
-    ));
-    private static final List<String> PARK_RIDES_COLUMN_NAMES = new ArrayList<>(Arrays.asList(
-            "Communication node",
-            "Is automatic"
-    ));
-    private static final List<String> KISS_RIDES_COLUMN_NAMES = new ArrayList<>(Arrays.asList(
-            "Has gates",
-            "Max stop time(min)"
-    ));
-    private static final List<String> ESTATE_PARKINGS_COLUMN_NAMES = new ArrayList<>(Arrays.asList(
             "Estate name"
     ));
     private static final List<String> PARKING_TYPES = new ArrayList<>(Arrays.asList(
@@ -57,11 +41,13 @@ public class ParkingsTabController {
             "Kiss & Ride Parkings",
             "Estate Parkings"
     ));
-    private static final List<List<String>> COLUMNS_SET = new ArrayList<>(Arrays.asList(COMMON_NAMES,                   //0
-                                                                                        CITY_PARKINGS_COLUMN_NAMES,     //1
-                                                                                        PARK_RIDES_COLUMN_NAMES,        //2
-                                                                                        KISS_RIDES_COLUMN_NAMES,        //3
-                                                                                        ESTATE_PARKINGS_COLUMN_NAMES)); //4
+    private static final List<String> PARKING_TYPES_TABLE_NAMES = new ArrayList<>(Arrays.asList(
+            "city_parkings",
+            "park_rides",
+            "kiss_rides",
+            "estate_parkings"
+    ));
+
     @FXML
     public TableView parkingsViewTable;
     private Stage stage;
@@ -92,7 +78,7 @@ public class ParkingsTabController {
     private List<CheckMenuItem> parkingTypeItems;
 
     private ObservableList<ParkingsView> parkingsViewsList;
-    private Task<ObservableList<ParkingsView>> parkingsViewLoadTask;
+    //private Task<ObservableList<ParkingsView>> parkingsViewLoadTask;
 
     private List<TableColumn> columns;
 
@@ -103,157 +89,143 @@ public class ParkingsTabController {
         parkingTypeItems = new ArrayList<>();
         parkingsViewsList = FXCollections.observableArrayList();
 
-        parkingsViewLoadTask = generateParkingsViewsLoadTask();
+       // parkingsViewLoadTask = generateParkingsViewsLoadTask();
+        parkingsViewTable = new TableView();
     }
     @FXML
     private void initialize()
     {
         menuButtonsSet();
-        changeColumnsMenuButton();
         generateTableColumns();
-        ReportsController.setColumns(parkingsViewTable, columns, columnMenuButton);
-        parkingsViewTable.setItems(parkingsViewsList);
-        scheduleLoadTask(parkingsViewLoadTask);
+        setUpTable();
     }
-    private void changeColumnsMenuButton()
-    {
-        columnItems.clear();
-        columnItems.add(new CheckMenuItem("Select All"));
-        if(((CheckMenuItem)parkingTypeMenuButton.getItems().get(0)).isSelected())
-        {
-            for(List<String> l : COLUMNS_SET) {
-                for(String s : l)
-                  columnItems.add(new CheckMenuItem(s));
-            }
-            columnMenuButton.getItems().setAll(columnItems);
-            return;
-        }
-        for(String s : COLUMNS_SET.get(0))
-        columnItems.add(new CheckMenuItem(s));
-        for(int i = 1; i<COLUMNS_SET.size();i++)
-        {
-            if(((CheckMenuItem)parkingTypeMenuButton.getItems().get(i)).isSelected())
-            {
-                for(String s : COLUMNS_SET.get(i))
-                    columnItems.add(new CheckMenuItem(s));
-            }
-        }
-        if(columnItems.size()==11)
-        {
-            for(int i = 1; i<COLUMNS_SET.size();i++)
-            {
-                for(String s : COLUMNS_SET.get(i))
-                        columnItems.add(new CheckMenuItem(s));
-            }
-        }
-        columnMenuButton.getItems().setAll(columnItems);
-    }
+
     private void menuButtonsSet() {
         parkingTypeItems.add(new CheckMenuItem("Select All"));
         for(String i : PARKING_TYPES) {
             parkingTypeItems.add(new CheckMenuItem(i));
         }
         parkingTypeMenuButton.getItems().setAll(parkingTypeItems);
+        columnItems.add(new CheckMenuItem("Select All"));
+        for(String i : COLUMN_NAMES) {
+            columnItems.add(new CheckMenuItem(i));
+        }
+        columnMenuButton.getItems().setAll(columnItems);
     }
     private void generateTableColumns()
     {
         columns = new ArrayList<>();
-        TableColumn<ParkingsView, Integer> ID = new TableColumn<>("ID");
+        TableColumn<ParkingsView, Integer> ID = new TableColumn<>(COLUMN_NAMES.get(0));
         ID.setCellValueFactory(param->param.getValue().idProperty().asObject());
         columns.add(ID);
-        TableColumn<ParkingsView, Integer> standardLots = new TableColumn<>("Standard Lots");
+        TableColumn<ParkingsView, Integer> standardLots = new TableColumn<>(COLUMN_NAMES.get(1));
         standardLots.setCellValueFactory(param->param.getValue().standardLotsProperty().asObject());
         columns.add(standardLots);
-        TableColumn<ParkingsView, Integer> disabledLots = new TableColumn<>("Lots for disabled");
+        TableColumn<ParkingsView, Integer> disabledLots = new TableColumn<>(COLUMN_NAMES.get(2));
         disabledLots.setCellValueFactory(param->param.getValue().disabledLotsProperty().asObject());
         columns.add(disabledLots);
-        TableColumn<ParkingsView, Integer> occupiedLots = new TableColumn<>("Occupied Lots");
+        TableColumn<ParkingsView, Integer> occupiedLots = new TableColumn<>(COLUMN_NAMES.get(3));
         occupiedLots.setCellValueFactory(param->param.getValue().occupiedLotsProperty().asObject());
         columns.add(occupiedLots);
-        TableColumn<ParkingsView, String> roofed = new TableColumn<>("Is roofed");
+        TableColumn<ParkingsView, String> roofed = new TableColumn<>(COLUMN_NAMES.get(4));
         roofed.setCellValueFactory(param->param.getValue().roofedProperty().asString());
         columns.add(roofed);
-        TableColumn<ParkingsView, String> guarded = new TableColumn<>("Is guarded");
+        TableColumn<ParkingsView, String> guarded = new TableColumn<>(COLUMN_NAMES.get(5));
         guarded.setCellValueFactory(param->param.getValue().guardedProperty().asString());
         columns.add(guarded);
-        TableColumn<ParkingsView, Date> lastControl = new TableColumn<>("Last Control");
+        TableColumn<ParkingsView, Date> lastControl = new TableColumn<>(COLUMN_NAMES.get(6));
         lastControl.setCellValueFactory(param -> param.getValue().lastControlProperty());
         columns.add(lastControl);
-        TableColumn<ParkingsView, Float> maxWeight = new TableColumn<>("Max vehicle weight");
+        TableColumn<ParkingsView, Float> maxWeight = new TableColumn<>(COLUMN_NAMES.get(7));
         maxWeight.setCellValueFactory(param->param.getValue().maxWeightProperty().asObject());
         columns.add(maxWeight);
-        TableColumn<ParkingsView, Float> maxHeight = new TableColumn<>("Max vehicle height");
+        TableColumn<ParkingsView, Float> maxHeight = new TableColumn<>(COLUMN_NAMES.get(8));
         maxHeight.setCellValueFactory(param->param.getValue().maxHeightProperty().asObject());
         columns.add(maxHeight);
-        TableColumn<ParkingsView, Integer> locationID = new TableColumn<>("Location ID");
+        TableColumn<ParkingsView, Integer> locationID = new TableColumn<>(COLUMN_NAMES.get(9));
         locationID.setCellValueFactory(param->param.getValue().locationIDProperty().asObject());
         columns.add(locationID);
-        TableColumn<ParkingsView, String> parkType = new TableColumn<>("Park type");
+        TableColumn<ParkingsView, String> parkType = new TableColumn<>(COLUMN_NAMES.get(10));
         parkType.setCellValueFactory(param->param.getValue().parkTypeProperty());
         columns.add(parkType);
-        TableColumn<ParkingsView, String> inPaidZone = new TableColumn<>("Is in paid zone");
+        TableColumn<ParkingsView, String> inPaidZone = new TableColumn<>(COLUMN_NAMES.get(11));
         inPaidZone.setCellValueFactory(param->param.getValue().zonePaidProperty().asString());
         columns.add(inPaidZone);
-        TableColumn<ParkingsView, String> estateName = new TableColumn<>("Estate");
-        estateName.setCellValueFactory(param->param.getValue().estateNameProperty());
-        columns.add(estateName);
-        TableColumn<ParkingsView, String> hasGates = new TableColumn<>("Has gates");
-        hasGates.setCellValueFactory(param->param.getValue().gatedProperty().asString());
-        columns.add(hasGates);
-        TableColumn<ParkingsView, Integer> maxStop = new TableColumn<>("Max stop time");
-        maxStop.setCellValueFactory(param->param.getValue().maxStopMinutesProperty().asObject());
-        columns.add(maxStop);
-        TableColumn<ParkingsView, String> comNode = new TableColumn<>("Communication Node");
+        TableColumn<ParkingsView, String> comNode = new TableColumn<>(COLUMN_NAMES.get(12));
         comNode.setCellValueFactory(param->param.getValue().communicationNodeProperty());
         columns.add(comNode);
-        TableColumn<ParkingsView, String> isAutomatic = new TableColumn<>("Is automatic");
+        TableColumn<ParkingsView, String> isAutomatic = new TableColumn<>(COLUMN_NAMES.get(13));
         isAutomatic.setCellValueFactory(param->param.getValue().automaticProperty().asString());
         columns.add(isAutomatic);
+        TableColumn<ParkingsView, String> hasGates = new TableColumn<>(COLUMN_NAMES.get(14));
+        hasGates.setCellValueFactory(param->param.getValue().gatedProperty().asString());
+        columns.add(hasGates);
+        TableColumn<ParkingsView, Integer> maxStop = new TableColumn<>(COLUMN_NAMES.get(15));
+        maxStop.setCellValueFactory(param->param.getValue().maxStopMinutesProperty().asObject());
+        columns.add(maxStop);
+        TableColumn<ParkingsView, String> estateName = new TableColumn<>(COLUMN_NAMES.get(16));
+        estateName.setCellValueFactory(param->param.getValue().estateNameProperty());
+        columns.add(estateName);
     }
 
 
     @FXML
     public void onParkingsFilterClicked() {
-        changeColumnsMenuButton();
+        setUpTable();
+    }
+
+//    private Task<ObservableList<ParkingsView>> generateParkingsViewsLoadTask() {
+//        Task<ObservableList<ParkingsView>> task = new Task<>() {
+//            @Override
+//            protected ObservableList<ParkingsView> call() {
+//                return ParkingsViewDAO.getParkingsViews(heightMinInput.getText(), heightMaxInput.getText(), weightMinInput.getText(), weightMaxInput.getText(),
+//                                                        lotsMinInput.getText(), lotsMaxInput.getText(),
+//                                                        RootController.selectedMenuItemsToStringList(parkingTypeMenuButton.getItems()),
+//                                                        roofedCheckBox.isSelected(), guardedCheckBox.isSelected(), freeLotsCheckBox.isSelected());
+//            }
+//        };
+//
+//        task.setOnSucceeded(event -> {
+//            parkingsViewsList.clear();
+//            parkingsViewsList.addAll(task.getValue());
+//        });
+//
+//        task.setOnFailed(event -> {
+//            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            alert.initOwner(stage);
+//            alert.setTitle("SQL Error");
+//            alert.setHeaderText(event.getSource().getException().getMessage());
+//            alert.show();
+//        });
+//
+//        return task;
+//    }
+//
+//    private void scheduleLoadTask(Task task) {
+//        if(task != null && task.isRunning()) task.cancel();
+//
+//        new Thread(task).start();
+//    }
+    private void setUpTable()
+    {
         ReportsController.setColumns(parkingsViewTable, columns, columnMenuButton);
-        parkingsViewsList=ParkingsViewDAO.getParkingsViews(heightMinInput.getText(), heightMaxInput.getText(), weightMinInput.getText(), weightMaxInput.getText(),
+        parkingsViewsList = ParkingsViewDAO.getParkingsViews(heightMinInput.getText(), heightMaxInput.getText(), weightMinInput.getText(), weightMaxInput.getText(),
                 lotsMinInput.getText(), lotsMaxInput.getText(),
-                RootController.selectedMenuItemsToStringList(parkingTypeMenuButton.getItems()),
+                parkTypesMenuButtonToParkTypesColumnNames(),
                 roofedCheckBox.isSelected(), guardedCheckBox.isSelected(), freeLotsCheckBox.isSelected());
         parkingsViewTable.setItems(parkingsViewsList);
     }
-
-    private Task<ObservableList<ParkingsView>> generateParkingsViewsLoadTask() {
-        Task<ObservableList<ParkingsView>> task = new Task<>() {
-            @Override
-            protected ObservableList<ParkingsView> call() {
-                return ParkingsViewDAO.getParkingsViews(heightMinInput.getText(), heightMaxInput.getText(), weightMinInput.getText(), weightMaxInput.getText(),
-                                                        lotsMinInput.getText(), lotsMaxInput.getText(),
-                                                        RootController.selectedMenuItemsToStringList(parkingTypeMenuButton.getItems()),
-                                                        roofedCheckBox.isSelected(), guardedCheckBox.isSelected(), freeLotsCheckBox.isSelected());
-            }
-        };
-
-        task.setOnSucceeded(event -> {
-            parkingsViewsList.clear();
-            parkingsViewsList.addAll(task.getValue());
-        });
-
-        task.setOnFailed(event -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.initOwner(stage);
-            alert.setTitle("SQL Error");
-            alert.setHeaderText(event.getSource().getException().getMessage());
-            alert.show();
-        });
-
-        return task;
-    }
-
-    private void scheduleLoadTask(Task task) {
-        if(task != null && task.isRunning()) task.cancel();
-
-        new Thread(task).start();
+    private List<String> parkTypesMenuButtonToParkTypesColumnNames()
+    {
+        List<String> parkTypes = new ArrayList<>();
+        if(((CheckMenuItem)parkingTypeMenuButton.getItems().get(0)).isSelected())
+            return parkTypes;
+        for(int i = 1; i<parkingTypeMenuButton.getItems().size();i++)
+        {
+            if(((CheckMenuItem)parkingTypeMenuButton.getItems().get(i)).isSelected())
+                parkTypes.add(PARKING_TYPES_TABLE_NAMES.get(i-1));
+        }
+        return parkTypes;
     }
     public void setStage(Stage stage) {
         this.stage = stage;

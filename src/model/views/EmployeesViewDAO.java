@@ -54,14 +54,14 @@ public class EmployeesViewDAO {
         if(salaryMax!=null && Validator.isWeightValid(salaryMax)){
             sql+="and "+EmployeesViewContract.COLUMN_NAME_SALARY+"<="+salaryMax+" ";
         }
-        if(countries.size()!=0&&countries.get(0)!="Select All") {
+        if(countries.size()!=0&&!countries.get(0).equals("Select All")) {
             sql+="and(";
             for(String s : countries) {
                 sql+=EmployeesViewContract.COLUMN_NAME_COUNTRY+" = '"+s+"' or ";
             }
             sql+="1=0) ";
         }
-        if(departments.size()!=0&&departments.get(0)!="Select All") {
+        if(departments.size()!=0&&!departments.get(0).equals("Select All")) {
             sql+="and(";
             for(String s : departments) {
                 sql+=EmployeesViewContract.COLUMN_NAME_DEPARTMENT_NAME+" = '"+s+"' or ";

@@ -1,11 +1,10 @@
 package controller;
 
 
-import javafx.event.EventHandler;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -34,9 +33,9 @@ public class EmployeesTabController {
             "ZIP Code",
             "Street",
             "Number",
-            "Department Name",
+            "Department",
             "Parking ID",
-            "Parking's last control"));
+            "Parking's Last Control Date"));
     @FXML
     public MenuButton countryMenuButton;
     @FXML
@@ -57,7 +56,7 @@ public class EmployeesTabController {
     private Stage stage;
 
     private ObservableList<EmployeesView> employeesViewList;
-    private Task<ObservableList<EmployeesView>> employeesViewLoadTask;
+  //  private Task<ObservableList<EmployeesView>> employeesViewLoadTask;
 
     public EmployeesTabController()
     {
@@ -67,7 +66,7 @@ public class EmployeesTabController {
         columnItems = new ArrayList<>();
         employeesViewList = FXCollections.observableArrayList();
 
-        employeesViewLoadTask = generateEmployeesViewsLoadTask();
+       // employeesViewLoadTask = generateEmployeesViewsLoadTask();
     }
 
     @FXML
@@ -76,9 +75,7 @@ public class EmployeesTabController {
           menuButtonsSet();
           autoShowOff();
           generateTableColumns();
-          ReportsController.setColumns(employeesViewTable, columns, columnMenuButton);
-          employeesViewTable.setItems(employeesViewList);
-          scheduleLoadTask(employeesViewLoadTask);
+          setUpTable();
     }
 
     private void menuButtonsSet() {
@@ -113,72 +110,72 @@ public class EmployeesTabController {
             departmentMenuButton.getItems().get(i).setOnAction(e -> e.consume());
     }
 
-    private Task<ObservableList<EmployeesView>> generateEmployeesViewsLoadTask() {
-        Task<ObservableList<EmployeesView>> task = new Task<>() {
-            @Override
-            protected ObservableList<EmployeesView> call() {
-                return EmployeesViewDAO.getEmployeesViews(salaryMinInput.getText(), salaryMaxInput.getText(),
-                                                        RootController.selectedMenuItemsToStringList(countryMenuButton.getItems()),
-                                                        RootController.selectedMenuItemsToStringList(departmentMenuButton.getItems()));
-            }
-        };
-
-        task.setOnSucceeded(event -> {
-            employeesViewList.clear();
-            employeesViewList.addAll(task.getValue());
-        });
-
-        task.setOnFailed(event -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.initOwner(stage);
-            alert.setTitle("SQL Error");
-            alert.setHeaderText(event.getSource().getException().getMessage());
-            alert.show();
-        });
-
-        return task;
-    }
-    private void scheduleLoadTask(Task task) {
-        if(task != null && task.isRunning()) task.cancel();
-
-        new Thread(task).start();
-    }
+//    private Task<ObservableList<EmployeesView>> generateEmployeesViewsLoadTask() {
+//        Task<ObservableList<EmployeesView>> task = new Task<>() {
+//            @Override
+//            protected ObservableList<EmployeesView> call() {
+//                return EmployeesViewDAO.getEmployeesViews(salaryMinInput.getText(), salaryMaxInput.getText(),
+//                                                        RootController.selectedMenuItemsToStringList(countryMenuButton.getItems()),
+//                                                        RootController.selectedMenuItemsToStringList(departmentMenuButton.getItems()));
+//            }
+//        };
+//
+//        task.setOnSucceeded(event -> {
+//            employeesViewList.clear();
+//            employeesViewList.addAll(task.getValue());
+//        });
+//
+//        task.setOnFailed(event -> {
+//            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            alert.initOwner(stage);
+//            alert.setTitle("SQL Error");
+//            alert.setHeaderText(event.getSource().getException().getMessage());
+//            alert.show();
+//        });
+//
+//        return task;
+//    }
+//    private void scheduleLoadTask(Task task) {
+//        if(task != null && task.isRunning()) task.cancel();
+//
+//        new Thread(task).start();
+//    }
     private void generateTableColumns()
     {
-        TableColumn<EmployeesView, Integer> ID = new TableColumn<>("ID");
+        TableColumn<EmployeesView, Integer> ID = new TableColumn<>(COLUMN_NAMES.get(0));
         ID.setCellValueFactory(param->param.getValue().idProperty().asObject());
         columns.add(ID);
-        TableColumn<EmployeesView, String> name= new TableColumn<>("Name");
+        TableColumn<EmployeesView, String> name= new TableColumn<>(COLUMN_NAMES.get(1));
         name.setCellValueFactory(param->param.getValue().nameProperty());
         columns.add(name);
-        TableColumn<EmployeesView, String> surname = new TableColumn<>("Surname");
+        TableColumn<EmployeesView, String> surname = new TableColumn<>(COLUMN_NAMES.get(2));
         surname.setCellValueFactory(param->param.getValue().surnameProperty());
         columns.add(surname);
-        TableColumn<EmployeesView, Float> salary = new TableColumn<>("Salary");
+        TableColumn<EmployeesView, Float> salary = new TableColumn<>(COLUMN_NAMES.get(3));
         salary.setCellValueFactory(param->param.getValue().salaryProperty().asObject());
         columns.add(salary);
-        TableColumn<EmployeesView, String> country = new TableColumn<>("Country");
+        TableColumn<EmployeesView, String> country = new TableColumn<>(COLUMN_NAMES.get(4));
         country.setCellValueFactory(param->param.getValue().countryProperty());
         columns.add(country);
-        TableColumn<EmployeesView, String> city = new TableColumn<>("City");
+        TableColumn<EmployeesView, String> city = new TableColumn<>(COLUMN_NAMES.get(5));
         city.setCellValueFactory(param->param.getValue().cityProperty());
         columns.add(city);
-        TableColumn<EmployeesView, String> ZIPcode = new TableColumn<>("ZIP Code");
+        TableColumn<EmployeesView, String> ZIPcode = new TableColumn<>(COLUMN_NAMES.get(6));
         ZIPcode.setCellValueFactory(param->param.getValue().zip_codeProperty());
         columns.add(ZIPcode);
-        TableColumn<EmployeesView, String> street = new TableColumn<>("Street");
+        TableColumn<EmployeesView, String> street = new TableColumn<>(COLUMN_NAMES.get(7));
         street.setCellValueFactory(param->param.getValue().streetProperty());
         columns.add(street);
-        TableColumn<EmployeesView, String> number = new TableColumn<>("Number");
+        TableColumn<EmployeesView, String> number = new TableColumn<>(COLUMN_NAMES.get(8));
         number.setCellValueFactory(param->param.getValue().numberProperty());
         columns.add(number);
-        TableColumn<EmployeesView, String> department = new TableColumn<>("Department");
+        TableColumn<EmployeesView, String> department = new TableColumn<>(COLUMN_NAMES.get(9));
         department.setCellValueFactory(param->param.getValue().getDepartment().departmentNameProperty());
         columns.add(department);
-        TableColumn<EmployeesView, Integer> parkingID= new TableColumn<>("Parking ID");
+        TableColumn<EmployeesView, Integer> parkingID= new TableColumn<>(COLUMN_NAMES.get(10));
         parkingID.setCellValueFactory(param->param.getValue().parkingIDProperty().asObject());
         columns.add(parkingID);
-        TableColumn<EmployeesView, Date> lastControl = new TableColumn<>("Last Control Date");
+        TableColumn<EmployeesView, Date> lastControl = new TableColumn<>(COLUMN_NAMES.get(11));
         lastControl.setCellValueFactory(param->param.getValue().lastControlProperty());
         columns.add(lastControl);
     }
@@ -187,10 +184,14 @@ public class EmployeesTabController {
 
     @FXML
     public void onFilterButtonClicked() {
+        setUpTable();
+    }
+    private void setUpTable()
+    {
         ReportsController.setColumns(employeesViewTable, columns, columnMenuButton);
-        employeesViewList=EmployeesViewDAO.getEmployeesViews(salaryMinInput.getText(), salaryMaxInput.getText(),
-                  RootController.selectedMenuItemsToStringList(countryMenuButton.getItems()),
-                  RootController.selectedMenuItemsToStringList(departmentMenuButton.getItems()));
+        employeesViewList = EmployeesViewDAO.getEmployeesViews(salaryMinInput.getText(), salaryMaxInput.getText(),
+                RootController.selectedMenuItemsToStringList(countryMenuButton.getItems()),
+                RootController.selectedMenuItemsToStringList(departmentMenuButton.getItems()));
         employeesViewTable.setItems(employeesViewList);
     }
 }

@@ -58,7 +58,33 @@ public class ParkingsViewDAO {
                                                    String weightMaxInput, String lotsMinInput, String lotsMaxInput, List<String> parkingType,
                                                    boolean isRoofed, boolean isGuarded, boolean hasFreeLots)
     {
-        String sql = generateSelectQuery();
+        String sql;
+        if(parkingType.size()!=0)
+        {
+            if(parkingType.size()==1)
+            {
+                sql="SELECT "+ParkingsViewContract.TABLE_NAME+".* FROM "+ParkingsViewContract.TABLE_NAME+
+                        "INNER JOIN "+parkingType.get(0)+" ON "+ParkingsViewContract.TABLE_NAME+"."+
+                        ParkingsViewContract.COLUMN_NAME_ID+"="+parkingType+"."+ParkingsViewContract.COLUMN_NAME_ID;
+            }
+            else {
+                sql = "SELECT " + ParkingsViewContract.TABLE_NAME + ".* FROM " + parkingType.get(0);
+                for (int i = 1; i < parkingType.size(); i++) {
+                    sql += " full join "+parkingType.get(i) + " on " + parkingType.get(0) + "." + ParkingsViewContract.COLUMN_NAME_ID +
+                            "=" + parkingType.get(i) + "." + ParkingsViewContract.COLUMN_NAME_ID;
+                }
+                sql+=" inner join "+ParkingsViewContract.TABLE_NAME+" on ";
+                for(String s : parkingType)
+                {
+                    sql+=s+"."+ParkingsViewContract.COLUMN_NAME_ID+"="+ParkingsViewContract.TABLE_NAME+"."+ParkingsViewContract.COLUMN_NAME_ID+" or ";
+                }
+                sql+="1=0";
+            }
+        }
+        else
+        {
+            sql = generateSelectQuery();
+        }
         sql+=" WHERE 1=1 ";
         if(heightMinInput!=null && Validator.isHeightValid(heightMinInput)){
             sql+="and "+ParkingsViewContract.COLUMN_NAME_MAX_HEIGHT+">="+heightMinInput+" ";
@@ -106,7 +132,7 @@ public class ParkingsViewDAO {
 
     private static String generateSelectQuery()
     {
-        return "SELECT * FROM " + ParkingsViewDAO.ParkingsViewContract.TABLE_NAME;
+        return "SELECT "+ParkingsViewContract.TABLE_NAME+".* FROM " + ParkingsViewDAO.ParkingsViewContract.TABLE_NAME+" ";
     }
     public static ParkingsView generateParkingsView(CachedRowSet resultSet) throws SQLException {
         ParkingsView parkingsView = new ParkingsView();
