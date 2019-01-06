@@ -10,13 +10,14 @@ import model.parking.Parking;
 import model.views.ParkingsView;
 import model.views.ParkingsViewDAO;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.sql.Date;
 import java.util.List;
 
 public class ParkingsTabController {
-    private static final List<String> COLUMN_NAMES = new ArrayList<>(Arrays.asList(
+    private static final List<String> COMMON_NAMES = new ArrayList<>(Arrays.asList(
             "ID",
             "Standard Lots",
             "Disabled Lots",
@@ -26,22 +27,41 @@ public class ParkingsTabController {
             "Last control",
             "Max weight",
             "Max height",
-            "Location ID",
-            "Park type",
+            "Location ID"
+            /*"Park type",
             "In paid zone",
             "Estate name",
             "Has gates",
             "Max stop time(min)",
             "Communication node",
+            "Is automatic"*/
+    ));
+    private static final List<String> CITY_PARKINGS_COLUMN_NAMES = new ArrayList<>(Arrays.asList(
+            "Park type",
+            "In paid zone"
+    ));
+    private static final List<String> PARK_RIDES_COLUMN_NAMES = new ArrayList<>(Arrays.asList(
+            "Communication node",
             "Is automatic"
+    ));
+    private static final List<String> KISS_RIDES_COLUMN_NAMES = new ArrayList<>(Arrays.asList(
+            "Has gates",
+            "Max stop time(min)"
+    ));
+    private static final List<String> ESTATE_PARKINGS_COLUMN_NAMES = new ArrayList<>(Arrays.asList(
+            "Estate name"
     ));
     private static final List<String> PARKING_TYPES = new ArrayList<>(Arrays.asList(
             "City Parkings",
-            "Kiss & Ride Parkings",
             "Park & Ride Parkings",
-            "Estate Parkings",
-            "Undefined"
+            "Kiss & Ride Parkings",
+            "Estate Parkings"
     ));
+    private static final List<List<String>> COLUMNS_SET = new ArrayList<>(Arrays.asList(COMMON_NAMES,                   //0
+                                                                                        CITY_PARKINGS_COLUMN_NAMES,     //1
+                                                                                        PARK_RIDES_COLUMN_NAMES,        //2
+                                                                                        KISS_RIDES_COLUMN_NAMES,        //3
+                                                                                        ESTATE_PARKINGS_COLUMN_NAMES)); //4
     @FXML
     public TableView parkingsViewTable;
     private Stage stage;
@@ -89,18 +109,46 @@ public class ParkingsTabController {
     private void initialize()
     {
         menuButtonsSet();
+        changeColumnsMenuButton();
         generateTableColumns();
         ReportsController.setColumns(parkingsViewTable, columns, columnMenuButton);
         parkingsViewTable.setItems(parkingsViewsList);
         scheduleLoadTask(parkingsViewLoadTask);
     }
-    private void menuButtonsSet() {
+    private void changeColumnsMenuButton()
+    {
+        columnItems.clear();
         columnItems.add(new CheckMenuItem("Select All"));
-        for(String i : COLUMN_NAMES) {
-            columnItems.add(new CheckMenuItem(i));
+        if(((CheckMenuItem)parkingTypeMenuButton.getItems().get(0)).isSelected())
+        {
+            for(List<String> l : COLUMNS_SET) {
+                for(String s : l)
+                  columnItems.add(new CheckMenuItem(s));
+            }
+            columnMenuButton.getItems().setAll(columnItems);
+            return;
+        }
+        for(String s : COLUMNS_SET.get(0))
+        columnItems.add(new CheckMenuItem(s));
+        for(int i = 1; i<COLUMNS_SET.size();i++)
+        {
+            if(((CheckMenuItem)parkingTypeMenuButton.getItems().get(i)).isSelected())
+            {
+                for(String s : COLUMNS_SET.get(i))
+                    columnItems.add(new CheckMenuItem(s));
+            }
+        }
+        if(columnItems.size()==11)
+        {
+            for(int i = 1; i<COLUMNS_SET.size();i++)
+            {
+                for(String s : COLUMNS_SET.get(i))
+                        columnItems.add(new CheckMenuItem(s));
+            }
         }
         columnMenuButton.getItems().setAll(columnItems);
-
+    }
+    private void menuButtonsSet() {
         parkingTypeItems.add(new CheckMenuItem("Select All"));
         for(String i : PARKING_TYPES) {
             parkingTypeItems.add(new CheckMenuItem(i));
@@ -113,9 +161,9 @@ public class ParkingsTabController {
         TableColumn<ParkingsView, Integer> ID = new TableColumn<>("ID");
         ID.setCellValueFactory(param->param.getValue().idProperty().asObject());
         columns.add(ID);
-        TableColumn<ParkingsView, Integer> stadardLots = new TableColumn<>("Standard Lots");
-        stadardLots.setCellValueFactory(param->param.getValue().standardLotsProperty().asObject());
-        columns.add(stadardLots);
+        TableColumn<ParkingsView, Integer> standardLots = new TableColumn<>("Standard Lots");
+        standardLots.setCellValueFactory(param->param.getValue().standardLotsProperty().asObject());
+        columns.add(standardLots);
         TableColumn<ParkingsView, Integer> disabledLots = new TableColumn<>("Lots for disabled");
         disabledLots.setCellValueFactory(param->param.getValue().disabledLotsProperty().asObject());
         columns.add(disabledLots);
@@ -166,6 +214,7 @@ public class ParkingsTabController {
 
     @FXML
     public void onParkingsFilterClicked() {
+        changeColumnsMenuButton();
         ReportsController.setColumns(parkingsViewTable, columns, columnMenuButton);
         parkingsViewsList=ParkingsViewDAO.getParkingsViews(heightMinInput.getText(), heightMaxInput.getText(), weightMinInput.getText(), weightMaxInput.getText(),
                 lotsMinInput.getText(), lotsMaxInput.getText(),
