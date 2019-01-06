@@ -32,14 +32,14 @@
                             <TextField fx:id="vehiclesMaxInput" layoutX="205.0" layoutY="62.0" prefHeight="31.0" prefWidth="39.0" />
                             <TextField fx:id="vehiclesMinInput" layoutX="147.0" layoutY="62.0" prefHeight="31.0" prefWidth="39.0" />
                             <Text layoutX="191.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
-                            <Button fx:id="usersFilterButton" layoutX="713.0" layoutY="62.0" mnemonicParsing="false" onAction="#onUsersFilterClicked" text="Filter" />
+                            <Button  layoutX="713.0" layoutY="62.0" mnemonicParsing="false" onAction="#onUsersFilterClicked" text="Filter" />
                             <Text layoutX="539.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Columns:" />
                      <MenuButton fx:id="countryMenuButton" layoutX="17.0" layoutY="64.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="104.0" text="Country" />
                      <MenuButton fx:id="columnMenuButton" layoutX="539.0" layoutY="62.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="104.0" text="Columns" />
                         </children></AnchorPane>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="550.0" prefWidth="798.0">
                   <children>
-                     <TableView prefHeight="330.0" prefWidth="800.0">
+                     <TableView fx:id="usersViewTable" prefHeight="330.0" prefWidth="800.0">
                      </TableView>
                   </children></AnchorPane>
                 </items>

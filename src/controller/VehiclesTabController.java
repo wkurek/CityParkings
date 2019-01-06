@@ -8,7 +8,6 @@ import model.country.Country;
 import model.country.CountryDAO;
 import model.engine.Engine;
 import model.engine.EngineDAO;
-import model.views.ParkingsView;
 import model.views.VehiclesView;
 import model.views.VehiclesViewDAO;
 
@@ -68,7 +67,6 @@ public class VehiclesTabController {
         columns = new ArrayList<>();
 
         vehiclesViewsList = FXCollections.observableArrayList();
-        vehiclesViewTable = new TableView<>();
     }
     @FXML
     private void initialize()

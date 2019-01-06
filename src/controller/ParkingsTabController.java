@@ -2,7 +2,6 @@ package controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -88,9 +87,6 @@ public class ParkingsTabController {
         columnItems = new ArrayList<>();
         parkingTypeItems = new ArrayList<>();
         parkingsViewsList = FXCollections.observableArrayList();
-
-       // parkingsViewLoadTask = generateParkingsViewsLoadTask();
-        parkingsViewTable = new TableView();
     }
     @FXML
     private void initialize()
@@ -180,38 +176,6 @@ public class ParkingsTabController {
         setUpTable();
     }
 
-//    private Task<ObservableList<ParkingsView>> generateParkingsViewsLoadTask() {
-//        Task<ObservableList<ParkingsView>> task = new Task<>() {
-//            @Override
-//            protected ObservableList<ParkingsView> call() {
-//                return ParkingsViewDAO.getParkingsViews(heightMinInput.getText(), heightMaxInput.getText(), weightMinInput.getText(), weightMaxInput.getText(),
-//                                                        lotsMinInput.getText(), lotsMaxInput.getText(),
-//                                                        RootController.selectedMenuItemsToStringList(parkingTypeMenuButton.getItems()),
-//                                                        roofedCheckBox.isSelected(), guardedCheckBox.isSelected(), freeLotsCheckBox.isSelected());
-//            }
-//        };
-//
-//        task.setOnSucceeded(event -> {
-//            parkingsViewsList.clear();
-//            parkingsViewsList.addAll(task.getValue());
-//        });
-//
-//        task.setOnFailed(event -> {
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.initOwner(stage);
-//            alert.setTitle("SQL Error");
-//            alert.setHeaderText(event.getSource().getException().getMessage());
-//            alert.show();
-//        });
-//
-//        return task;
-//    }
-//
-//    private void scheduleLoadTask(Task task) {
-//        if(task != null && task.isRunning()) task.cancel();
-//
-//        new Thread(task).start();
-//    }
     private void setUpTable()
     {
         ReportsController.setColumns(parkingsViewTable, columns, columnMenuButton);
@@ -235,22 +199,20 @@ public class ParkingsTabController {
     }
     private void setBooleanColumns(TableColumn<ParkingsView, String> columnName)
     {
-        columnName.setCellFactory(tc -> {
-            return new TableCell<>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setText(null);
+        columnName.setCellFactory(tc -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    if (item.equals("true")) {
+                        setText("Yes");
                     } else {
-                        if (item.equals("true")) {
-                            setText("Yes");
-                        } else {
-                            setText("No");
-                        }
+                        setText("No");
                     }
                 }
-            };
+            }
         });
     }
     private void setIntegerColumnsNullable(TableColumn<ParkingsView, Integer> columnName)
