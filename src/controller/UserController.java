@@ -384,7 +384,6 @@ public class UserController {
             editedUser.getAddress().getCountry().setName(selectedCountry.getName());
             editedUser.getAddress().getCountry().setIso(selectedCountry.getIso());
 
-
             AddressDAO.updateAddress(editedUser.getAddress().getId(), editedUser.getAddress());
             UserDAO.updateUser(editedUser.getId(), editedUser);
 
