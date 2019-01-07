@@ -172,22 +172,7 @@ public class EmployeesTabController {
         department.setCellValueFactory(param->param.getValue().getDepartment().departmentNameProperty());
         columns.add(department);
         TableColumn<EmployeesView, Integer> parkingID= new TableColumn<>(COLUMN_NAMES.get(10));
-        parkingID.setCellFactory(tc -> new TableCell<>() {
-            @Override
-            protected void updateItem(Integer item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setText(null);
-                } else {
-                    int value = item;
-                    if (value == 0) {
-                        setText("");
-                    } else {
-                        setText(Integer.toString(value));
-                    }
-                }
-            }
-        });
+        ReportsController.setIntegerColumnsNullable(parkingID);
         parkingID.setCellValueFactory(param->param.getValue().parkingIDProperty().asObject());
         columns.add(parkingID);
         TableColumn<EmployeesView, Date> lastControl = new TableColumn<>(COLUMN_NAMES.get(11));

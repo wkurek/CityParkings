@@ -7,8 +7,6 @@ import util.Validator;
 
 import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class VehiclesViewDAO {

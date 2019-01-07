@@ -124,11 +124,11 @@ public class ParkingsTabController {
         occupiedLots.setCellValueFactory(param->param.getValue().occupiedLotsProperty().asObject());
         columns.add(occupiedLots);
         TableColumn<ParkingsView, String> roofed = new TableColumn<>(COLUMN_NAMES.get(4));
-        setBooleanColumns(roofed);
+        ReportsController.setBooleanColumns(roofed);
         roofed.setCellValueFactory(param->param.getValue().roofedProperty().asString());
         columns.add(roofed);
         TableColumn<ParkingsView, String> guarded = new TableColumn<>(COLUMN_NAMES.get(5));
-        setBooleanColumns(guarded);
+        ReportsController.setBooleanColumns(guarded);
         guarded.setCellValueFactory(param->param.getValue().guardedProperty().asString());
         columns.add(guarded);
         TableColumn<ParkingsView, Date> lastControl = new TableColumn<>(COLUMN_NAMES.get(6));
@@ -147,22 +147,22 @@ public class ParkingsTabController {
         parkType.setCellValueFactory(param->param.getValue().parkTypeProperty());
         columns.add(parkType);
         TableColumn<ParkingsView, String> inPaidZone = new TableColumn<>(COLUMN_NAMES.get(11));
-        setBooleanColumns(inPaidZone);
+        ReportsController.setBooleanColumns(inPaidZone);
         inPaidZone.setCellValueFactory(param->param.getValue().zonePaidProperty().asString());
         columns.add(inPaidZone);
         TableColumn<ParkingsView, String> comNode = new TableColumn<>(COLUMN_NAMES.get(12));
         comNode.setCellValueFactory(param->param.getValue().communicationNodeProperty());
         columns.add(comNode);
         TableColumn<ParkingsView, String> isAutomatic = new TableColumn<>(COLUMN_NAMES.get(13));
-        setBooleanColumns(isAutomatic);
+        ReportsController.setBooleanColumns(isAutomatic);
         isAutomatic.setCellValueFactory(param->param.getValue().automaticProperty().asString());
         columns.add(isAutomatic);
         TableColumn<ParkingsView, String> hasGates = new TableColumn<>(COLUMN_NAMES.get(14));
-        setBooleanColumns(hasGates);
+        ReportsController.setBooleanColumns(hasGates);
         hasGates.setCellValueFactory(param->param.getValue().gatedProperty().asString());
         columns.add(hasGates);
         TableColumn<ParkingsView, Integer> maxStop = new TableColumn<>(COLUMN_NAMES.get(15));
-        setIntegerColumnsNullable(maxStop);
+        ReportsController.setIntegerColumnsNullable(maxStop);
         maxStop.setCellValueFactory(param->param.getValue().maxStopMinutesProperty().asObject());
         columns.add(maxStop);
         TableColumn<ParkingsView, String> estateName = new TableColumn<>(COLUMN_NAMES.get(16));
@@ -185,6 +185,7 @@ public class ParkingsTabController {
                 roofedCheckBox.isSelected(), guardedCheckBox.isSelected(), freeLotsCheckBox.isSelected());
         parkingsViewTable.setItems(parkingsViewsList);
     }
+
     private List<String> parkTypesMenuButtonToParkTypesColumnNames()
     {
         List<String> parkTypes = new ArrayList<>();
@@ -197,43 +198,8 @@ public class ParkingsTabController {
         }
         return parkTypes;
     }
-    private void setBooleanColumns(TableColumn<ParkingsView, String> columnName)
-    {
-        columnName.setCellFactory(tc -> new TableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setText(null);
-                } else {
-                    if (item.equals("true")) {
-                        setText("Yes");
-                    } else {
-                        setText("No");
-                    }
-                }
-            }
-        });
-    }
-    private void setIntegerColumnsNullable(TableColumn<ParkingsView, Integer> columnName)
-    {
-        columnName.setCellFactory(tc -> new TableCell<>() {
-            @Override
-            protected void updateItem(Integer item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setText(null);
-                } else {
-                    int value = item;
-                    if (value == 0) {
-                        setText("");
-                    } else {
-                        setText(Integer.toString(value));
-                    }
-                }
-            }
-        });
-    }
+
+
 
     public void setStage(Stage stage) {
         this.stage = stage;

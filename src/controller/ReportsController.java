@@ -22,8 +22,7 @@ public class ReportsController {
     {
     }
 
-
-    public static void setColumns(TableView tableView, List<TableColumn> columns, MenuButton menuButton)
+    static void setColumns(TableView tableView, List<TableColumn> columns, MenuButton menuButton)
     {
         if(tableView==null)
             tableView = new TableView();
@@ -52,7 +51,7 @@ public class ReportsController {
         }
     }
 
-    public static List<String> selectedMenuItemsToStringList(List<MenuItem> items)
+    static List<String> selectedMenuItemsToStringList(List<MenuItem> items)
     {
         List<String> result = new ArrayList<>();
         for(MenuItem m : items)
@@ -63,8 +62,43 @@ public class ReportsController {
         }
         return result;
     }
-
-    public void setStage(Stage stage)
+    static <T> void setIntegerColumnsNullable(TableColumn<T, Integer> columnName)
+    {
+        columnName.setCellFactory(tc -> new TableCell<>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    int value = item;
+                    if (value == 0) {
+                        setText("");
+                    } else {
+                        setText(Integer.toString(value));
+                    }
+                }
+            }
+        });
+    }
+    static <T> void setBooleanColumns(TableColumn<T, String> columnName) {
+        columnName.setCellFactory(tc -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    if (item.equals("true")) {
+                        setText("Yes");
+                    } else {
+                        setText("No");
+                    }
+                }
+            }
+        });
+    }
+    void setStage(Stage stage)
     {
         this.stage = stage;
     }

@@ -8,6 +8,7 @@ import model.country.Country;
 import model.country.CountryDAO;
 import model.engine.Engine;
 import model.engine.EngineDAO;
+import model.views.ParkingsView;
 import model.views.VehiclesView;
 import model.views.VehiclesViewDAO;
 
@@ -151,30 +152,12 @@ public class VehiclesTabController {
         number.setCellValueFactory(param->param.getValue().numberProperty());
         columns.add(number);
         TableColumn<VehiclesView, Integer> parkingID= new TableColumn<>(COLUMN_NAMES.get(13));
-        setIntegerColumnsNullable(parkingID);
+        ReportsController.setIntegerColumnsNullable(parkingID);
         parkingID.setCellValueFactory(param->param.getValue().parkingIDProperty());
         columns.add(parkingID);
         TableColumn<VehiclesView, Date> parkDateTime = new TableColumn<>(COLUMN_NAMES.get(14));
         parkDateTime.setCellValueFactory(param->param.getValue().parkDateTimeProperty());
         columns.add(parkDateTime);
     }
-    private void setIntegerColumnsNullable(TableColumn<VehiclesView, Integer> columnName)
-    {
-        columnName.setCellFactory(tc -> new TableCell<>() {
-            @Override
-            protected void updateItem(Integer item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setText(null);
-                } else {
-                    int value = item;
-                    if (value == 0) {
-                        setText("");
-                    } else {
-                        setText(Integer.toString(value));
-                    }
-                }
-            }
-        });
-    }
+
 }

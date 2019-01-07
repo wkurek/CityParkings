@@ -1,12 +1,9 @@
 package model.views;
 
 import javafx.beans.property.*;
-import model.address.Address;
 import model.department.Department;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 public class EmployeesView {
     private IntegerProperty id;
