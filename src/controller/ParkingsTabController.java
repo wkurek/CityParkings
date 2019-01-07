@@ -17,9 +17,9 @@ import java.util.List;
 public class ParkingsTabController {
     private static final List<String> COLUMN_NAMES = new ArrayList<>(Arrays.asList(
             "ID",
-            "Standard Lots",
-            "Disabled Lots",
-            "Occupied Lots",
+            "Standard Slots",
+            "Disabled Slots",
+            "Occupied Slots",
             "Roofed",
             "Guarded",
             "Last control",

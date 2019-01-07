@@ -40,7 +40,103 @@
                             <TableView fx:id="employeesViewTable" prefHeight="330.0" prefWidth="800.0">
 
                             </TableView>
-                     <Text layoutX="31.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tu jakieś statystyki itp:" />
+                     <Text layoutX="31.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of employees:" />
+                     <Text layoutX="533.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Salaries:" />
+                     <Text layoutX="535.0" layoutY="397.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Min:">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="535.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Median:">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="535.0" layoutY="431.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average:">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="535.0" layoutY="448.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="31.0" layoutY="423.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of departments:" />
+                     <Text layoutX="31.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Min employees: ">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="31.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max employees: ">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="592.0" layoutY="398.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2000">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="592.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3712">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="592.0" layoutY="431.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3512">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="592.0" layoutY="448.0" strokeType="OUTSIDE" strokeWidth="0.0" text="6721">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="240.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1000" />
+                     <Text layoutX="31.0" layoutY="487.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average:">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="31.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of parkings operated:" />
+                     <Text layoutX="240.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1000" />
+                     <Text layoutX="240.0" layoutY="423.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1000" />
+                     <Text layoutX="131.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2000">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="173.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0" text="at: ">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="131.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2000">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="173.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="at: ">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="131.0" layoutY="487.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2000">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="195.0" layoutY="451.0" strokeType="OUTSIDE" strokeWidth="0.0" text="department_name">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="195.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="department_name">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
                         </children></AnchorPane>
                 </items>
             </SplitPane>
