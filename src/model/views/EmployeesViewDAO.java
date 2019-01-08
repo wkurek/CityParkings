@@ -9,33 +9,49 @@ import util.Validator;
 
 import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeesViewDAO {
 
     private static class EmployeesViewContract {
-        public static final String TABLE_NAME = "[dbo].[employees_view]";
-        public static final String COLUMN_NAME_ID = "employee_id";
-        public static final String COLUMN_NAME_NAME = "name";
-        public static final String COLUMN_NAME_SURNAME = "surname";
-        public static final String COLUMN_NAME_SALARY = "salary";
-        public static final String COLUMN_NAME_COUNTRY = "country";
-        public static final String COLUMN_NAME_CITY = "city";
-        public static final String COLUMN_NAME_ZIP_CODE = "zip_code";
-        public static final String COLUMN_NAME_STREET = "street";
-        public static final String COLUMN_NAME_NUMBER= "number";
-        public static final String COLUMN_NAME_DEPARTMENT_NAME = "department_name";
-        public static final String COLUMN_NAME_PARKING_ID = "parking_id";
-        public static final String COLUMN_NAME_LAST_CONTROL = "last_control";
+        static final String TABLE_NAME = "[dbo].[employees_view]";
+        static final String COLUMN_NAME_ID = "employee_id";
+        static final String COLUMN_NAME_NAME = "name";
+        static final String COLUMN_NAME_SURNAME = "surname";
+        static final String COLUMN_NAME_SALARY = "salary";
+        static final String COLUMN_NAME_COUNTRY = "country";
+        static final String COLUMN_NAME_CITY = "city";
+        static final String COLUMN_NAME_ZIP_CODE = "zip_code";
+        static final String COLUMN_NAME_STREET = "street";
+        static final String COLUMN_NAME_NUMBER= "number";
+        static final String COLUMN_NAME_DEPARTMENT_NAME = "department_name";
+        static final String COLUMN_NAME_PARKING_ID = "parking_id";
+        static final String COLUMN_NAME_LAST_CONTROL = "last_control";
     }
+
+    private static int nrOfEmployees;
+    private static int nrOfParkingsOp;
+    private static int nrOfDepartments;
+    private static int minEmployees;
+    private static int maxEmployees;
+    private static float averageEmployees;
+    private static String minDepartment;
+    private static String maxDepartment;
+    private static float minSalary;
+    private static float maxSalary;
+    private static float averageSalary;
+    private static float medianSalary;
+
+
 
     public static ObservableList<EmployeesView> getEmployeesViews(String salaryMin, String salaryMax, List<String> countries, List<String> departments)
     {
-        String sql = generateSelectWhereQuery(salaryMin, salaryMax, countries, departments);
+        String sql = generateSelectQuery() + generateWherePartOfQuery(salaryMin, salaryMax, countries, departments);
 
         CachedRowSet result = DbHelper.executeQuery(sql);
 
-        ObservableList<EmployeesView> employeesViewsList = null;
+        ObservableList<EmployeesView> employeesViewsList = FXCollections.observableArrayList();
         try {
             employeesViewsList = generateEmployeesViewsList(result);
         } catch (SQLException e) {
@@ -45,9 +61,8 @@ public class EmployeesViewDAO {
         return employeesViewsList;
     }
 
-    private static String generateSelectWhereQuery(String salaryMin, String salaryMax, List<String> countries, List<String> departments) {
-        String sql = generateSelectQuery();
-        sql+=" WHERE 1=1 ";
+    private static String generateWherePartOfQuery(String salaryMin, String salaryMax, List<String> countries, List<String> departments) {
+        String sql=" WHERE 1=1 ";
         if(salaryMin!=null && Validator.isWeightValid(salaryMin)){
             sql+="and "+EmployeesViewContract.COLUMN_NAME_SALARY+">="+salaryMin+" ";
         }
@@ -66,7 +81,7 @@ public class EmployeesViewDAO {
             for(String s : departments) {
                 sql+=EmployeesViewContract.COLUMN_NAME_DEPARTMENT_NAME+" = '"+s+"' or ";
             }
-            sql+="1=0)";
+            sql+="1=0) ";
         }
         return sql;
     }
@@ -87,7 +102,7 @@ public class EmployeesViewDAO {
         return "SELECT * FROM " + EmployeesViewContract.TABLE_NAME;
     }
 
-    public static EmployeesView generateEmployeesView(CachedRowSet resultSet) throws SQLException {
+    private static EmployeesView generateEmployeesView(CachedRowSet resultSet) throws SQLException {
         EmployeesView employeesView = new EmployeesView();
 
         Department department = DepartmentDAO.generateDepartment(resultSet);
@@ -107,5 +122,122 @@ public class EmployeesViewDAO {
         employeesView.setLastControl(resultSet.getDate(EmployeesViewContract.COLUMN_NAME_LAST_CONTROL));
 
         return employeesView;
+    }
+
+    private static int getDistinctNumber(String wherePartOfQuery, String distinctColumnName){
+        String sql = "SELECT COUNT (DISTINCT "+distinctColumnName+") AS x FROM "+
+                    EmployeesViewContract.TABLE_NAME+wherePartOfQuery;
+
+        CachedRowSet row = DbHelper.executeQuery(sql);
+        int result;
+        try {
+            row.next();
+            result = row.getInt("x");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            result = 0;
+        }
+        return result;
+    }
+    private static void generateMinMaxEmployees(String wherePartOfQuery)
+    {
+        String sql = "SELECT COUNT("+EmployeesViewContract.COLUMN_NAME_DEPARTMENT_NAME+") AS x, "+EmployeesViewContract.COLUMN_NAME_DEPARTMENT_NAME+
+                " FROM "+EmployeesViewContract.TABLE_NAME+wherePartOfQuery+" GROUP BY "+EmployeesViewContract.COLUMN_NAME_DEPARTMENT_NAME+
+                " ORDER BY x ";
+        CachedRowSet row = DbHelper.executeQuery(sql+"ASC");
+        try {
+            row.next();
+            minEmployees = row.getInt("x");
+            minDepartment = row.getString(EmployeesViewContract.COLUMN_NAME_DEPARTMENT_NAME);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        row = DbHelper.executeQuery(sql+"DESC");
+        try {
+            row.next();
+            maxEmployees = row.getInt("x");
+            maxDepartment = row.getString(EmployeesViewContract.COLUMN_NAME_DEPARTMENT_NAME);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    private static void generateSalaries(String wherePartOfQuery)
+    {
+        String sql = "SELECT "+EmployeesViewContract.COLUMN_NAME_SALARY+" FROM "+EmployeesViewContract.TABLE_NAME+wherePartOfQuery+
+                " ORDER BY "+EmployeesViewContract.COLUMN_NAME_SALARY;
+        CachedRowSet row = DbHelper.executeQuery(sql+" ASC");
+        List<Float> salaries = new ArrayList<>();
+
+        try {
+            while(row.next())
+                salaries.add(row.getFloat(EmployeesViewContract.COLUMN_NAME_SALARY));
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        minSalary = salaries.get(0);
+        maxSalary = salaries.get(salaries.size()-1);
+        medianSalary = salaries.size()%2==1 ? salaries.get(salaries.size()/2) : (salaries.get(salaries.size()/2-1)+salaries.get(salaries.size()/2))/2;
+        averageSalary = (float)salaries.stream().mapToDouble(a->a).average().orElse(0.0);
+    }
+    public static void generateStatistics(String salaryMin, String salaryMax, List<String> countries, List<String> departments)
+    {
+        nrOfEmployees = getEmployeesViews(salaryMin, salaryMax, countries, departments).size();
+
+        String sql = generateWherePartOfQuery(salaryMin, salaryMax, countries, departments);
+        nrOfParkingsOp = getDistinctNumber(sql, EmployeesViewContract.COLUMN_NAME_PARKING_ID);
+        nrOfDepartments = getDistinctNumber(sql, EmployeesViewContract.COLUMN_NAME_DEPARTMENT_NAME);
+        generateMinMaxEmployees(sql);
+        averageEmployees = (float)nrOfEmployees/(float)nrOfDepartments;
+
+        generateSalaries(sql);
+
+    }
+
+    public static int getNrOfEmployees() {
+        return nrOfEmployees;
+    }
+
+    public static int getNrOfParkingsOp() {
+        return nrOfParkingsOp;
+    }
+
+    public static int getNrOfDepartments() {
+        return nrOfDepartments;
+    }
+
+    public static int getMinEmployees() {
+        return minEmployees;
+    }
+
+    public static int getMaxEmployees() {
+        return maxEmployees;
+    }
+
+    public static float getAverageEmployees() {
+        return averageEmployees;
+    }
+
+    public static String getMinDepartment() {
+        return minDepartment;
+    }
+
+    public static String getMaxDepartment() {
+        return maxDepartment;
+    }
+
+    public static float getMinSalary() {
+        return minSalary;
+    }
+
+    public static float getMaxSalary() {
+        return maxSalary;
+    }
+
+    public static float getAverageSalary() {
+        return averageSalary;
+    }
+
+    public static float getMedianSalary() {
+        return medianSalary;
     }
 }

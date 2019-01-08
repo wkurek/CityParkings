@@ -2,12 +2,19 @@ package model.views;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.joda.time.Interval;
 import util.DbHelper;
 import util.Validator;
 
 import javax.sql.rowset.CachedRowSet;
+
 import java.sql.SQLException;
-import java.util.List;
+import java.util.*;
+
+
 
 public class ParkingsViewDAO {
 
@@ -31,16 +38,32 @@ public class ParkingsViewDAO {
         public static final String COLUMN_NAME_COMMUNICATION_NODE_ = "communication_node";
         public static final String COLUMN_NAME_IS_AUTOMATIC = "is_automatic";
     }
+    public static final List<String> PARKING_TYPES_TABLE_NAMES = new ArrayList<>(Arrays.asList(
+            "city_parkings",
+            "park_rides",
+            "kiss_rides",
+            "estate_parkings"
+    ));
+
+    private static int nrOfParkings;
+    private static int nrCityParkings;
+    private static int nrParkRides;
+    private static int nrKissRides;
+    private static int nrEstateParkings;
+    private static int nrStandardSlots;
+    private static int nrDisabledSlots;
+    private static int nrOccupiedSlots;
+    private static float avParkTime;
+    private static float avOccupancy;
+    private static float longestParkTime;
+    private static float shortestParkTime;
 
     public static ObservableList<ParkingsView> getParkingsViews(String heightMinInput, String heightMaxInput, String weightMinInput,
                                                                 String weightMaxInput, String lotsMinInput, String lotsMaxInput, List<String> parkingType,
                                                                 boolean isRoofed, boolean isGuarded, boolean hasFreeLots)
     {
-        String sql = generateSelectWhereQuery(heightMinInput, heightMaxInput,
-                                              weightMinInput, weightMaxInput,
-                                              lotsMinInput, lotsMaxInput,
-                                              parkingType, isRoofed,
-                                              isGuarded, hasFreeLots);
+        String sql = generateSelectQuery(parkingType) + generateWherePartOfQuery(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput,
+                                                                                    lotsMinInput, lotsMaxInput, isRoofed, isGuarded, hasFreeLots);
 
         CachedRowSet result = DbHelper.executeQuery(sql);
 
@@ -54,9 +77,7 @@ public class ParkingsViewDAO {
         return parkingsViewList;
     }
 
-    private static String generateSelectWhereQuery(String heightMinInput, String heightMaxInput, String weightMinInput,
-                                                   String weightMaxInput, String lotsMinInput, String lotsMaxInput, List<String> parkingType,
-                                                   boolean isRoofed, boolean isGuarded, boolean hasFreeLots)
+    private static String generateSelectQuery(List<String> parkingType)
     {
         String sql;
         if(parkingType.size()!=0)
@@ -83,9 +104,29 @@ public class ParkingsViewDAO {
         }
         else
         {
-            sql = generateSelectQuery();
+            sql = "SELECT "+ParkingsViewContract.TABLE_NAME+".* FROM " + ParkingsViewDAO.ParkingsViewContract.TABLE_NAME+" ";
         }
-        sql+=" WHERE 1=1 ";
+
+        return sql;
+    }
+
+    private static ObservableList<ParkingsView> generateParkingsViewsList(CachedRowSet resultSet) throws SQLException{
+        ObservableList<ParkingsView> parkingsViewsList = FXCollections.observableArrayList();
+
+        while (resultSet!=null&&resultSet.next()) {
+            ParkingsView parkingsView = generateParkingsView(resultSet);
+            parkingsViewsList.add(parkingsView);
+        }
+
+        return parkingsViewsList;
+    }
+
+
+    private static String generateWherePartOfQuery(String heightMinInput, String heightMaxInput, String weightMinInput,
+                                                   String weightMaxInput, String lotsMinInput, String lotsMaxInput,
+                                                   boolean isRoofed, boolean isGuarded, boolean hasFreeLots)
+    {
+        String sql=" WHERE 1=1 ";
         if(heightMinInput!=null && Validator.isHeightValid(heightMinInput)){
             sql+="and "+ParkingsViewContract.COLUMN_NAME_MAX_HEIGHT+">="+heightMinInput+" ";
         }
@@ -118,23 +159,7 @@ public class ParkingsViewDAO {
         }
         return sql;
     }
-
-    private static ObservableList<ParkingsView> generateParkingsViewsList(CachedRowSet resultSet) throws SQLException{
-        ObservableList<ParkingsView> parkingsViewsList = FXCollections.observableArrayList();
-
-        while (resultSet!=null&&resultSet.next()) {
-            ParkingsView parkingsView = generateParkingsView(resultSet);
-            parkingsViewsList.add(parkingsView);
-        }
-
-        return parkingsViewsList;
-    }
-
-    private static String generateSelectQuery()
-    {
-        return "SELECT "+ParkingsViewContract.TABLE_NAME+".* FROM " + ParkingsViewDAO.ParkingsViewContract.TABLE_NAME+" ";
-    }
-    public static ParkingsView generateParkingsView(CachedRowSet resultSet) throws SQLException {
+    private static ParkingsView generateParkingsView(CachedRowSet resultSet) throws SQLException {
         ParkingsView parkingsView = new ParkingsView();
 
 
@@ -158,5 +183,177 @@ public class ParkingsViewDAO {
 
         return parkingsView;
     }
+    private static void generateSlotsStats(ObservableList<ParkingsView> parkingsViews)
+    {
+        nrStandardSlots = 0;
+        nrDisabledSlots = 0;
+        nrOccupiedSlots = 0;
+        for(ParkingsView p : parkingsViews)
+        {
+            nrStandardSlots+=p.getStandardLots();
+            nrDisabledSlots+=p.getDisabledLots();
+            nrOccupiedSlots+=p.getOccupiedLots();
+        }
 
+
+    }
+    private static void generateParkTimeStats(String heightMinInput, String heightMaxInput, String weightMinInput,
+                                              String weightMaxInput, String lotsMinInput, String lotsMaxInput, List<String> parkingType,
+                                              boolean isRoofed, boolean isGuarded, boolean hasFreeLots) {
+        String sql;
+        if(parkingType.size()!=0)
+        {
+            if(parkingType.size()==1)
+            {
+                sql="SELECT "+ParkingsViewContract.TABLE_NAME+".*, [dbo].[parks].date_time FROM "+ParkingsViewContract.TABLE_NAME+
+                        "INNER JOIN "+parkingType.get(0)+" ON "+ParkingsViewContract.TABLE_NAME+"."+
+                        ParkingsViewContract.COLUMN_NAME_ID+"="+parkingType+"."+ParkingsViewContract.COLUMN_NAME_ID;
+            }
+            else {
+                sql = "SELECT " + ParkingsViewContract.TABLE_NAME + ".*, [dbo].[parks].date_time FROM " + parkingType.get(0);
+                for (int i = 1; i < parkingType.size(); i++) {
+                    sql += " full join "+parkingType.get(i) + " on " + parkingType.get(0) + "." + ParkingsViewContract.COLUMN_NAME_ID +
+                            "=" + parkingType.get(i) + "." + ParkingsViewContract.COLUMN_NAME_ID;
+                }
+                sql+=" inner join "+ParkingsViewContract.TABLE_NAME+" on ";
+                for(String s : parkingType)
+                {
+                    sql+=s+"."+ParkingsViewContract.COLUMN_NAME_ID+"="+ParkingsViewContract.TABLE_NAME+"."+ParkingsViewContract.COLUMN_NAME_ID+" or ";
+                }
+                sql+="1=0";
+            }
+        }
+        else
+        {
+            sql = "SELECT "+ParkingsViewContract.TABLE_NAME+".*, [dbo].[parks].date_time FROM " + ParkingsViewDAO.ParkingsViewContract.TABLE_NAME+" ";
+        }
+
+        sql += " right JOIN [dbo].[parks] on "+ ParkingsViewContract.TABLE_NAME+"."+ParkingsViewContract.COLUMN_NAME_ID+ "= [dbo].[parks].parking_id";
+
+        sql+=generateWherePartOfQuery(heightMinInput, heightMaxInput, weightMinInput,
+                                        weightMaxInput, lotsMinInput, lotsMaxInput,
+                                        isRoofed, isGuarded, hasFreeLots);
+        CachedRowSet resultSet = DbHelper.executeQuery(sql);
+        List<Long> dateDifferences = new ArrayList<>();
+        try {
+            while (resultSet.next())
+            {
+                java.sql.Date sqlDate = resultSet.getDate("date_time");
+                DateTime dateTime = new DateTime(sqlDate.getTime());
+                Interval interval = new Interval(dateTime, new org.joda.time.Instant());
+                Duration duration = new Duration(interval);
+                dateDifferences.add(duration.getStandardHours());
+            }
+        }
+        catch (SQLException e)
+        {
+            System.err.println(e.getMessage());
+        }
+        avParkTime = (float)dateDifferences.stream().mapToDouble(a->a).average().orElse(0.0);
+        longestParkTime = (float)dateDifferences.stream().mapToDouble(a->a).max().orElse(0.0);
+        shortestParkTime = (float)dateDifferences.stream().mapToDouble(a->a).min().orElse(0.0);
+    }
+    public static void generateStatistics(String heightMinInput, String heightMaxInput, String weightMinInput,
+                                          String weightMaxInput, String lotsMinInput, String lotsMaxInput, List<String> parkingType,
+                                          boolean isRoofed, boolean isGuarded, boolean hasFreeLots)
+    {
+        ObservableList<ParkingsView> parkingsViews = getParkingsViews(heightMinInput, heightMaxInput,
+                                                                        weightMinInput, weightMaxInput,
+                                                                        lotsMinInput, lotsMaxInput,
+                                                                        parkingType, isRoofed,
+                                                                        isGuarded, hasFreeLots);
+        nrOfParkings = parkingsViews.size();
+        nrCityParkings = nrParkRides = nrKissRides = nrEstateParkings = 0;
+        if(parkingType.size()==0||parkingType.stream().anyMatch(e->e.equals(PARKING_TYPES_TABLE_NAMES.get(0)))) {
+            nrCityParkings = getParkingsViews(heightMinInput, heightMaxInput,
+                        weightMinInput, weightMaxInput,
+                        lotsMinInput, lotsMaxInput,
+                        new ArrayList<>(Arrays.asList(PARKING_TYPES_TABLE_NAMES.get(0))), isRoofed,
+                        isGuarded, hasFreeLots).size();
+        }
+        if(parkingType.size()==0||parkingType.stream().anyMatch(e->e.equals(PARKING_TYPES_TABLE_NAMES.get(1)))) {
+            nrParkRides = getParkingsViews(heightMinInput, heightMaxInput,
+                    weightMinInput, weightMaxInput,
+                    lotsMinInput, lotsMaxInput,
+                    new ArrayList<>(Arrays.asList(PARKING_TYPES_TABLE_NAMES.get(1))), isRoofed,
+                    isGuarded, hasFreeLots).size();
+        }
+        if(parkingType.size()==0||parkingType.stream().anyMatch(e->e.equals(PARKING_TYPES_TABLE_NAMES.get(2)))) {
+            nrKissRides = getParkingsViews(heightMinInput, heightMaxInput,
+                    weightMinInput, weightMaxInput,
+                    lotsMinInput, lotsMaxInput,
+                    new ArrayList<>(Arrays.asList(PARKING_TYPES_TABLE_NAMES.get(2))), isRoofed,
+                    isGuarded, hasFreeLots).size();
+        }
+        if(parkingType.size()==0||parkingType.stream().anyMatch(e->e.equals(PARKING_TYPES_TABLE_NAMES.get(3)))) {
+            nrEstateParkings = getParkingsViews(heightMinInput, heightMaxInput,
+                    weightMinInput, weightMaxInput,
+                    lotsMinInput, lotsMaxInput,
+                    new ArrayList<>(Arrays.asList(PARKING_TYPES_TABLE_NAMES.get(3))), isRoofed,
+                    isGuarded, hasFreeLots).size();
+        }
+        generateSlotsStats(parkingsViews);
+        if(nrStandardSlots+nrDisabledSlots==0)
+            avOccupancy=0;
+        else
+            avOccupancy = (float) nrOccupiedSlots / (float) (nrStandardSlots + nrDisabledSlots) * 100;
+
+        generateParkTimeStats(heightMinInput, heightMaxInput,
+                weightMinInput, weightMaxInput,
+                lotsMinInput, lotsMaxInput,
+                parkingType, isRoofed,
+                isGuarded, hasFreeLots);
+
+    }
+
+
+
+
+    public static int getNrOfParkings() {
+        return nrOfParkings;
+    }
+
+    public static int getNrCityParkings() {
+        return nrCityParkings;
+    }
+
+    public static int getNrParkRides() {
+        return nrParkRides;
+    }
+
+    public static int getNrKissRides() {
+        return nrKissRides;
+    }
+
+    public static int getNrEstateParkings() {
+        return nrEstateParkings;
+    }
+
+    public static int getNrStandardSlots() {
+        return nrStandardSlots;
+    }
+
+    public static int getNrDisabledSlots() {
+        return nrDisabledSlots;
+    }
+
+    public static int getNrOccupiedSlots() {
+        return nrOccupiedSlots;
+    }
+
+    public static float getAvParkTime() {
+        return avParkTime;
+    }
+
+    public static float getAvOccupancy() {
+        return avOccupancy;
+    }
+
+    public static float getLongestParkTime() {
+        return longestParkTime;
+    }
+
+    public static float getShortestParkTime() {
+        return shortestParkTime;
+    }
 }

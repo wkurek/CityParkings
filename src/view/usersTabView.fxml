@@ -42,6 +42,9 @@
                      <TableView fx:id="usersViewTable" prefHeight="330.0" prefWidth="800.0">
                      </TableView>
                      <Text layoutX="31.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of users: " />
+                     <Text layoutX="31.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Summed nr of vehicles: " />
+                     <Text layoutX="31.0" layoutY="421.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average nr of vehicles per user: " />
+                     <Text layoutX="31.0" layoutY="443.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Users without a vehicle: " />
                   </children></AnchorPane>
                 </items>
             </SplitPane>

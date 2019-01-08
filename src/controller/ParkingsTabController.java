@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.views.ParkingsView;
 import model.views.ParkingsViewDAO;
@@ -40,15 +41,34 @@ public class ParkingsTabController {
             "Kiss & Ride Parkings",
             "Estate Parkings"
     ));
-    private static final List<String> PARKING_TYPES_TABLE_NAMES = new ArrayList<>(Arrays.asList(
-            "city_parkings",
-            "park_rides",
-            "kiss_rides",
-            "estate_parkings"
-    ));
+
 
     @FXML
     public TableView parkingsViewTable;
+    @FXML
+    public Text nrOfParkings;
+    @FXML
+    public Text nrCityParkings;
+    @FXML
+    public Text nrParkRides;
+    @FXML
+    public Text nrKissRides;
+    @FXML
+    public Text nrEstateParkings;
+    @FXML
+    public Text nrStandardSlots;
+    @FXML
+    public Text nrDisabledSlots;
+    @FXML
+    public Text nrOccupiedSlots;
+    @FXML
+    public Text avParkTime;
+    @FXML
+    public Text avOccupancy;
+    @FXML
+    public Text longestParkTime;
+    @FXML
+    public Text shortestParkTime;
     private Stage stage;
     @FXML
     public TextField heightMinInput;
@@ -94,6 +114,7 @@ public class ParkingsTabController {
         menuButtonsSet();
         generateTableColumns();
         setUpTable();
+        setUpStatistics();
     }
 
     private void menuButtonsSet() {
@@ -174,6 +195,7 @@ public class ParkingsTabController {
     @FXML
     public void onParkingsFilterClicked() {
         setUpTable();
+        setUpStatistics();
     }
 
     private void setUpTable()
@@ -194,12 +216,30 @@ public class ParkingsTabController {
         for(int i = 1; i<parkingTypeMenuButton.getItems().size();i++)
         {
             if(((CheckMenuItem)parkingTypeMenuButton.getItems().get(i)).isSelected())
-                parkTypes.add(PARKING_TYPES_TABLE_NAMES.get(i-1));
+                parkTypes.add(ParkingsViewDAO.PARKING_TYPES_TABLE_NAMES.get(i-1));
         }
         return parkTypes;
     }
 
-
+    private void setUpStatistics()
+    {
+        ParkingsViewDAO.generateStatistics(heightMinInput.getText(), heightMaxInput.getText(), weightMinInput.getText(), weightMaxInput.getText(),
+                lotsMinInput.getText(), lotsMaxInput.getText(),
+                parkTypesMenuButtonToParkTypesColumnNames(),
+                roofedCheckBox.isSelected(), guardedCheckBox.isSelected(), freeLotsCheckBox.isSelected());
+        nrOfParkings.setText(Integer.toString(ParkingsViewDAO.getNrOfParkings()));
+        nrCityParkings.setText(Integer.toString(ParkingsViewDAO.getNrCityParkings()));
+        nrParkRides.setText(Integer.toString(ParkingsViewDAO.getNrParkRides()));
+        nrKissRides.setText(Integer.toString(ParkingsViewDAO.getNrKissRides()));
+        nrEstateParkings.setText(Integer.toString(ParkingsViewDAO.getNrEstateParkings()));
+        nrStandardSlots.setText(Integer.toString(ParkingsViewDAO.getNrStandardSlots()));
+        nrDisabledSlots.setText(Integer.toString(ParkingsViewDAO.getNrDisabledSlots()));
+        nrOccupiedSlots.setText(Integer.toString(ParkingsViewDAO.getNrOccupiedSlots()));
+        avParkTime.setText(String.format("%.02f", ParkingsViewDAO.getAvParkTime()));
+        avOccupancy.setText(String.format("%.02f",ParkingsViewDAO.getAvOccupancy()));
+        longestParkTime.setText(String.format("%.02f",ParkingsViewDAO.getLongestParkTime()));
+        shortestParkTime.setText(String.format("%.02f",ParkingsViewDAO.getShortestParkTime()));
+    }
 
     public void setStage(Stage stage) {
         this.stage = stage;

@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.country.Country;
 import model.country.CountryDAO;
@@ -22,7 +23,6 @@ import java.util.List;
 
 public class EmployeesTabController {
 
-
     private static final ArrayList<String> COLUMN_NAMES = new ArrayList<>(Arrays.asList(
             "ID",
             "Name",
@@ -36,6 +36,7 @@ public class EmployeesTabController {
             "Department",
             "Parking ID",
             "Parking's Last Control Date"));
+
     @FXML
     public MenuButton countryMenuButton;
     @FXML
@@ -44,6 +45,30 @@ public class EmployeesTabController {
     public MenuButton columnMenuButton;
     @FXML
     public TableView<EmployeesView> employeesViewTable;
+    @FXML
+    public Text minSalary;
+    @FXML
+    public Text medianSalary;
+    @FXML
+    public Text averageSalary;
+    @FXML
+    public Text maxSalary;
+    @FXML
+    public Text nrOfEmployees;
+    @FXML
+    public Text nrOfParkingsOp;
+    @FXML
+    public Text nrOfDepartments;
+    @FXML
+    public Text minEmployees;
+    @FXML
+    public Text maxEmployees;
+    @FXML
+    public Text averageEmployees;
+    @FXML
+    public Text minDepartment;
+    @FXML
+    public Text maxDepartment;
     @FXML
     private TextField salaryMinInput;
     @FXML
@@ -75,6 +100,7 @@ public class EmployeesTabController {
           autoShowOff();
           generateTableColumns();
           setUpTable();
+          setUpStatistics();
     }
 
     private void menuButtonsSet() {
@@ -182,6 +208,7 @@ public class EmployeesTabController {
     @FXML
     public void onFilterButtonClicked() {
         setUpTable();
+        setUpStatistics();
     }
     private void setUpTable()
     {
@@ -194,6 +221,25 @@ public class EmployeesTabController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    private void setUpStatistics()
+    {
+        EmployeesViewDAO.generateStatistics(salaryMinInput.getText(), salaryMaxInput.getText(),
+                ReportsController.selectedMenuItemsToStringList(countryMenuButton.getItems()),
+                ReportsController.selectedMenuItemsToStringList(departmentMenuButton.getItems()));
+        nrOfEmployees.setText(Integer.toString(EmployeesViewDAO.getNrOfEmployees()));
+        nrOfParkingsOp.setText(Integer.toString(EmployeesViewDAO.getNrOfParkingsOp()));
+        nrOfDepartments.setText(Integer.toString(EmployeesViewDAO.getNrOfDepartments()));
+        minEmployees.setText(Integer.toString(EmployeesViewDAO.getMinEmployees()));
+        maxEmployees.setText(Integer.toString(EmployeesViewDAO.getMaxEmployees()));
+        minDepartment.setText(EmployeesViewDAO.getMinDepartment());
+        maxDepartment.setText(EmployeesViewDAO.getMaxDepartment());
+        averageEmployees.setText(Float.toString(EmployeesViewDAO.getAverageEmployees()));
+        minSalary.setText(Float.toString(EmployeesViewDAO.getMinSalary()));
+        maxSalary.setText(Float.toString(EmployeesViewDAO.getMaxSalary()));
+        medianSalary.setText(Float.toString(EmployeesViewDAO.getMedianSalary()));
+        averageSalary.setText(Float.toString(EmployeesViewDAO.getAverageSalary()));
     }
 }
 
