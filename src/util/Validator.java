@@ -32,7 +32,7 @@ public class Validator {
     }
 
     public static boolean isPlateNumberValid(String plateNumber) {
-        return !plateNumber.isEmpty() && plateNumber.matches("[a-zA-Z0-9- ]+$") && plateNumber.length() < 9;
+        return !plateNumber.isEmpty() && plateNumber.matches("[a-zA-Z0-9- ]+$") && plateNumber.length() <=9;
     }
 
     public static boolean isWeightValid(String weight) {

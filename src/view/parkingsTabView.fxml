@@ -28,7 +28,7 @@
                             <Text layoutX="77.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
                             <CheckBox fx:id="roofedCheckBox" layoutX="554.0" layoutY="31.0" mnemonicParsing="false" text="Roofed only" />
                             <CheckBox fx:id="guardedCheckBox" layoutX="554.0" layoutY="69.0" mnemonicParsing="false" text="Guarded only" />
-                            <CheckBox fx:id="freeLotsCheckBox" layoutX="553.0" layoutY="110.0" mnemonicParsing="false" text="Has free lots" />
+                            <CheckBox fx:id="freeLotsCheckBox" layoutX="553.0" layoutY="110.0" mnemonicParsing="false" text="Has free slots" />
                             <Text layoutX="23.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height(cm):" />
                             <TextField fx:id="heightMinInput" layoutX="18.0" layoutY="63.0" prefHeight="31.0" prefWidth="55.0" />
                             <TextField fx:id="heightMaxInput" layoutX="94.0" layoutY="64.0" prefHeight="31.0" prefWidth="55.0" />
