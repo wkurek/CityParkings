@@ -48,6 +48,7 @@ public class CountryDAO {
         return countryList;
     }
 
+
     public static Country getCountry(String countryName) {
         String sql = String.format("SELECT * FROM %s WHERE %s=%s", CountryContract.TABLE_NAME,
                 CountryContract.COLUMN_NAME_COUNTRY, countryName);

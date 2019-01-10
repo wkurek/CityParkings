@@ -49,6 +49,19 @@ public class Validator {
         return isWeightValid(height);
     }
 
+    public static boolean isIntegerInputValid(String integer)
+    {
+        try{
+            Integer.parseInt(integer);
+        }
+        catch (NumberFormatException e)
+        {
+            return false;
+        }
+        return true;
+    }
+
+
     public static boolean isSalaryValid(String salary) {
         try{
             Float.parseFloat(salary);

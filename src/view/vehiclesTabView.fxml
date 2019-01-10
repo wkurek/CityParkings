@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.VehiclesTabController">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="800.0">
+            <children>
+                <SplitPane dividerPositions="0.23" orientation="VERTICAL" prefHeight="760.0" prefWidth="800.0">
+                    <items>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="159.0" prefWidth="592.0">
+                            <children>
+                                <Text layoutX="14.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                <Text layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filters:">
+                                    <font>
+                                        <Font name="System Bold" size="20.0" />
+                                    </font>
+                                </Text>
+                                <Text layoutX="12.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height(cm):" />
+                                <Text layoutX="12.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight(kg):" />
+                                <TextField fx:id="heightMinInput" layoutX="14.0" layoutY="57.0" prefHeight="31.0" prefWidth="55.0" />
+                                <TextField fx:id="weightMinInput" layoutX="14.0" layoutY="109.0" prefHeight="31.0" prefWidth="55.0" />
+                                <TextField fx:id="heightMaxInput" layoutX="83.0" layoutY="57.0" prefHeight="31.0" prefWidth="55.0" />
+                                <TextField fx:id="weightMaxInput" layoutX="83.0" layoutY="109.0" prefHeight="31.0" prefWidth="55.0" />
+                                <Text layoutX="69.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
+                                <Text layoutX="69.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
+                                <Text layoutX="164.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Engine type:" />
+                                <Text layoutX="285.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country:" />
+                                <CheckBox fx:id="parkedCheckBox" layoutX="164.0" layoutY="114.0" mnemonicParsing="false" text="Parked only" />
+                                <Button fx:id="vehiclesFilterButton" layoutX="578.0" layoutY="57.0" mnemonicParsing="false" onAction="#onVehiclesFilterClicked" text="Filter" />
+                                <Text layoutX="399.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Columns:" />
+                                <MenuButton fx:id="engineTypeMenuButton" layoutX="164.0" layoutY="57.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="106.0" text="Engine Type" />
+                                <MenuButton fx:id="countryMenuButton" layoutX="285.0" layoutY="57.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="106.0" text="Country" />
+                                <MenuButton fx:id="columnMenuButton" layoutX="399.0" layoutY="57.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="106.0" text="Columns" />
+                                <MenuButton fx:id="parkTypesMenuButton" layoutX="399.0" layoutY="109.0" prefHeight="31.0" prefWidth="106.0" text="Parkings" />
+                     <Text fx:id="parkedOnLabel" layoutX="313.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parked on: " />
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="530.0" prefWidth="798.0">
+                  <children>
+                     <TableView fx:id="vehiclesViewTable" prefHeight="330.0" prefWidth="800.0">
+                     </TableView>
+                     <Text fx:id="nrOfVehiclesLabel" layoutX="35.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of vehicles: " />
+                     <Text layoutX="465.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of vehicles parked: " />
+                     <Text layoutX="465.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="On city parkings: " />
+                     <Text layoutX="465.0" layoutY="412.0" strokeType="OUTSIDE" strokeWidth="0.0" text="On Park &amp; Ride parkings: " />
+                     <Text layoutX="465.0" layoutY="433.0" strokeType="OUTSIDE" strokeWidth="0.0" text="On Kiss &amp; Ride parkings: " />
+                     <Text layoutX="465.0" layoutY="454.0" strokeType="OUTSIDE" strokeWidth="0.0" text="On estate parkings: " />
+                     <Text fx:id="nrOfVehicles" layoutX="166.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <Text fx:id="nrOfVehiclesParked" layoutX="651.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <Text fx:id="onCityParkings" layoutX="651.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <Text fx:id="onParkRides" layoutX="651.0" layoutY="412.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <Text fx:id="onKissRides" layoutX="651.0" layoutY="433.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <Text fx:id="onEstateParkings" layoutX="651.0" layoutY="454.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <AnchorPane fx:id="anchorPane" layoutY="375.0" prefHeight="207.0" prefWidth="341.0">
+                        <children>
+                           <Text layoutX="14.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        </children>
+                     </AnchorPane>
+                  </children>
+                        </AnchorPane>
+                    </items>
+                </SplitPane>
+            </children>
+        </AnchorPane>
+</AnchorPane>

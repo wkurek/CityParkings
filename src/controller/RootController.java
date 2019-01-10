@@ -132,6 +132,23 @@ public class RootController {
         }
     }
 
+    @FXML
+    public void onReportsClicked()
+    {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(RootController.class.getResource("../view/reportsView.fxml"));
+            AnchorPane anchorPane = loader.load();
+
+            ReportsController controller = loader.getController();
+            controller.setStage(stage);
+
+            rootContainer.setCenter(anchorPane);
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
