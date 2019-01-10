@@ -67,7 +67,7 @@ public class ParkingsViewDAO {
 
         CachedRowSet result = DbHelper.executeQuery(sql);
 
-        ObservableList<ParkingsView> parkingsViewList = null;
+        ObservableList<ParkingsView> parkingsViewList = FXCollections.observableArrayList();
         try {
              parkingsViewList = generateParkingsViewsList(result);
         } catch (SQLException e) {

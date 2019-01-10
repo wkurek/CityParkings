@@ -1,5 +1,6 @@
 package model.views;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import util.DbHelper;
@@ -15,6 +16,12 @@ public class VehiclesViewDAO {
     private static class VehiclesViewContract {
         public static final String TABLE_NAME = "[dbo].[vehicles_view]";
         static final String PARKS_TABLE_NAME = "[dbo].[parks]";
+        static final String PARKINGS_TABLE_NAME = "[dbo].[parkings]";
+        static final String CITY_TABLE_NAME = "[dbo].[city_parkings]";
+        static final String PARK_RIDES_TABLE_NAME = "[dbo].[park_rides]";
+        static final String KISS_RIDES_TABLE_NAME = "[dbo].[kiss_rides]";
+        static final String ESTATES_TABLE_NAME = "[dbo].[estate_parkings]";
+        static final String PARKINGS_COLUMN_NAME_ID = "parking_id";
         public static final String COLUMN_NAME_ID = "vehicle_id";
         static final String COLUMN_NAME_PLATE_NUMBER = "plate_number";
         static final String COLUMN_NAME_HEIGHT = "height";
@@ -50,13 +57,13 @@ public class VehiclesViewDAO {
 
         CachedRowSet result = DbHelper.executeQuery(sql);
 
-        ObservableList<VehiclesView> vehiclesViewsList = null;
+        ObservableList<VehiclesView> vehiclesViewsList = FXCollections.observableArrayList();
         try {
             vehiclesViewsList = generateVehiclesViewsList(result);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        nrOfVehicles = vehiclesViewsList.size();
+
         return vehiclesViewsList;
     }
 
@@ -146,11 +153,41 @@ public class VehiclesViewDAO {
     {
 
         generateEngineTypesAndNumber(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, isParked);
-        //nrOfVehicles - generated at getVehiclesViews to save time
-        nrOfVehiclesParked = getVehiclesViews(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, true).size();
+        nrOfVehicles = getVehiclesViews(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, isParked).size();
+        if(!isParked)
+             nrOfVehiclesParked = getVehiclesViews(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, true).size();
+        else
+            nrOfVehiclesParked=nrOfVehicles;
+        onCityParkings = generateParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.CITY_TABLE_NAME);
+        onParkRides = generateParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.PARK_RIDES_TABLE_NAME);
+        onKissRides = generateParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.KISS_RIDES_TABLE_NAME);
+        onEstateParkings = generateParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.ESTATES_TABLE_NAME);
 
 
+    }
 
+    private static int generateParksOnOtherParkings(String heightMinInput, String heightMaxInput, String weightMinInput,
+                                                     String weightMaxInput, List<String> countries, List<String> engines,
+                                                     String tableName) {
+        String sql = "SELECT COUNT(*) AS x FROM "+VehiclesViewContract.TABLE_NAME+" INNER JOIN "+VehiclesViewContract.PARKS_TABLE_NAME+
+                " ON "+VehiclesViewContract.TABLE_NAME+"."+VehiclesViewContract.COLUMN_NAME_ID+"="+
+                VehiclesViewContract.PARKS_TABLE_NAME+"."+VehiclesViewContract.COLUMN_NAME_ID+
+                " INNER JOIN "+VehiclesViewContract.PARKINGS_TABLE_NAME+" ON "+VehiclesViewContract.PARKINGS_TABLE_NAME+"."+
+                VehiclesViewContract.PARKINGS_COLUMN_NAME_ID+"="+VehiclesViewContract.PARKS_TABLE_NAME+"."+VehiclesViewContract.PARKINGS_COLUMN_NAME_ID+
+                " INNER JOIN "+tableName+" ON "+VehiclesViewContract.PARKINGS_TABLE_NAME+"."+VehiclesViewContract.PARKINGS_COLUMN_NAME_ID+
+                "="+tableName+"."+VehiclesViewContract.PARKINGS_COLUMN_NAME_ID+generateWherePartOfQuery(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines);
+
+        CachedRowSet resultSet = DbHelper.executeQuery(sql);
+        try
+        {
+            if(resultSet.next())
+                return resultSet.getInt("x");
+        }
+        catch (SQLException e)
+        {
+            System.err.println(e.getMessage());
+        }
+        return 0;
     }
 
     private static void generateEngineTypesAndNumber(String heightMinInput, String heightMaxInput, String weightMinInput, String weightMaxInput,

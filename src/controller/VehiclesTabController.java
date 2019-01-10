@@ -205,7 +205,6 @@ public class VehiclesTabController {
         anchorPane.getChildren().clear();
         for(Map.Entry<String, Integer> entry : engineType.entrySet())
         {
-            System.out.println(entry.getKey()+": "+entry.getValue());
             y_position+=21.0;
             Text engineLabel = new Text(entry.getKey()+": ");
             engineLabel.setLayoutX(x_position);
