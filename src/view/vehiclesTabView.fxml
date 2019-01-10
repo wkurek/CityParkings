@@ -45,19 +45,25 @@
                   <children>
                      <TableView fx:id="vehiclesViewTable" prefHeight="330.0" prefWidth="800.0">
                      </TableView>
-                     <Text layoutX="31.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of vehicles: " />
+                     <Text fx:id="nrOfVehiclesLabel" layoutX="31.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of vehicles: " />
                      <Text layoutX="307.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of vehicles parked: " />
                      <Text layoutX="307.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text="On city parkings: " />
                      <Text layoutX="307.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="On Park &amp; Ride parkings: " />
                      <Text layoutX="307.0" layoutY="443.0" strokeType="OUTSIDE" strokeWidth="0.0" text="On Kiss &amp; Ride parkings: " />
                      <Text layoutX="307.0" layoutY="464.0" strokeType="OUTSIDE" strokeWidth="0.0" text="On estate parkings: " />
-                     <Text layoutX="167.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-                     <Text layoutX="493.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-                     <Text layoutX="493.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-                     <Text layoutX="493.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-                     <Text layoutX="493.0" layoutY="443.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-                     <Text layoutX="493.0" layoutY="464.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-                  </children></AnchorPane>
+                     <Text fx:id="nrOfVehicles" layoutX="167.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <Text fx:id="nrOfVehiclesParked" layoutX="493.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <Text fx:id="onCityParkings" layoutX="493.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <Text fx:id="onParkRides" layoutX="493.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <Text fx:id="onKissRides" layoutX="493.0" layoutY="443.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <Text fx:id="onEstateParkings" layoutX="493.0" layoutY="464.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <AnchorPane fx:id="anchorPane" layoutY="385.0" prefHeight="188.0" prefWidth="264.0">
+                        <children>
+                           <Text layoutX="14.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        </children>
+                     </AnchorPane>
+                  </children>
+                        </AnchorPane>
                     </items>
                 </SplitPane>
             </children>

@@ -6,6 +6,8 @@ import util.DbHelper;
 
 import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EngineDAO {
     private static class EngineContract {
@@ -39,6 +41,22 @@ public class EngineDAO {
 
         try {
             engineList = generateEngineList(result);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return engineList;
+    }
+    public static List<String> getEngineTypes()
+    {
+        String sql = String.format("SELECT DISTINCT * FROM %s", EngineContract.TABLE_NAME);
+        CachedRowSet result = DbHelper.executeQuery(sql);
+
+        List<String> engineList = new ArrayList<>();
+
+        try {
+            while(result.next())
+                engineList.add(result.getString(EngineContract.COLUMN_NAME_TYPE));
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }

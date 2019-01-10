@@ -4,6 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
+import javafx.util.Pair;
 import model.country.Country;
 import model.country.CountryDAO;
 import model.engine.Engine;
@@ -16,6 +19,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class VehiclesTabController {
 
@@ -53,6 +57,22 @@ public class VehiclesTabController {
     public TextField heightMaxInput;
     @FXML
     public TableView<VehiclesView> vehiclesViewTable;
+    @FXML
+    public Text nrOfVehicles;
+    @FXML
+    public Text nrOfVehiclesParked;
+    @FXML
+    public Text onCityParkings;
+    @FXML
+    public Text onParkRides;
+    @FXML
+    public Text onKissRides;
+    @FXML
+    public Text onEstateParkings;
+    @FXML
+    public AnchorPane anchorPane;
+    @FXML
+    public Text nrOfVehiclesLabel;
 
     private List<CheckMenuItem> engineTypeItems;
     private List<CheckMenuItem> countryItems;
@@ -68,6 +88,8 @@ public class VehiclesTabController {
         columns = new ArrayList<>();
 
         vehiclesViewsList = FXCollections.observableArrayList();
+
+
     }
     @FXML
     private void initialize()
@@ -75,7 +97,10 @@ public class VehiclesTabController {
         menuButtonsSet();
         generateTableColumns();
         setUpTable();
+        setUpStatistics();
     }
+
+
 
     private void setUpTable() {
         ReportsController.setColumns(vehiclesViewTable, columns, columnMenuButton);
@@ -109,6 +134,7 @@ public class VehiclesTabController {
     @FXML
     public void onVehiclesFilterClicked() {
         setUpTable();
+        setUpStatistics();
     }
     private void generateTableColumns()
     {
@@ -158,6 +184,38 @@ public class VehiclesTabController {
         TableColumn<VehiclesView, Date> parkDateTime = new TableColumn<>(COLUMN_NAMES.get(14));
         parkDateTime.setCellValueFactory(param->param.getValue().parkDateTimeProperty());
         columns.add(parkDateTime);
+    }
+
+    private void setUpStatistics() {
+        VehiclesViewDAO.generateStatistics(heightMinInput.getText(), heightMaxInput.getText(), weightMinInput.getText(), weightMaxInput.getText(),
+                ReportsController.selectedMenuItemsToStringList(countryMenuButton.getItems()),
+                ReportsController.selectedMenuItemsToStringList(engineTypeMenuButton.getItems()),
+                parkedCheckBox.isSelected());
+        nrOfVehicles.setText(Integer.toString(VehiclesViewDAO.getNrOfVehicles()));
+        nrOfVehiclesParked.setText(Integer.toString(VehiclesViewDAO.getNrOfVehiclesParked()));
+        onCityParkings.setText(Integer.toString(VehiclesViewDAO.getOnCityParkings()));
+        onParkRides.setText(Integer.toString(VehiclesViewDAO.getOnParkRides()));
+        onKissRides.setText(Integer.toString(VehiclesViewDAO.getOnKissRides()));
+        onEstateParkings.setText(Integer.toString(VehiclesViewDAO.getOnEstateParkings()));
+        Map<String, Integer> engineType = VehiclesViewDAO.getEngineTypesAndNumber();
+        double x_position, y_position, number_x_position;
+        x_position = nrOfVehiclesLabel.getLayoutX();
+        y_position = 0.0;
+        number_x_position = nrOfVehicles.getLayoutX();
+        anchorPane.getChildren().clear();
+        for(Map.Entry<String, Integer> entry : engineType.entrySet())
+        {
+            System.out.println(entry.getKey()+": "+entry.getValue());
+            y_position+=21.0;
+            Text engineLabel = new Text(entry.getKey()+": ");
+            engineLabel.setLayoutX(x_position);
+            engineLabel.setLayoutY(y_position);
+            anchorPane.getChildren().add(engineLabel);
+            Text engineNumberLabel = new Text(Integer.toString(entry.getValue()));
+            engineNumberLabel.setLayoutX(number_x_position);
+            engineNumberLabel.setLayoutY(y_position);
+            anchorPane.getChildren().add(engineNumberLabel);
+        }
     }
 
 }

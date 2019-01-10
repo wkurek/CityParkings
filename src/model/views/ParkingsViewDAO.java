@@ -21,22 +21,22 @@ public class ParkingsViewDAO {
     public static class ParkingsViewContract {
         public static final String TABLE_NAME = "[dbo].[parkings_view]";
         public static final String COLUMN_NAME_ID = "parking_id";
-        public static final String COLUMN_NAME_STANDARD_LOTS = "standard_lots";
-        public static final String COLUMN_NAME_DISABLED_LOTS = "disabled_lots";
-        public static final String COLUMN_NAME_OCCUPIED_LOTS = "occupied_lots";
-        public static final String COLUMN_NAME_IS_ROOF = "is_roof";
-        public static final String COLUMN_NAME_IS_GUARDED = "is_guarded";
-        public static final String COLUMN_NAME_LAST_CONTROL = "last_control";
-        public static final String COLUMN_NAME_MAX_WEIGHT = "max_weight";
-        public static final String COLUMN_NAME_MAX_HEIGHT = "max_height";
-        public static final String COLUMN_NAME_LOCATION_ID = "location_ID";
-        public static final String COLUMN_NAME_PARK_TYPE = "park_type";
-        public static final String COLUMN_NAME_IS_ZONE_PAID = "is_zone_paid";
-        public static final String COLUMN_NAME_ESTATE_NAME = "estate_name";
-        public static final String COLUMN_NAME_ARE_GATES = "are_gates";
-        public static final String COLUMN_NAME_MAX_STOP_MINUTES = "max_stop_minutes";
-        public static final String COLUMN_NAME_COMMUNICATION_NODE_ = "communication_node";
-        public static final String COLUMN_NAME_IS_AUTOMATIC = "is_automatic";
+        static final String COLUMN_NAME_STANDARD_LOTS = "standard_lots";
+        static final String COLUMN_NAME_DISABLED_LOTS = "disabled_lots";
+        static final String COLUMN_NAME_OCCUPIED_LOTS = "occupied_lots";
+        static final String COLUMN_NAME_IS_ROOF = "is_roof";
+        static final String COLUMN_NAME_IS_GUARDED = "is_guarded";
+        static final String COLUMN_NAME_LAST_CONTROL = "last_control";
+        static final String COLUMN_NAME_MAX_WEIGHT = "max_weight";
+        static final String COLUMN_NAME_MAX_HEIGHT = "max_height";
+        static final String COLUMN_NAME_LOCATION_ID = "location_ID";
+        static final String COLUMN_NAME_PARK_TYPE = "park_type";
+        static final String COLUMN_NAME_IS_ZONE_PAID = "is_zone_paid";
+        static final String COLUMN_NAME_ESTATE_NAME = "estate_name";
+        static final String COLUMN_NAME_ARE_GATES = "are_gates";
+        static final String COLUMN_NAME_MAX_STOP_MINUTES = "max_stop_minutes";
+        static final String COLUMN_NAME_COMMUNICATION_NODE_ = "communication_node";
+        static final String COLUMN_NAME_IS_AUTOMATIC = "is_automatic";
     }
     public static final List<String> PARKING_TYPES_TABLE_NAMES = new ArrayList<>(Arrays.asList(
             "city_parkings",

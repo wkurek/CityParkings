@@ -10,6 +10,7 @@ import util.Validator;
 import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class EmployeesViewDAO {
@@ -85,7 +86,10 @@ public class EmployeesViewDAO {
         }
         return sql;
     }
-
+    private static String generateSelectQuery()
+    {
+        return "SELECT * FROM " + EmployeesViewContract.TABLE_NAME;
+    }
     private static ObservableList<EmployeesView> generateEmployeesViewsList(CachedRowSet resultSet) throws SQLException{
         ObservableList<EmployeesView> employeesViewsList = FXCollections.observableArrayList();
 
@@ -97,10 +101,7 @@ public class EmployeesViewDAO {
         return employeesViewsList;
     }
 
-    private static String generateSelectQuery()
-    {
-        return "SELECT * FROM " + EmployeesViewContract.TABLE_NAME;
-    }
+
 
     private static EmployeesView generateEmployeesView(CachedRowSet resultSet) throws SQLException {
         EmployeesView employeesView = new EmployeesView();
@@ -146,34 +147,44 @@ public class EmployeesViewDAO {
                 " ORDER BY x ";
         CachedRowSet row = DbHelper.executeQuery(sql+"ASC");
         try {
-            row.next();
-            minEmployees = row.getInt("x");
-            minDepartment = row.getString(EmployeesViewContract.COLUMN_NAME_DEPARTMENT_NAME);
+            if(row.next()) {
+                minEmployees = row.getInt("x");
+                minDepartment = row.getString(EmployeesViewContract.COLUMN_NAME_DEPARTMENT_NAME);
+            }
+            else
+            {
+                minEmployees = 0;
+                minDepartment = "";
+            }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
         row = DbHelper.executeQuery(sql+"DESC");
         try {
-            row.next();
-            maxEmployees = row.getInt("x");
-            maxDepartment = row.getString(EmployeesViewContract.COLUMN_NAME_DEPARTMENT_NAME);
+            if(row.next()) {
+                maxEmployees = row.getInt("x");
+                maxDepartment = row.getString(EmployeesViewContract.COLUMN_NAME_DEPARTMENT_NAME);
+            }
+            else
+            {
+                maxEmployees = 0;
+                maxDepartment = "";
+            }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
     }
-    private static void generateSalaries(String wherePartOfQuery)
+    private static void generateSalaries(ObservableList<EmployeesView> employeesViews)
     {
-        String sql = "SELECT "+EmployeesViewContract.COLUMN_NAME_SALARY+" FROM "+EmployeesViewContract.TABLE_NAME+wherePartOfQuery+
-                " ORDER BY "+EmployeesViewContract.COLUMN_NAME_SALARY;
-        CachedRowSet row = DbHelper.executeQuery(sql+" ASC");
         List<Float> salaries = new ArrayList<>();
-
-        try {
-            while(row.next())
-                salaries.add(row.getFloat(EmployeesViewContract.COLUMN_NAME_SALARY));
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
+        for(EmployeesView e : employeesViews)
+            salaries.add(e.getSalary());
+        if(salaries.size()==0)
+        {
+            minSalary=maxSalary=medianSalary=averageSalary=0;
+            return;
         }
+        salaries.sort(Comparator.naturalOrder());
         minSalary = salaries.get(0);
         maxSalary = salaries.get(salaries.size()-1);
         medianSalary = salaries.size()%2==1 ? salaries.get(salaries.size()/2) : (salaries.get(salaries.size()/2-1)+salaries.get(salaries.size()/2))/2;
@@ -181,15 +192,19 @@ public class EmployeesViewDAO {
     }
     public static void generateStatistics(String salaryMin, String salaryMax, List<String> countries, List<String> departments)
     {
-        nrOfEmployees = getEmployeesViews(salaryMin, salaryMax, countries, departments).size();
+        ObservableList<EmployeesView> employeesViews = getEmployeesViews(salaryMin, salaryMax, countries, departments);
+        nrOfEmployees = employeesViews.size();
 
         String sql = generateWherePartOfQuery(salaryMin, salaryMax, countries, departments);
         nrOfParkingsOp = getDistinctNumber(sql, EmployeesViewContract.COLUMN_NAME_PARKING_ID);
         nrOfDepartments = getDistinctNumber(sql, EmployeesViewContract.COLUMN_NAME_DEPARTMENT_NAME);
         generateMinMaxEmployees(sql);
-        averageEmployees = (float)nrOfEmployees/(float)nrOfDepartments;
+        if(nrOfDepartments==0)
+            averageEmployees=0;
+        else
+            averageEmployees = (float)nrOfEmployees/(float)nrOfDepartments;
 
-        generateSalaries(sql);
+        generateSalaries(employeesViews);
 
     }
 
