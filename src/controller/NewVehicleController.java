@@ -30,7 +30,6 @@ public class NewVehicleController {
     @FXML
     private ComboBox<Engine> engineTypeComboBox;
 
-
     @FXML
     private void initialize() {
         engineTypeComboBox.setItems(EngineDAO.getEngines());

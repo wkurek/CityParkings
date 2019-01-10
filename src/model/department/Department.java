@@ -14,4 +14,10 @@ public class Department {
     public StringProperty departmentNameProperty() { return departmentName; }
 
     public void setDepartmentName(String departmentName) { this.departmentName.set(departmentName); }
+
+    @Override
+    public String toString() {
+        return this.getDepartmentName().toUpperCase();
+    }
+
 }

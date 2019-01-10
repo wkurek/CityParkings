@@ -94,10 +94,43 @@ public class RootController {
     }
 
     @FXML
-    public void onNewEmployeeClicked() {}
+    public void onNewEmployeeClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(UserController.class.getResource("../view/newEmployeeView.fxml"));
+            AnchorPane page = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Create New Employee");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(stage);
+
+            NewEmployeeController controller = loader.getController();
+            controller.setStage(dialogStage);
+
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            dialogStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
-    public void onPreviewEmployeesClicked() {}
+    public void onPreviewEmployeesClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(RootController.class.getResource("../view/employeeView.fxml"));
+            AnchorPane anchorPane = loader.load();
+
+            EmployeeController controller = loader.getController();
+            controller.setStage(stage);
+
+            rootContainer.setCenter(anchorPane);
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
 
     @FXML
     public void onReportsClicked()

@@ -2,7 +2,7 @@ package util;
 
 public class Validator {
     public static boolean isNameValid(String name) {
-        return !name.isEmpty() && name.matches("[a-zA-Z]+$") && name.length() < 64;
+        return !name.isEmpty() && name.matches("[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+$") && name.length() < 64;
     }
 
     public static boolean isSurnameValid(String surname) {
@@ -10,12 +10,12 @@ public class Validator {
     }
 
     public static boolean isPhoneNumberValid(String phoneNumber) {
-        return !phoneNumber.isEmpty() && phoneNumber.matches("[0-9]+$")
-                && phoneNumber.length() <= 13 && phoneNumber.length() >= 9;
+        return !phoneNumber.isEmpty() && phoneNumber.matches("[0-9 +]+$")
+                && phoneNumber.length() <= 15 && phoneNumber.length() >= 9;
     }
 
     public static boolean isCityValid(String city) {
-        return !city.isEmpty() && city.matches("[a-zA-Z ]+$") && city.length() < 64;
+        return !city.isEmpty() && city.matches("[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+$") && city.length() < 64;
     }
 
     public static boolean isStreetValid(String street) {
@@ -48,6 +48,7 @@ public class Validator {
     public static boolean isHeightValid(String height) {
         return isWeightValid(height);
     }
+
     public static boolean isIntegerInputValid(String integer)
     {
         try{
@@ -59,4 +60,16 @@ public class Validator {
         }
         return true;
     }
+
+
+    public static boolean isSalaryValid(String salary) {
+        try{
+            Float.parseFloat(salary);
+        } catch(NumberFormatException e){
+            return false;
+        }
+
+        return true;
+    }
+
 }
