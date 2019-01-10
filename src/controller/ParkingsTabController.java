@@ -35,7 +35,7 @@ public class ParkingsTabController {
             "Max stop time(min)",
             "Estate name"
     ));
-    private static final List<String> PARKING_TYPES = new ArrayList<>(Arrays.asList(
+    static final List<String> PARKING_TYPES = new ArrayList<>(Arrays.asList(
             "City Parkings",
             "Park & Ride Parkings",
             "Kiss & Ride Parkings",

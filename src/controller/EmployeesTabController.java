@@ -5,6 +5,9 @@ package controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
@@ -97,18 +100,20 @@ public class EmployeesTabController {
     private void initialize()
     {
           menuButtonsSet();
-          autoShowOff();
+         // autoShowOff();
           generateTableColumns();
           setUpTable();
           setUpStatistics();
     }
-
+    @FXML
     private void menuButtonsSet() {
+
         countryItems.add(new CheckMenuItem("Select All"));
         for(Country i : CountryDAO.getCountries()) {
             countryItems.add(new CheckMenuItem(i.getName()));
         }
         countryMenuButton.getItems().setAll(countryItems);
+
 
         departmentItems.add(new CheckMenuItem("Select All"));
         for(Department i : DepartmentDAO.getDepartment()) {
@@ -125,14 +130,12 @@ public class EmployeesTabController {
 
     @FXML
     private void autoShowOff() {
-
-
         for(int i = 0; i<countryMenuButton.getItems().size(); i++)
-            countryMenuButton.getItems().get(i).setOnAction(e -> e.consume());
+            countryMenuButton.getItems().get(i).setOnAction(Event::consume);
         for(int i = 0; i<columnMenuButton.getItems().size(); i++)
-            columnMenuButton.getItems().get(i).setOnAction(e -> e.consume());
+            columnMenuButton.getItems().get(i).setOnAction(Event::consume);
         for(int i = 0; i<departmentMenuButton.getItems().size(); i++)
-            departmentMenuButton.getItems().get(i).setOnAction(e -> e.consume());
+            departmentMenuButton.getItems().get(i).setOnAction(Event::consume);
     }
 
 //    private Task<ObservableList<EmployeesView>> generateEmployeesViewsLoadTask() {

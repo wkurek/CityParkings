@@ -1,7 +1,10 @@
 package controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -10,6 +13,7 @@ import model.country.Country;
 import model.country.CountryDAO;
 import model.engine.Engine;
 import model.engine.EngineDAO;
+import model.views.ParkingsViewDAO;
 import model.views.VehiclesView;
 import model.views.VehiclesViewDAO;
 
@@ -71,10 +75,15 @@ public class VehiclesTabController {
     public AnchorPane anchorPane;
     @FXML
     public Text nrOfVehiclesLabel;
+    @FXML
+    public MenuButton parkTypesMenuButton;
+    @FXML
+    public Text parkedOnLabel;
 
     private List<CheckMenuItem> engineTypeItems;
     private List<CheckMenuItem> countryItems;
     private List<CheckMenuItem> columnItems;
+    private List<CheckMenuItem> parkTypesItems;
 
     private ObservableList<VehiclesView> vehiclesViewsList;
     private List<TableColumn> columns;
@@ -83,6 +92,7 @@ public class VehiclesTabController {
         countryItems = new ArrayList<>();
         engineTypeItems = new ArrayList<>();
         columnItems = new ArrayList<>();
+        parkTypesItems = new ArrayList<>();
         columns = new ArrayList<>();
 
         vehiclesViewsList = FXCollections.observableArrayList();
@@ -96,6 +106,20 @@ public class VehiclesTabController {
         generateTableColumns();
         setUpTable();
         setUpStatistics();
+        parkedOnLabel.setVisible(false);
+        parkTypesMenuButton.setVisible(false);
+        parkedCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                parkedOnLabel.setVisible(true);
+                parkTypesMenuButton.setVisible(true);
+
+            } else {
+                parkedOnLabel.setVisible(false);
+                parkTypesMenuButton.setVisible(false);
+                for(int i = 0; i<parkTypesMenuButton.getItems().size();i++)
+                    ((CheckMenuItem)parkTypesMenuButton.getItems().get(i)).setSelected(false);
+            }
+        });
     }
 
 
@@ -105,7 +129,7 @@ public class VehiclesTabController {
         vehiclesViewsList = VehiclesViewDAO.getVehiclesViews(heightMinInput.getText(), heightMaxInput.getText(), weightMinInput.getText(), weightMaxInput.getText(),
                                                                ReportsController.selectedMenuItemsToStringList(countryMenuButton.getItems()),
                                                                 ReportsController.selectedMenuItemsToStringList(engineTypeMenuButton.getItems()),
-                                                                parkedCheckBox.isSelected());
+                                                                parkedCheckBox.isSelected(), parkTypesMenuButtonToParkTypesColumnNames());
         vehiclesViewTable.setItems(vehiclesViewsList);
     }
 
@@ -128,6 +152,13 @@ public class VehiclesTabController {
             columnItems.add(new CheckMenuItem(i));
         }
         columnMenuButton.getItems().setAll(columnItems);
+
+        parkTypesItems.add(new CheckMenuItem("Select All"));
+        for(String i : ParkingsTabController.PARKING_TYPES) {
+            parkTypesItems.add(new CheckMenuItem(i));
+        }
+        parkTypesMenuButton.getItems().setAll(parkTypesItems);
+
     }
     @FXML
     public void onVehiclesFilterClicked() {
@@ -188,13 +219,15 @@ public class VehiclesTabController {
         VehiclesViewDAO.generateStatistics(heightMinInput.getText(), heightMaxInput.getText(), weightMinInput.getText(), weightMaxInput.getText(),
                 ReportsController.selectedMenuItemsToStringList(countryMenuButton.getItems()),
                 ReportsController.selectedMenuItemsToStringList(engineTypeMenuButton.getItems()),
-                parkedCheckBox.isSelected());
+                parkedCheckBox.isSelected(), parkTypesMenuButtonToParkTypesColumnNames());
+
         nrOfVehicles.setText(Integer.toString(VehiclesViewDAO.getNrOfVehicles()));
         nrOfVehiclesParked.setText(Integer.toString(VehiclesViewDAO.getNrOfVehiclesParked()));
         onCityParkings.setText(Integer.toString(VehiclesViewDAO.getOnCityParkings()));
         onParkRides.setText(Integer.toString(VehiclesViewDAO.getOnParkRides()));
         onKissRides.setText(Integer.toString(VehiclesViewDAO.getOnKissRides()));
         onEstateParkings.setText(Integer.toString(VehiclesViewDAO.getOnEstateParkings()));
+
         Map<String, Integer> engineType = VehiclesViewDAO.getEngineTypesAndNumber();
         double x_position, y_position, number_x_position;
         x_position = nrOfVehiclesLabel.getLayoutX();
@@ -213,6 +246,18 @@ public class VehiclesTabController {
             engineNumberLabel.setLayoutY(y_position);
             anchorPane.getChildren().add(engineNumberLabel);
         }
+    }
+    private List<String> parkTypesMenuButtonToParkTypesColumnNames()
+    {
+        List<String> parkTypes = new ArrayList<>();
+        if(((CheckMenuItem)parkTypesMenuButton.getItems().get(0)).isSelected())
+            return parkTypes;
+        for(int i = 1; i<parkTypesMenuButton.getItems().size();i++)
+        {
+            if(((CheckMenuItem)parkTypesMenuButton.getItems().get(i)).isSelected())
+                parkTypes.add(ParkingsViewDAO.PARKING_TYPES_TABLE_NAMES.get(i-1));
+        }
+        return parkTypes;
     }
 
 }

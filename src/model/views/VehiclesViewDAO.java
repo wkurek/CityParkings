@@ -7,9 +7,7 @@ import util.Validator;
 
 import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class VehiclesViewDAO {
     private static class VehiclesViewContract {
@@ -48,9 +46,9 @@ public class VehiclesViewDAO {
     private static Map<String, Integer> engineTypesAndNumber = new HashMap<>();
 
     public static ObservableList<VehiclesView> getVehiclesViews(String heightMinInput, String heightMaxInput, String weightMinInput, String weightMaxInput,
-                                                                List<String> countries, List<String> engines, boolean isParked)
+                                                                List<String> countries, List<String> engines, boolean isParked, List<String> parkTypes)
     {
-        String sql = generateSelectQuery(isParked) + generateWherePartOfQuery(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput,
+        String sql = generateSelectQuery(isParked, parkTypes) + generateWherePartOfQuery(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput,
                                                 countries, engines);
 
 
@@ -98,7 +96,7 @@ public class VehiclesViewDAO {
         }
         return sql;
     }
-    private static String generateSelectQuery(boolean isParked)
+    private static String generateSelectQuery(boolean isParked, List<String> parkTypes)
     {
         String sql;
         if(isParked)
@@ -106,6 +104,27 @@ public class VehiclesViewDAO {
             sql = "SELECT "+VehiclesViewContract.TABLE_NAME+".* FROM "+VehiclesViewContract.TABLE_NAME+
                     " INNER JOIN "+VehiclesViewContract.PARKS_TABLE_NAME+" ON "+VehiclesViewContract.TABLE_NAME+
                     "."+VehiclesViewContract.COLUMN_NAME_ID+"="+VehiclesViewContract.PARKS_TABLE_NAME+"."+VehiclesViewContract.COLUMN_NAME_ID;
+            if(parkTypes.size()==0)
+                return sql;
+            sql+=" INNER JOIN "+VehiclesViewContract.PARKINGS_TABLE_NAME+" ON "+VehiclesViewContract.PARKINGS_TABLE_NAME+"."+VehiclesViewContract.PARKINGS_COLUMN_NAME_ID+
+                    "="+VehiclesViewContract.PARKS_TABLE_NAME+"."+VehiclesViewContract.PARKINGS_COLUMN_NAME_ID+
+                    " INNER JOIN ";
+            if(parkTypes.size()>1)
+                sql+="(";
+            sql+=parkTypes.get(0);
+            for(int i = 1; i<parkTypes.size();i++)
+            {
+                sql += " FULL JOIN "+parkTypes.get(i) + " on " + parkTypes.get(0) + "." + VehiclesViewContract.PARKINGS_COLUMN_NAME_ID + "=" +
+                        parkTypes.get(i) + "." + VehiclesViewContract.PARKINGS_COLUMN_NAME_ID;
+            }
+            if(parkTypes.size()>1)
+                sql+=")";
+            sql+=" on ";
+            for(String s : parkTypes)
+                sql+=VehiclesViewContract.PARKINGS_TABLE_NAME+"."+VehiclesViewContract.PARKINGS_COLUMN_NAME_ID+
+                        "="+s+"."+VehiclesViewContract.PARKINGS_COLUMN_NAME_ID+" or ";
+            sql+=" 1=0";
+
         }
         else
         {
@@ -117,7 +136,7 @@ public class VehiclesViewDAO {
     private static ObservableList<VehiclesView> generateVehiclesViewsList(CachedRowSet resultSet) throws SQLException{
         ObservableList<VehiclesView> vehiclesViewsList = FXCollections.observableArrayList();
 
-        while (resultSet.next()) {
+        while (resultSet!=null&&resultSet.next()) {
             VehiclesView vehiclesView = generateVehiclesView(resultSet);
             vehiclesViewsList.add(vehiclesView);
         }
@@ -148,20 +167,45 @@ public class VehiclesViewDAO {
     }
 
     public static void generateStatistics(String heightMinInput, String heightMaxInput, String weightMinInput, String weightMaxInput,
-                                   List<String> countries, List<String> engines, boolean isParked)
+                                   List<String> countries, List<String> engines, boolean isParked, List<String> parkTypes)
     {
+        ObservableList<VehiclesView> vehiclesViews = getVehiclesViews(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, isParked, parkTypes);
 
-        generateEngineTypesAndNumber(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, isParked);
-        nrOfVehicles = getVehiclesViews(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, isParked).size();
+        nrOfVehicles = vehiclesViews.size();
+        generateEngineTypesAndNumber(vehiclesViews);
+
+
+
         if(!isParked)
-             nrOfVehiclesParked = getVehiclesViews(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, true).size();
+             nrOfVehiclesParked = getVehiclesViews(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, true, parkTypes).size();
         else
             nrOfVehiclesParked=nrOfVehicles;
-        onCityParkings = getParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.CITY_TABLE_NAME);
-        onParkRides = getParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.PARK_RIDES_TABLE_NAME);
-        onKissRides = getParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.KISS_RIDES_TABLE_NAME);
-        onEstateParkings = getParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.ESTATES_TABLE_NAME);
-
+        if(parkTypes.size()==0) {
+            onCityParkings = getParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.CITY_TABLE_NAME);
+            onParkRides = getParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.PARK_RIDES_TABLE_NAME);
+            onKissRides = getParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.KISS_RIDES_TABLE_NAME);
+            onEstateParkings = getParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.ESTATES_TABLE_NAME);
+        }
+        else
+        {
+            onCityParkings=onParkRides=onKissRides=onEstateParkings=0;
+            if(parkTypes.stream().anyMatch(e->e.equals(ParkingsViewDAO.PARKING_TYPES_TABLE_NAMES.get(0))))
+            {
+                onCityParkings = getParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.CITY_TABLE_NAME);
+            }
+            if(parkTypes.stream().anyMatch(e->e.equals(ParkingsViewDAO.PARKING_TYPES_TABLE_NAMES.get(1))))
+            {
+                onParkRides = getParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.PARK_RIDES_TABLE_NAME);
+            }
+            if(parkTypes.stream().anyMatch(e->e.equals(ParkingsViewDAO.PARKING_TYPES_TABLE_NAMES.get(2))))
+            {
+                onKissRides = getParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.KISS_RIDES_TABLE_NAME);
+            }
+            if(parkTypes.stream().anyMatch(e->e.equals(ParkingsViewDAO.PARKING_TYPES_TABLE_NAMES.get(3))))
+            {
+                onEstateParkings = getParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.ESTATES_TABLE_NAME);
+            }
+        }
 
     }
 
@@ -179,7 +223,7 @@ public class VehiclesViewDAO {
         CachedRowSet resultSet = DbHelper.executeQuery(sql);
         try
         {
-            if(resultSet.next())
+            if(resultSet!=null&&resultSet.next())
                 return resultSet.getInt("x");
         }
         catch (SQLException e)
@@ -189,28 +233,23 @@ public class VehiclesViewDAO {
         return 0;
     }
 
-    private static void generateEngineTypesAndNumber(String heightMinInput, String heightMaxInput, String weightMinInput, String weightMaxInput,
-                                                     List<String> countries, List<String> engines, boolean isParked) {
-        String sql = "SELECT COUNT("+VehiclesViewContract.COLUMN_NAME_ENGINE_TYPE+") as engine_count, "+VehiclesViewContract.COLUMN_NAME_ENGINE_TYPE+
-                " FROM "+VehiclesViewContract.TABLE_NAME;
-        if(isParked)
-        {
-            sql +=" INNER JOIN "+VehiclesViewContract.PARKS_TABLE_NAME+" ON "+VehiclesViewContract.TABLE_NAME+
-                    "."+VehiclesViewContract.COLUMN_NAME_ID+"="+VehiclesViewContract.PARKS_TABLE_NAME+"."+VehiclesViewContract.COLUMN_NAME_ID;
-        }
-        sql+=generateWherePartOfQuery(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines)+
-                " GROUP BY "+VehiclesViewContract.COLUMN_NAME_ENGINE_TYPE;
-        CachedRowSet resultSet = DbHelper.executeQuery(sql);
+    private static void generateEngineTypesAndNumber(ObservableList<VehiclesView> vehiclesViews)
+    {
         engineTypesAndNumber.clear();
-        try {
-            while (resultSet.next()) {
-                  engineTypesAndNumber.put(resultSet.getString(VehiclesViewContract.COLUMN_NAME_ENGINE_TYPE), resultSet.getInt("engine_count"));
-            }
-        }
-        catch (SQLException e)
+        List<String> engineTypes = new ArrayList<>();
+        for(VehiclesView vv : vehiclesViews)
+            if (engineTypes.stream().noneMatch(e -> e.equals(vv.getEngineType())))
+                engineTypes.add(vv.getEngineType());
+
+        for(String s : engineTypes)
         {
-            System.err.println(e.getMessage());
+            int engines=0;
+            for(VehiclesView vv : vehiclesViews)
+                if(vv.getEngineType().equals(s))
+                    engines++;
+            engineTypesAndNumber.put(s, engines);
         }
+
     }
 
     public static Map<String, Integer> getEngineTypesAndNumber()
