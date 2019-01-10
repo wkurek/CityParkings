@@ -1,6 +1,5 @@
 package model.views;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import util.DbHelper;
@@ -158,15 +157,15 @@ public class VehiclesViewDAO {
              nrOfVehiclesParked = getVehiclesViews(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, true).size();
         else
             nrOfVehiclesParked=nrOfVehicles;
-        onCityParkings = generateParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.CITY_TABLE_NAME);
-        onParkRides = generateParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.PARK_RIDES_TABLE_NAME);
-        onKissRides = generateParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.KISS_RIDES_TABLE_NAME);
-        onEstateParkings = generateParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.ESTATES_TABLE_NAME);
+        onCityParkings = getParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.CITY_TABLE_NAME);
+        onParkRides = getParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.PARK_RIDES_TABLE_NAME);
+        onKissRides = getParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.KISS_RIDES_TABLE_NAME);
+        onEstateParkings = getParksOnOtherParkings(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, VehiclesViewContract.ESTATES_TABLE_NAME);
 
 
     }
 
-    private static int generateParksOnOtherParkings(String heightMinInput, String heightMaxInput, String weightMinInput,
+    private static int getParksOnOtherParkings(String heightMinInput, String heightMaxInput, String weightMinInput,
                                                      String weightMaxInput, List<String> countries, List<String> engines,
                                                      String tableName) {
         String sql = "SELECT COUNT(*) AS x FROM "+VehiclesViewContract.TABLE_NAME+" INNER JOIN "+VehiclesViewContract.PARKS_TABLE_NAME+

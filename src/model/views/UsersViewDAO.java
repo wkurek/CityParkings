@@ -13,18 +13,23 @@ public class UsersViewDAO {
     private static class UsersViewContract {
         public static final String TABLE_NAME = "[dbo].[users_view]";
         public static final String COLUMN_NAME_ID = "user_id";
-        public static final String COLUMN_NAME_NAME = "name";
-        public static final String COLUMN_NAME_SURNAME = "surname";
-        public static final String COLUMN_NAME_PHONE_NR = "phone_nr";
-        public static final String COLUMN_NAME_COUNTRY = "country";
-        public static final String COLUMN_NAME_CITY = "city";
-        public static final String COLUMN_NAME_ZIP_CODE = "zip_code";
-        public static final String COLUMN_NAME_STREET = "street";
-        public static final String COLUMN_NAME_NUMBER= "number";
-        public static final String COLUMN_NAME_NUMBER_OF_VEHICLES = "nr_of_vehicles";
-        public static final String COLUMN_NAME_CARD_ID = "card_id";
-        public static final String COLUMN_NAME_EXPIRATION_DATE = "expiration_date";
+        static final String COLUMN_NAME_NAME = "name";
+        static final String COLUMN_NAME_SURNAME = "surname";
+        static final String COLUMN_NAME_PHONE_NR = "phone_nr";
+        static final String COLUMN_NAME_COUNTRY = "country";
+        static final String COLUMN_NAME_CITY = "city";
+        static final String COLUMN_NAME_ZIP_CODE = "zip_code";
+        static final String COLUMN_NAME_STREET = "street";
+        static final String COLUMN_NAME_NUMBER= "number";
+        static final String COLUMN_NAME_NUMBER_OF_VEHICLES = "nr_of_vehicles";
+        static final String COLUMN_NAME_CARD_ID = "card_id";
+        static final String COLUMN_NAME_EXPIRATION_DATE = "expiration_date";
     }
+
+    private static int nrOfUsers;
+    private static int summedVehicles;
+    private static float averageVehicles;
+    private static int withoutVehicle;
 
     public static ObservableList<UsersView> getUsersViews(String vehiclesMinInput, String vehiclesMaxInput,
                                                           String dateMinInput, String dateMaxInput, List<String> countries)
@@ -33,7 +38,7 @@ public class UsersViewDAO {
 
         CachedRowSet result = DbHelper.executeQuery(sql);
 
-        ObservableList<UsersView> usersViewsList = null;
+        ObservableList<UsersView> usersViewsList = FXCollections.observableArrayList();
         try {
             usersViewsList = generateUsersViewsList(result);
         } catch (SQLException e) {
@@ -83,7 +88,7 @@ public class UsersViewDAO {
         return usersViewsList;
     }
 
-    public static UsersView generateUsersView(CachedRowSet resultSet) throws SQLException {
+    private static UsersView generateUsersView(CachedRowSet resultSet) throws SQLException {
         UsersView usersView = new UsersView();
 
         usersView.setId(resultSet.getInt(UsersViewContract.COLUMN_NAME_ID));
@@ -102,4 +107,40 @@ public class UsersViewDAO {
         return usersView;
     }
 
+    public static void generateStatistics(String vehiclesMinInput, String vehiclesMaxInput,
+                                          String dateMinInput, String dateMaxInput, List<String> countries)
+    {
+        ObservableList<UsersView> usersViews = getUsersViews(vehiclesMinInput, vehiclesMaxInput, dateMinInput, dateMaxInput, countries);
+        nrOfUsers = usersViews.size();
+        int vehicles=0;
+        withoutVehicle=0;
+        for(UsersView u : usersViews) {
+            if(u.getNumberOfVehicles()==0)
+                withoutVehicle++;
+            else
+                vehicles += u.getNumberOfVehicles();
+        }
+        summedVehicles = vehicles;
+        if(nrOfUsers==0)
+            averageVehicles=0;
+        else
+            averageVehicles = (float)summedVehicles/(float)nrOfUsers;
+
+    }
+
+    public static int getNrOfUsers() {
+        return nrOfUsers;
+    }
+
+    public static int getSummedVehicles() {
+        return summedVehicles;
+    }
+
+    public static float getAverageVehicles() {
+        return averageVehicles;
+    }
+
+    public static int getWithoutVehicle() {
+        return withoutVehicle;
+    }
 }

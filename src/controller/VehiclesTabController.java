@@ -6,12 +6,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.util.Pair;
 import model.country.Country;
 import model.country.CountryDAO;
 import model.engine.Engine;
 import model.engine.EngineDAO;
-import model.views.ParkingsView;
 import model.views.VehiclesView;
 import model.views.VehiclesViewDAO;
 

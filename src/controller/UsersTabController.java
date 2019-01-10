@@ -2,8 +2,10 @@ package controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.country.Country;
 import model.country.CountryDAO;
@@ -47,6 +49,16 @@ public class UsersTabController {
     public MenuButton columnMenuButton;
     @FXML
     public TableView<UsersView> usersViewTable;
+    @FXML
+    public Text nrOfUsers;
+    @FXML
+    public Text summedVehicles;
+    @FXML
+    public Text averageVehicles;
+    @FXML
+    public Text withoutVehicle;
+    @FXML
+    public Button clearButton;
 
 
     private List<CheckMenuItem> countryItems;
@@ -71,6 +83,7 @@ public class UsersTabController {
         menuButtonsSet();
         generateTableColumns();
         setUpTable();
+        setUpStatistics();
         expirationMinInput.getEditor().setDisable(true);
         expirationMaxInput.getEditor().setDisable(true);
     }
@@ -142,15 +155,43 @@ public class UsersTabController {
         }
         usersViewsList = UsersViewDAO.getUsersViews(vehiclesMinInput.getText(), vehiclesMaxInput.getText(),dateMin, dateMax,
                                                                             ReportsController.selectedMenuItemsToStringList(countryMenuButton.getItems()));
-
         usersViewTable.setItems(usersViewsList);
     }
     @FXML
     public void onUsersFilterClicked() {
         setUpTable();
+        setUpStatistics();
+    }
+
+    private void setUpStatistics() {
+        String dateMin=null;
+        String dateMax=null;
+        if(expirationMinInput.getValue()!=null)
+        {
+            dateMin=expirationMinInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        }
+        if(expirationMaxInput.getValue()!=null)
+        {
+            dateMax=expirationMaxInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        }
+        UsersViewDAO.generateStatistics(vehiclesMinInput.getText(), vehiclesMaxInput.getText(),dateMin, dateMax,
+                ReportsController.selectedMenuItemsToStringList(countryMenuButton.getItems()));
+        nrOfUsers.setText(Integer.toString(UsersViewDAO.getNrOfUsers()));
+        summedVehicles.setText(Integer.toString(UsersViewDAO.getSummedVehicles()));
+        averageVehicles.setText(String.format("%.02f", UsersViewDAO.getAverageVehicles()));
+        withoutVehicle.setText(Integer.toString(UsersViewDAO.getWithoutVehicle()));
+
+
+
+
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void onClearButtonClicked() {
+        expirationMinInput.setValue(null);
+        expirationMaxInput.setValue(null);
     }
 }

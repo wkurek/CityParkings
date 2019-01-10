@@ -176,6 +176,10 @@ public class EmployeesViewDAO {
     }
     private static void generateSalaries(ObservableList<EmployeesView> employeesViews)
     {
+        if(employeesViews==null||employeesViews.size()==0) {
+            minSalary = maxSalary = medianSalary = averageSalary = 0;
+            return;
+        }
         List<Float> salaries = new ArrayList<>();
         for(EmployeesView e : employeesViews)
             salaries.add(e.getSalary());

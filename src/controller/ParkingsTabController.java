@@ -97,7 +97,6 @@ public class ParkingsTabController {
     private List<CheckMenuItem> parkingTypeItems;
 
     private ObservableList<ParkingsView> parkingsViewsList;
-    //private Task<ObservableList<ParkingsView>> parkingsViewLoadTask;
 
     private List<TableColumn> columns;
 
