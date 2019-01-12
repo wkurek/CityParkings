@@ -136,27 +136,19 @@ public class VehiclesTabController {
     private void menuButtonsSet()
     {
         countryItems.add(new CheckMenuItem("Select All"));
-        for(Country i : CountryDAO.getCountries()) {
-            countryItems.add(new CheckMenuItem(i.getName()));
-        }
+        CountryDAO.getCountries().forEach(e->countryItems.add(new CheckMenuItem(e.getName())));
         countryMenuButton.getItems().setAll(countryItems);
 
         engineTypeItems.add(new CheckMenuItem("Select All"));
-        for(Engine i : EngineDAO.getEngines()) {
-            engineTypeItems.add(new CheckMenuItem(i.getType()));
-        }
+        EngineDAO.getEngines().forEach(e->engineTypeItems.add(new CheckMenuItem(e.getType())));
         engineTypeMenuButton.getItems().setAll(engineTypeItems);
 
         columnItems.add(new CheckMenuItem("Select All"));
-        for(String i : COLUMN_NAMES) {
-            columnItems.add(new CheckMenuItem(i));
-        }
+        COLUMN_NAMES.forEach(e->columnItems.add(new CheckMenuItem(e)));
         columnMenuButton.getItems().setAll(columnItems);
 
         parkTypesItems.add(new CheckMenuItem("Select All"));
-        for(String i : ParkingsTabController.PARKING_TYPES) {
-            parkTypesItems.add(new CheckMenuItem(i));
-        }
+        ParkingsTabController.PARKING_TYPES.forEach(e->parkTypesItems.add(new CheckMenuItem(e)));
         parkTypesMenuButton.getItems().setAll(parkTypesItems);
 
     }

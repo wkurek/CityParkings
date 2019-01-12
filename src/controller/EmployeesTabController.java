@@ -109,22 +109,16 @@ public class EmployeesTabController {
     private void menuButtonsSet() {
 
         countryItems.add(new CheckMenuItem("Select All"));
-        for(Country i : CountryDAO.getCountries()) {
-            countryItems.add(new CheckMenuItem(i.getName()));
-        }
+        CountryDAO.getCountries().forEach(e->countryItems.add(new CheckMenuItem(e.getName())));
         countryMenuButton.getItems().setAll(countryItems);
 
 
         departmentItems.add(new CheckMenuItem("Select All"));
-        for(Department i : DepartmentDAO.getDepartment()) {
-            departmentItems.add(new CheckMenuItem(i.getDepartmentName()));
-        }
+        DepartmentDAO.getDepartment().forEach(e->departmentItems.add(new CheckMenuItem(e.getDepartmentName())));
         departmentMenuButton.getItems().setAll(departmentItems);
 
         columnItems.add(new CheckMenuItem("Select All"));
-        for(String i : COLUMN_NAMES) {
-            columnItems.add(new CheckMenuItem(i));
-        }
+        COLUMN_NAMES.forEach(e->columnItems.add(new CheckMenuItem(e)));
         columnMenuButton.getItems().setAll(columnItems);
     }
 

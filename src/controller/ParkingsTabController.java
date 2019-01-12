@@ -118,14 +118,11 @@ public class ParkingsTabController {
 
     private void menuButtonsSet() {
         parkingTypeItems.add(new CheckMenuItem("Select All"));
-        for(String i : PARKING_TYPES) {
-            parkingTypeItems.add(new CheckMenuItem(i));
-        }
+        PARKING_TYPES.forEach(e->parkingTypeItems.add(new CheckMenuItem(e)));
         parkingTypeMenuButton.getItems().setAll(parkingTypeItems);
+
         columnItems.add(new CheckMenuItem("Select All"));
-        for(String i : COLUMN_NAMES) {
-            columnItems.add(new CheckMenuItem(i));
-        }
+        COLUMN_NAMES.forEach(e->columnItems.add(new CheckMenuItem(e)));
         columnMenuButton.getItems().setAll(columnItems);
     }
     private void generateTableColumns()

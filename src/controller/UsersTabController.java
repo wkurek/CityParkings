@@ -89,15 +89,11 @@ public class UsersTabController {
     private void menuButtonsSet()
     {
         columnItems.add(new CheckMenuItem("Select All"));
-        for(String i : COLUMN_NAMES) {
-            columnItems.add(new CheckMenuItem(i));
-        }
+        COLUMN_NAMES.forEach(e->columnItems.add(new CheckMenuItem(e)));
         columnMenuButton.getItems().setAll(columnItems);
 
         countryItems.add(new CheckMenuItem("Select All"));
-        for(Country i : CountryDAO.getCountries()) {
-            countryItems.add(new CheckMenuItem(i.getName()));
-        }
+        CountryDAO.getCountries().forEach(e->countryItems.add(new CheckMenuItem(e.getName())));
         countryMenuButton.getItems().setAll(countryItems);
     }
     private void generateTableColumns()

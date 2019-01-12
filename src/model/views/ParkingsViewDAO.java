@@ -236,7 +236,7 @@ public class ParkingsViewDAO {
         CachedRowSet resultSet = DbHelper.executeQuery(sql);
         List<Long> dateDifferences = new ArrayList<>();
         try {
-            while (resultSet.next())
+            while (resultSet!=null&&resultSet.next())
             {
                 java.sql.Date sqlDate = resultSet.getDate("date_time");
                 DateTime dateTime = new DateTime(sqlDate.getTime());
