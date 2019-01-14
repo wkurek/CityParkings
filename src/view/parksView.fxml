@@ -53,11 +53,6 @@
                                 <Font size="14.0" />
                             </font>
                         </Text>
-                        <Text layoutX="422.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicle details">
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                        </Text>
                         <VBox alignment="TOP_RIGHT" layoutX="13.0" layoutY="39.0" spacing="8.0">
                             <children>
                                 <HBox alignment="BOTTOM_RIGHT" spacing="12.0">
@@ -82,7 +77,6 @@
                                     <buttons>
                                         <Button fx:id="editParkButton" mnemonicParsing="false" onAction="#onEditParkButtonClicked" text="Edit" />
                                         <Button fx:id="saveParkButton" mnemonicParsing="false" onAction="#onSaveParkButtonClicked" text="Save" />
-                                        <Button fx:id="newParkButton" layoutX="125.0" layoutY="10.0" mnemonicParsing="false" onAction="#onNewParkButtonClicked" text="New" />
                                     </buttons>
                                 </ButtonBar>
                             </children>
@@ -92,34 +86,6 @@
                                 <Font size="14.0" />
                             </font>
                         </Text>
-                        <VBox layoutX="442.0" layoutY="353.0" spacing="8.0">
-                            <children>
-                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                                    <children>
-                                        <Label text="Plate numers" />
-                                        <TextField fx:id="parkVehiclePlateNumerInput" disable="true" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                                    <children>
-                                        <Label text="Weight" />
-                                        <TextField fx:id="parkVehicleWeightInput" disable="true" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="44.0" spacing="12.0">
-                                    <children>
-                                        <Label text="Height" />
-                                        <TextField fx:id="parkVehicleHeightInput" disable="true" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="78.0" spacing="12.0">
-                                    <children>
-                                        <Label text="User id" />
-                                        <TextField fx:id="parkVehicleUserIdInput" disable="true" />
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
                   <VBox alignment="TOP_RIGHT" layoutX="426.0" layoutY="39.0" spacing="8.0">
                      <children>
                         <HBox alignment="BOTTOM_RIGHT" spacing="12.0">

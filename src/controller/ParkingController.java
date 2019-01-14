@@ -209,13 +209,10 @@ public class ParkingController {
     }
 
     private void onParkingSelected(Parking selectedParking) {
-        deleteParkButton.setDisable(false);
         saveParkingButton.setDisable(true);
         editParkingButton.setDisable(false);
 
         setParkingInputFieldDisable(true);
-
-        deleteParkButton.setDisable(true);
 
         parkingIdInput.setText(Integer.toString(selectedParking.getParkingId()));
         parkingStandardSlotsNumberInput.setText(Integer.toString(selectedParking.getStandardLots()));
