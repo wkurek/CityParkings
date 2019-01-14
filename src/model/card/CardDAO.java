@@ -14,8 +14,8 @@ public class CardDAO {
         public static final String COLUMN_NAME_EXPIRATION_DATE = "expiration_date";
     }
 
-    public static Card generateCard(CachedRowSet resultSet) throws SQLException {
-        Card card = new Card();
+    public static model.card.Card generateCard(CachedRowSet resultSet) throws SQLException {
+        model.card.Card card = new Card();
         card.setCardId(resultSet.getInt(CardContract.COLUMN_NAME_ID));
         card.setExpirationDate(resultSet.getDate(CardContract.COLUMN_NAME_EXPIRATION_DATE));
 
@@ -65,13 +65,31 @@ public class CardDAO {
         return card;
     }
 
+    public static Integer getSavedCardIndex() {
+        String sql = String.format("SELECT IDENT_CURRENT ('%s') AS %s", CardContract.TABLE_NAME,
+                CardContract.COLUMN_NAME_ID);
+        CachedRowSet result = DbHelper.executeQuery(sql);
+
+        Integer index = null;
+
+        try {
+            if(result.next()) {
+                index = result.getInt(CardContract.COLUMN_NAME_ID);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return index;
+    }
+
     public static void saveCard(Card card) {
         if(card == null) {
             System.err.println("Empty object.");
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES (0, '%s')", CardContract.TABLE_NAME, card.getExpirationDate());
+        String sql = String.format("INSERT INTO %s VALUES ('%s')", CardContract.TABLE_NAME, card.getExpirationDate());
 
         DbHelper.executeUpdateQuery(sql);
     }

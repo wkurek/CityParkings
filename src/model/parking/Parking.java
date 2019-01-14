@@ -92,4 +92,10 @@ public class Parking {
     public void setRoofed(boolean roofed) {
         this.roofed.set(roofed);
     }
+
+    @Override
+    public String toString() {
+
+        return String.format("%d", getParkingId());
+    }
 }

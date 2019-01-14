@@ -16,15 +16,15 @@ import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
 
 public class EmployeeDAO {
-    private static class EmployeeContract {
-        static final String TABLE_NAME = "[dbo].[employees]";
-        static final String COLUMN_NAME_ID = "employee_id";
-        static final String COLUMN_NAME_NAME = "name";
-        static final String COLUMN_NAME_SURNAME = "surname";
-        static final String COLUMN_NAME_SALARY = "salary";
-        static final String COLUMN_NAME_DEPARTMENT_NAME = "department_name";
-        static final String COLUMN_NAME_ADDRESS_ID = "address_id";
-        static final String COLUMN_NAME_PARKING_ID = "parking_id";
+    public static class EmployeeContract {
+        public static final String TABLE_NAME = "[dbo].[employees]";
+        public static final String COLUMN_NAME_ID = "employee_id";
+        public static final String COLUMN_NAME_NAME = "name";
+        public static final String COLUMN_NAME_SURNAME = "surname";
+        public static final String COLUMN_NAME_SALARY = "salary";
+        public static final String COLUMN_NAME_DEPARTMENT_NAME = "department_name";
+        public static final String COLUMN_NAME_ADDRESS_ID = "address_id";
+        public static final String COLUMN_NAME_PARKING_ID = "parking_id";
     }
 
     public static Employee generateEmployee(CachedRowSet resultSet) throws SQLException {
@@ -113,9 +113,10 @@ public class EmployeeDAO {
                 ParkingDAO.ParkingContract.TABLE_NAME, ParkingDAO.ParkingContract.COLUMN_NAME_LOCATION_ID,
                 LocationDAO.LocationContract.TABLE_NAME, LocationDAO.LocationContract.COLUMN_NAME_ID
 
-                );
+        );
 
     }
+
 
     private static String generateSelectWhereQuery(int id) {
         String sql = generateSelectQuery();
@@ -160,7 +161,7 @@ public class EmployeeDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES (0, '%s', '%s', %.2f, '%s', %d, %d)", EmployeeContract.TABLE_NAME,
+        String sql = String.format("INSERT INTO %s VALUES ('%s', '%s', %.2f, '%s', %d, %d)", EmployeeContract.TABLE_NAME,
                 employee.getName(), employee.getSurname(), employee.getSalary(), employee.getDepartment().getDepartmentName(),
                 employee.getAddress().getId(), employee.getParking().getParkingId());
 

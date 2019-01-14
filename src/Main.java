@@ -1,5 +1,9 @@
+
+import controller.RootController;
 import javafx.application.Application;
+
 import javafx.fxml.FXMLLoader;
+
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -19,6 +23,9 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/rootView.fxml"));
             rootView = loader.load();
+
+            RootController controller = loader.getController();
+            controller.setStage(primaryStage);
 
             primaryStage.setScene(new Scene(rootView));
             primaryStage.show();
@@ -41,6 +48,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+
         launch(args);
     }
 }

@@ -127,7 +127,7 @@ public class UserDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES (0, '%s', '%s', '%s', %d, %d)", UserContract.TABLE_NAME,
+        String sql = String.format("INSERT INTO %s VALUES ('%s', '%s', '%s', %d, %d)", UserContract.TABLE_NAME,
                 user.getName(), user.getSurname(), user.getPhoneNumber(), user.getCard().getCardId(),
                 user.getAddress().getId());
 

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="820.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RootController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="820.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RootController">
    <children>
       <BorderPane fx:id="rootContainer" layoutX="189.0" layoutY="125.0" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -16,14 +16,14 @@
                     <items>
                         <Menu mnemonicParsing="false" text="Parkingi">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Nowy" />
-                            <MenuItem mnemonicParsing="false" text="Przeglądaj" />
+                            <MenuItem mnemonicParsing="false" onAction="#onNewParkingClicked" text="Nowy" />
+                            <MenuItem mnemonicParsing="false" onAction="#onPreviewParkingsClicked" text="Przeglądaj" />
                           </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Zaparkowania">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Nowe" />
-                            <MenuItem mnemonicParsing="false" text="Przeglądaj" />
+                            <MenuItem mnemonicParsing="false" onAction="#onNewParkClicked" text="Nowe" />
+                            <MenuItem mnemonicParsing="false" onAction="#onPreviewParksClicked" text="Przeglądaj" />
                           </items>
                         </Menu>
                     </items>
@@ -34,16 +34,15 @@
                         <MenuItem mnemonicParsing="false" onAction="#onPreviewUsersClicked" text="Przeglądaj" />
                     </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Pojazdy">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Nowy" />
-                        <MenuItem mnemonicParsing="false" text="Przeglądaj" />
-                    </items>
-                  </Menu>
                   <Menu mnemonicParsing="false" text="Pracownicy">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Nowy" />
-                        <MenuItem mnemonicParsing="false" text="Przeglądaj" />
+                        <MenuItem mnemonicParsing="false" onAction="#onNewEmployeeClicked" text="Nowy" />
+                        <MenuItem mnemonicParsing="false" onAction="#onPreviewEmployeesClicked" text="Przeglądaj" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Reports">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#onReportsClicked" text="Show reports" />
                     </items>
                   </Menu>
                </menus>

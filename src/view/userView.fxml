@@ -16,161 +16,161 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
-   <children>
-      <SplitPane dividerPositions="0.39348370927318294" layoutX="201.0" layoutY="103.0" orientation="VERTICAL" prefHeight="800.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="365.0" prefWidth="798.0">
-               <children>
-                  <ButtonBar layoutX="519.0" layoutY="14.0">
-                     <buttons>
-                        <Button mnemonicParsing="false" onAction="#onRefreshUserButtonClicked" text="Refresh" />
-                        <Button mnemonicParsing="false" onAction="#onNewUserButtonClicked" text="New" />
-                        <Button fx:id="deleteUserButton" disable="true" layoutX="30.0" layoutY="10.0" mnemonicParsing="false" onAction="#onDeleteUserButtonClicked" text="Delete" />
-                     </buttons>
-                  </ButtonBar>
-                  <Text layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Users">
-                     <font>
-                        <Font name="System Bold" size="23.0" />
-                     </font>
-                  </Text>
-                  <TableView fx:id="usersTable" layoutX="-2.0" layoutY="54.0" prefHeight="259.0" prefWidth="800.0">
-                    <columns>
-                      <TableColumn fx:id="userIdColumn" prefWidth="75.0" text="Id" />
-                      <TableColumn fx:id="userNameColumn" prefWidth="75.0" text="Name" />
-                        <TableColumn fx:id="userSurnameColumn" prefWidth="75.0" text="Surname" />
-                        <TableColumn fx:id="userPhoneNumberColumn" prefWidth="75.0" text="Phone number" />
-                        <TableColumn fx:id="userCityColumn" prefWidth="75.0" text="City" />
-                        <TableColumn fx:id="userCountryColumn" prefWidth="75.0" text="Country" />
-                    </columns>
-                  </TableView>
-               </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-               <children>
-                  <Separator layoutX="410.0" orientation="VERTICAL" prefHeight="481.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="0.0" />
-                  <Separator layoutX="410.0" layoutY="319.0" prefHeight="2.0" prefWidth="384.0" />
-                  <Text layoutX="422.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User's vehicles">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="420.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User's card">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                  </Text>
-                  <TableView fx:id="vehicleTableView" layoutX="412.0" layoutY="43.0" prefHeight="232.0" prefWidth="384.0">
-                    <columns>
-                        <TableColumn fx:id="vehiclePlateNumberColumn" prefWidth="120.0" text="Plate number" />
-                        <TableColumn fx:id="vehicleWeightColumn" prefWidth="59.0" text="Weight" />
-                        <TableColumn fx:id="vehicleHeightColumn" prefWidth="71.0" text="Height" />
-                        <TableColumn fx:id="vehicleEngineTypeColumn" prefWidth="133.0" text="Engine type" />
-                    </columns>
-                  </TableView>
-                  <ButtonBar layoutX="605.0" layoutY="282.0">
-                     <buttons>
-                        <Button fx:id="addVehicleButton" disable="true" mnemonicParsing="false" onAction="#onAddVehicleButtonClicked" text="Add new" />
-                        <Button fx:id="deleteVehicleButton" disable="true" mnemonicParsing="false" onAction="#onDeleteVehicleButtonClicked" text="Delete" />
-                     </buttons>
-                  </ButtonBar>
-                  <VBox alignment="TOP_RIGHT" layoutX="18.0" layoutY="55.0" spacing="8.0">
-                     <children>
-                        <HBox alignment="BOTTOM_RIGHT" spacing="12.0">
-                           <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" text="Id" textAlignment="CENTER" />
-                              <TextField fx:id="userIdInput" alignment="BOTTOM_LEFT" disable="true" nodeOrientation="LEFT_TO_RIGHT" />
-                           </children>
+    <children>
+        <SplitPane dividerPositions="0.39348370927318294" layoutX="201.0" layoutY="103.0" orientation="VERTICAL" prefHeight="800.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="365.0" prefWidth="798.0">
+                    <children>
+                        <ButtonBar layoutX="519.0" layoutY="14.0">
+                            <buttons>
+                                <Button mnemonicParsing="false" onAction="#onRefreshUserButtonClicked" text="Refresh" />
+                                <Button mnemonicParsing="false" onAction="#onNewUserButtonClicked" text="New" />
+                                <Button fx:id="deleteUserButton" disable="true" layoutX="30.0" layoutY="10.0" mnemonicParsing="false" onAction="#onDeleteUserButtonClicked" text="Delete" />
+                            </buttons>
+                        </ButtonBar>
+                        <Text layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Users">
+                            <font>
+                                <Font name="System Bold" size="23.0" />
+                            </font>
+                        </Text>
+                        <TableView fx:id="usersTable" layoutX="-2.0" layoutY="54.0" prefHeight="259.0" prefWidth="800.0">
+                            <columns>
+                                <TableColumn fx:id="userIdColumn" prefWidth="75.0" text="Id" />
+                                <TableColumn fx:id="userNameColumn" prefWidth="75.0" text="Name" />
+                                <TableColumn fx:id="userSurnameColumn" prefWidth="75.0" text="Surname" />
+                                <TableColumn fx:id="userPhoneNumberColumn" prefWidth="75.0" text="Phone number" />
+                                <TableColumn fx:id="userCityColumn" prefWidth="75.0" text="City" />
+                                <TableColumn fx:id="userCountryColumn" prefWidth="75.0" text="Country" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                    <children>
+                        <Separator layoutX="410.0" orientation="VERTICAL" prefHeight="481.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="0.0" />
+                        <Separator layoutX="410.0" layoutY="319.0" prefHeight="2.0" prefWidth="384.0" />
+                        <Text layoutX="422.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User's vehicles">
+                            <font>
+                                <Font name="System Bold" size="20.0" />
+                            </font>
+                        </Text>
+                        <Text layoutX="420.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User's card">
+                            <font>
+                                <Font name="System Bold" size="20.0" />
+                            </font>
+                        </Text>
+                        <TableView fx:id="vehicleTableView" layoutX="412.0" layoutY="43.0" prefHeight="232.0" prefWidth="384.0">
+                            <columns>
+                                <TableColumn fx:id="vehiclePlateNumberColumn" prefWidth="120.0" text="Plate number" />
+                                <TableColumn fx:id="vehicleWeightColumn" prefWidth="59.0" text="Weight" />
+                                <TableColumn fx:id="vehicleHeightColumn" prefWidth="71.0" text="Height" />
+                                <TableColumn fx:id="vehicleEngineTypeColumn" prefWidth="133.0" text="Engine type" />
+                            </columns>
+                        </TableView>
+                        <ButtonBar layoutX="605.0" layoutY="282.0">
+                            <buttons>
+                                <Button fx:id="addVehicleButton" disable="true" mnemonicParsing="false" onAction="#onAddVehicleButtonClicked" text="Add new" />
+                                <Button fx:id="deleteVehicleButton" disable="true" mnemonicParsing="false" onAction="#onDeleteVehicleButtonClicked" text="Delete" />
+                            </buttons>
+                        </ButtonBar>
+                        <VBox alignment="TOP_RIGHT" layoutX="18.0" layoutY="55.0" spacing="8.0">
+                            <children>
+                                <HBox alignment="BOTTOM_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label alignment="CENTER" contentDisplay="CENTER" text="Id" textAlignment="CENTER" />
+                                        <TextField fx:id="userIdInput" alignment="BOTTOM_LEFT" disable="true" nodeOrientation="LEFT_TO_RIGHT" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label alignment="CENTER" text="Name" />
+                                        <TextField fx:id="userNameInput" disable="true" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label text="Surname" />
+                                        <TextField fx:id="userSurnameInput" disable="true" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER" spacing="12.0">
+                                    <children>
+                                        <Label text="Phone Number" />
+                                        <TextField fx:id="userPhoneNumberInput" disable="true" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <VBox layoutX="51.0" layoutY="227.0" spacing="12.0">
+                            <children>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label text="City" />
+                                        <TextField fx:id="userCityInput" disable="true" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label text="Street" />
+                                        <TextField fx:id="userStreetInput" disable="true" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label text="ZIP Code" />
+                                        <TextField fx:id="userZIPCodeInput" disable="true" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label text="Number" />
+                                        <TextField fx:id="userNumberInput" disable="true" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <HBox alignment="CENTER" layoutX="55.0" layoutY="370.0" spacing="12.0">
+                            <children>
+                                <Label text="Country" />
+                                <ComboBox fx:id="userCountryComboBox" disable="true" prefHeight="25.0" prefWidth="199.0" />
+                            </children>
                         </HBox>
-                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                           <children>
-                              <Label alignment="CENTER" text="Name" />
-                              <TextField fx:id="userNameInput" disable="true" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                           <children>
-                              <Label text="Surname" />
-                              <TextField fx:id="userSurnameInput" disable="true" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" spacing="12.0">
-                           <children>
-                              <Label text="Phone Number" />
-                              <TextField fx:id="userPhoneNumberInput" disable="true" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <VBox layoutX="51.0" layoutY="227.0" spacing="12.0">
-                     <children>
-                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                           <children>
-                              <Label text="City" />
-                              <TextField fx:id="userCityInput" disable="true" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                           <children>
-                              <Label text="Street" />
-                              <TextField fx:id="userStreetInput" disable="true" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                           <children>
-                              <Label text="ZIP Code" />
-                              <TextField fx:id="userZIPCodeInput" disable="true" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                           <children>
-                              <Label text="Number" />
-                              <TextField fx:id="userNumberInput" disable="true" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <HBox alignment="CENTER" layoutX="55.0" layoutY="370.0" spacing="12.0">
-                     <children>
-                        <Label text="Country" />
-                        <ComboBox fx:id="userCountryComboBox" disable="true" prefHeight="25.0" prefWidth="199.0" />
-                     </children>
-                  </HBox>
-                  <Text layoutX="13.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User details">
-                     <font>
-                        <Font name="System Bold" size="23.0" />
-                     </font>
-                  </Text>
-                  <ButtonBar layoutX="219.0" layoutY="432.0">
-                     <buttons>
-                        <Button fx:id="editUserButton" disable="true" mnemonicParsing="false" onAction="#onEditUserButtonClicked" text="Edit" />
-                        <Button fx:id="saveUserButton" disable="true" mnemonicParsing="false" onAction="#onSaveUserButtonClicked" text="Save" />
-                     </buttons>
-                  </ButtonBar>
-                  <VBox layoutX="442.0" layoutY="353.0" spacing="8.0">
-                     <children>
-                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                           <children>
-                              <Label text="Id" />
-                              <TextField fx:id="cardIdInput" disable="true" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                           <children>
-                              <Label text="Expiration date " />
-                              <TextField fx:id="cardExpirationDateInput" disable="true" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <ButtonBar layoutX="490.0" layoutY="432.0" prefHeight="25.0" prefWidth="281.0">
-                     <buttons>
-                        <Button fx:id="extendCardButton" disable="true" mnemonicParsing="false" onAction="#onExtendCardButtonClicked" prefHeight="25.0" prefWidth="127.0" text="Extend" />
-                     </buttons>
-                  </ButtonBar>
-                  <Separator layoutX="86.0" layoutY="195.0" prefHeight="3.0" prefWidth="266.0" />
-               </children>
-            </AnchorPane>
-        </items>
-      </SplitPane>
-   </children>
+                        <Text layoutX="13.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User details">
+                            <font>
+                                <Font name="System Bold" size="23.0" />
+                            </font>
+                        </Text>
+                        <ButtonBar layoutX="219.0" layoutY="432.0">
+                            <buttons>
+                                <Button fx:id="editUserButton" disable="true" mnemonicParsing="false" onAction="#onEditUserButtonClicked" text="Edit" />
+                                <Button fx:id="saveUserButton" disable="true" mnemonicParsing="false" onAction="#onSaveUserButtonClicked" text="Save" />
+                            </buttons>
+                        </ButtonBar>
+                        <VBox layoutX="442.0" layoutY="353.0" spacing="8.0">
+                            <children>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label text="Id" />
+                                        <TextField fx:id="cardIdInput" disable="true" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label text="Expiration date " />
+                                        <TextField fx:id="cardExpirationDateInput" disable="true" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <ButtonBar layoutX="490.0" layoutY="432.0" prefHeight="25.0" prefWidth="281.0">
+                            <buttons>
+                                <Button fx:id="extendCardButton" disable="true" mnemonicParsing="false" onAction="#onExtendCardButtonClicked" prefHeight="25.0" prefWidth="127.0" text="Extend" />
+                            </buttons>
+                        </ButtonBar>
+                        <Separator layoutX="86.0" layoutY="195.0" prefHeight="3.0" prefWidth="266.0" />
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+    </children>
 </AnchorPane>

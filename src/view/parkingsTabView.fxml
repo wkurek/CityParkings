@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ParkingsTabController">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="720.0" prefWidth="800.0">
+        <children>
+            <SplitPane dividerPositions="0.25" orientation="VERTICAL" prefHeight="720.0" prefWidth="800.0">
+                <items>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                        <children>
+                            <Text layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filters:">
+                                <font>
+                                    <Font name="System Bold" size="20.0" />
+                                </font>
+                            </Text>
+                            <Text layoutX="23.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lots:" />
+                            <TextField fx:id="lotsMaxInput" layoutX="77.0" layoutY="122.0" prefHeight="31.0" prefWidth="45.0" />
+                            <TextField fx:id="lotsMinInput" layoutX="23.0" layoutY="122.0" prefHeight="31.0" prefWidth="45.0" />
+                            <Text layoutX="77.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
+                            <CheckBox fx:id="roofedCheckBox" layoutX="554.0" layoutY="31.0" mnemonicParsing="false" text="Roofed only" />
+                            <CheckBox fx:id="guardedCheckBox" layoutX="554.0" layoutY="69.0" mnemonicParsing="false" text="Guarded only" />
+                            <CheckBox fx:id="freeLotsCheckBox" layoutX="553.0" layoutY="110.0" mnemonicParsing="false" text="Has free slots" />
+                            <Text layoutX="23.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height(cm):" />
+                            <TextField fx:id="heightMinInput" layoutX="18.0" layoutY="63.0" prefHeight="31.0" prefWidth="55.0" />
+                            <TextField fx:id="heightMaxInput" layoutX="94.0" layoutY="64.0" prefHeight="31.0" prefWidth="55.0" />
+                            <Text layoutX="66.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
+                            <Text layoutX="185.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max vehicle weight(kg):" />
+                            <TextField fx:id="weightMinInput" layoutX="185.0" layoutY="66.0" prefHeight="31.0" prefWidth="60.0" />
+                            <TextField fx:id="weightMaxInput" layoutX="259.0" layoutY="66.0" prefHeight="31.0" prefWidth="55.0" />
+                            <Button layoutX="707.0" layoutY="107.0" mnemonicParsing="false" onAction="#onParkingsFilterClicked" text="Filter" />
+                            <Text layoutX="377.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Columns:" />
+                            <MenuButton fx:id="columnMenuButton" layoutX="377.0" layoutY="66.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="96.0" text="Columns" />
+                            <MenuButton fx:id="parkingTypeMenuButton" layoutX="377.0" layoutY="122.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="96.0" text="Parking Type" />
+                            <Text layoutX="377.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parking Type:" />
+                            <Text layoutX="245.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
+                        </children>
+                    </AnchorPane>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="234.0" prefWidth="598.0">
+                  <children>
+                     <TableView fx:id="parkingsViewTable" prefHeight="313.0" prefWidth="800.0">
+                     </TableView>
+                     <Text layoutX="27.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of parkings: " />
+                     <Text layoutX="27.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City parkings: ">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="27.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Park &amp; Ride parkings: ">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="27.0" layoutY="403.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kiss &amp; Ride parkings: ">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="27.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estate parkings: ">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="440.0" layoutY="352.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Standard slots overall: " />
+                     <Text layoutX="440.0" layoutY="373.0" strokeType="OUTSIDE" strokeWidth="0.0" text="For disabled slots overall: " />
+                     <Text layoutX="440.0" layoutY="394.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Occupied slots overall: " />
+                     <Text layoutX="29.0" layoutY="452.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average park time(hours): " />
+                     <Text fx:id="nrOfParkings" layoutX="182.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <Text fx:id="nrCityParkings" layoutX="182.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text fx:id="nrParkRides" layoutX="182.0" layoutY="383.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text fx:id="nrKissRides" layoutX="182.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text fx:id="nrEstateParkings" layoutX="182.0" layoutY="421.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                        <font>
+                           <Font size="13.0" />
+                        </font>
+                     </Text>
+                     <Text fx:id="nrStandardSlots" layoutX="658.0" layoutY="352.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <Text fx:id="nrDisabledSlots" layoutX="658.0" layoutY="373.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <Text fx:id="nrOccupiedSlots" layoutX="658.0" layoutY="394.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <Text fx:id="avParkTime" layoutX="204.0" layoutY="452.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <Text layoutX="440.0" layoutY="415.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average parkings occupancy(%): " />
+                     <Text fx:id="avOccupancy" layoutX="658.0" layoutY="415.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <Text layoutX="28.0" layoutY="473.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longest park time: " />
+                     <Text layoutX="28.0" layoutY="493.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shortest park time: " />
+                     <Text fx:id="longestParkTime" layoutX="204.0" layoutY="473.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     <Text fx:id="shortestParkTime" layoutX="204.0" layoutY="493.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                  </children></AnchorPane>
+                </items>
+            </SplitPane>
+        </children>
+    </AnchorPane>
+</AnchorPane>
