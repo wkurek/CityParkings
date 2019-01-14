@@ -20,31 +20,32 @@
             <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="365.0" prefWidth="798.0">
                     <children>
-                        <VBox fx:id="parkingsTableb" prefHeight="310.0" prefWidth="798.0">
-                            <children>
-                                <HBox prefHeight="53.0" prefWidth="798.0">
-                                    <children>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Parkings">
-                                            <font>
-                                                <Font size="22.0" />
-                                            </font>
-                                        </Text>
-                                        <Button fx:id="deleteParkingButton" alignment="TOP_LEFT" contentDisplay="RIGHT" disable="true" mnemonicParsing="false" onAction="#onDeleteParkingButtonClicked" text="Delete" />
-                                        <Button mnemonicParsing="false" onAction="#onRefreshParkingButtonClicked" text="Refresh" />
-                                    </children>
-                                </HBox>
-                                <TableView fx:id="parkingsTable" prefHeight="298.0" prefWidth="620.0">
-                                    <columns>
-                                        <TableColumn fx:id="parkingIdColumn" prefWidth="95.0" text="Parking id" />
-                                        <TableColumn fx:id="parkingStandardLotsNumberColumn" prefWidth="114.0" text="Standard lots" />
-                                        <TableColumn fx:id="parkingDisabledLotsNumerColumn" prefWidth="114.0" text="Distabled lots" />
-                                        <TableColumn fx:id="parkingLastControlColumn" prefWidth="114.0" text="Last control" />
-                                        <TableColumn fx:id="parkingMaxWeightColumn" prefWidth="114.0" text="Max weight" />
-                                        <TableColumn fx:id="parkingsMaxHeightColumn" prefWidth="114.0" text="Max height" />
-                                    </columns>
-                                </TableView>
-                            </children>
-                        </VBox>
+                  <VBox fx:id="parkingsTableb" prefHeight="310.0" prefWidth="798.0">
+                     <children>
+                        <HBox prefHeight="53.0" prefWidth="798.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Parkings">
+                                 <font>
+                                    <Font size="22.0" />
+                                 </font>
+                              </Text>
+                              <Button fx:id="deleteParkingButton" alignment="TOP_LEFT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onDeleteParkingButtonClicked" text="Delete" />
+                              <Button mnemonicParsing="false" onAction="#onRefreshParkingButtonClicked" text="Refresh" />
+                           </children>
+                        </HBox>
+                        <TableView fx:id="parkingsTable" prefHeight="298.0" prefWidth="620.0">
+                          <columns>
+                            <TableColumn fx:id="parkingIdColumn" prefWidth="95.0" text="Parking id" />
+                            <TableColumn fx:id="parkingStandardLotsNumberColumn" prefWidth="114.0" text="Standard lots" />
+                              <TableColumn fx:id="parkingDisabledLotsNumerColumn" prefWidth="114.0" text="Distabled lots" />
+                              <TableColumn fx:id="parkingLastControlColumn" prefWidth="114.0" text="Last control" />
+                              <TableColumn fx:id="parkingMaxWeightColumn" prefWidth="114.0" text="Max weight" />
+                              <TableColumn fx:id="parkingsMaxHeightColumn" prefWidth="114.0" text="Max height" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+
                     </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
@@ -62,11 +63,7 @@
                                 <TableColumn fx:id="parkDateColumn" prefWidth="180.0" text="Date" />
                             </columns>
                         </TableView>
-                        <ButtonBar layoutX="584.0" layoutY="283.0">
-                            <buttons>
-                                <Button fx:id="deleteParkButton" disable="true" mnemonicParsing="false" onAction="#onDeleteParkButtonClicked" text="Delete" />
-                            </buttons>
-                        </ButtonBar>
+                        <ButtonBar layoutX="584.0" layoutY="283.0" />
                         <VBox alignment="TOP_RIGHT" layoutX="13.0" layoutY="39.0" spacing="8.0">
                             <children>
                                 <HBox alignment="BOTTOM_RIGHT" spacing="12.0">
@@ -123,14 +120,14 @@
                                         <TextField fx:id="locationInput" disable="true" />
                                     </children>
                                 </HBox>
-                                <Separator prefWidth="200.0" />
-                                <ButtonBar>
-                                    <buttons>
-                                        <Button fx:id="editParkingButton" disable="true" mnemonicParsing="false" onAction="#onEditParkingButtonClicked" text="Edit" />
-                                        <Button fx:id="saveParkingButton" disable="true" mnemonicParsing="false" onAction="#onSaveParkingButtonClicked" text="Save" />
-                                        <Button fx:id="newParkingButton" disable="true" layoutX="125.0" layoutY="10.0" mnemonicParsing="false" onAction="#onNewParkingButtonClicked" text="New" />
-                                    </buttons>
-                                </ButtonBar>
+                        <Separator prefWidth="200.0" />
+                              <ButtonBar>
+                                  <buttons>
+                                      <Button fx:id="editParkingButton" disable="true" mnemonicParsing="false" onAction="#onEditParkingButtonClicked" text="Edit" />
+                                      <Button fx:id="saveParkingButton" disable="true" mnemonicParsing="false" onAction="#onSaveParkingButtonClicked" text="Save" />
+                                  </buttons>
+                              </ButtonBar>
+
                             </children>
                         </VBox>
                         <Text layoutX="11.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Details">
