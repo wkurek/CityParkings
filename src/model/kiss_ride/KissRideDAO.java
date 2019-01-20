@@ -108,7 +108,7 @@ public class KissRideDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES (0, %d, %b)", KissRideContract.TABLE_NAME,
+        String sql = String.format("INSERT INTO %s VALUES ('%d', %d, %b)", KissRideContract.TABLE_NAME, kissRide.getParking().getParkingId(),
                 kissRide.getMaxStopMinutes(), kissRide.isAreGates());
 
         DbHelper.executeUpdateQuery(sql);

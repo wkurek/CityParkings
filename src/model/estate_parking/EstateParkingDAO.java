@@ -112,7 +112,7 @@ public class EstateParkingDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES (0, '%s')", EstateParkingDAO.EstateParkingContract.TABLE_NAME,
+        String sql = String.format("INSERT INTO %s VALUES ('%d', '%s')", EstateParkingContract.TABLE_NAME, estateParking.getParking().getParkingId(),
                 estateParking.getEstate().getEstateName());
 
         DbHelper.executeUpdateQuery(sql);

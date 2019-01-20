@@ -17,6 +17,7 @@ import model.user.User;
 import model.user.UserDAO;
 import model.vehicle.Vehicle;
 import model.vehicle.VehicleDAO;
+import org.joda.time.DateTime;
 
 import java.sql.Date;
 
@@ -30,7 +31,7 @@ public class ParkController {
     private TableView<Park> parksTableView;
 
     @FXML
-    private TableColumn<Park, String> parkDateColumn;
+    private TableColumn<Park, DateTime> parkDateColumn;
 
     @FXML
     private TableColumn<Park, Integer> parkVehicleIdColumn;
@@ -125,7 +126,8 @@ public class ParkController {
     }
 
     private void setUpParksTable() {
-        parkDateColumn.setCellValueFactory(param -> param.getValue().dateTimeProperty().asString());
+        ReportsController.setParkingDateColumn(parkDateColumn);
+        parkDateColumn.setCellValueFactory(param -> param.getValue().getTimeProperty());
         parkVehicleIdColumn.setCellValueFactory(param -> param.getValue().getVehicle().idProperty().asObject());
         parkParkingIdColumn.setCellValueFactory(param -> param.getValue().getParking().parkingIdProperty().asObject());
 

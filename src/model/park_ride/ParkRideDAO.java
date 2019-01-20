@@ -108,7 +108,7 @@ public class ParkRideDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES (0, %b, '%s')", ParkRideContract.TABLE_NAME,
+        String sql = String.format("INSERT INTO %s VALUES ('%d', %b, '%s')", ParkRideContract.TABLE_NAME, parkRide.getParking().getParkingId(),
                 parkRide.isAutomatic(), parkRide.getCommunicationNode());
 
         DbHelper.executeUpdateQuery(sql);
