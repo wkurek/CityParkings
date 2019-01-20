@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="262.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NewParkingController">
+   <children>
+      <VBox layoutX="30.0" layoutY="14.0" prefHeight="220.0" prefWidth="243.0" spacing="12.0">
+         <children>
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Number of standard lots:" wrappingWidth="180.6708984375" />
+                  <TextField fx:id="nrOfStandardLotsInput" prefHeight="31.0" prefWidth="50.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Number of lots for disabled:" wrappingWidth="190.6708984375" />
+                  <TextField />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Maximum weight(kg): " />
+                  <TextField />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Maximum height(cm): " />
+                  <TextField prefHeight="31.0" prefWidth="127.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last control date: " />
+                  <DatePicker />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox layoutX="300.0" layoutY="14.0" prefHeight="220.0" prefWidth="276.0">
+         <children>
+            <HBox alignment="CENTER_RIGHT" spacing="5.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location: " />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lat:" />
+                  <TextField />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Long:" />
+                  <TextField />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <CheckBox mnemonicParsing="false" text="Roofed" />
+               </children>
+            </HBox>
+         </children></VBox>
+   </children>
+</AnchorPane>

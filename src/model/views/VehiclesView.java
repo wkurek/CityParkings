@@ -1,6 +1,8 @@
 package model.views;
 
 import javafx.beans.property.*;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import java.sql.Date;
 
@@ -209,8 +211,8 @@ public class VehiclesView {
         this.parkingID.set(parkingID);
     }
 
-    public Date getParkDateTime() {
-        return parkDateTime.get();
+    public SimpleObjectProperty<DateTime> getParkDateTime() {
+        return new SimpleObjectProperty<>(new DateTime(parkDateTime.get(), DateTimeZone.UTC));
     }
 
     public SimpleObjectProperty<Date> parkDateTimeProperty() {

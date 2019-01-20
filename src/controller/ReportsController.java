@@ -1,10 +1,15 @@
 package controller;
 
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import model.views.VehiclesView;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +20,20 @@ public class ReportsController {
 
     public ReportsController()
     {
+    }
+
+    static <T> void setParkingDateColumn(TableColumn<T,DateTime> columnName) {
+        columnName.setCellFactory(tc -> new TableCell<>() {
+            @Override
+            protected void updateItem(DateTime item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(item.toString());
+                }
+            }
+        });
     }
 
     @FXML

@@ -30,5 +30,11 @@ public class Park {
 
     public SimpleObjectProperty<Date> dateTimeProperty() { return dateTime; }
 
+    public Date getTimeProperty()
+    {
+        return dateTime.get();
+    }
+
+
     public void setDateTime(Date dateTime) { this.dateTime.set(dateTime); }
 }

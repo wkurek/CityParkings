@@ -16,6 +16,7 @@ import model.engine.EngineDAO;
 import model.views.ParkingsViewDAO;
 import model.views.VehiclesView;
 import model.views.VehiclesViewDAO;
+import org.joda.time.DateTime;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -202,8 +203,9 @@ public class VehiclesTabController {
         ReportsController.setIntegerColumnsNullable(parkingID);
         parkingID.setCellValueFactory(param->param.getValue().parkingIDProperty());
         columns.add(parkingID);
-        TableColumn<VehiclesView, Date> parkDateTime = new TableColumn<>(COLUMN_NAMES.get(14));
-        parkDateTime.setCellValueFactory(param->param.getValue().parkDateTimeProperty());
+        TableColumn<VehiclesView, DateTime> parkDateTime = new TableColumn<>(COLUMN_NAMES.get(14));
+        ReportsController.setParkingDateColumn(parkDateTime);
+        parkDateTime.setCellValueFactory(param->param.getValue().getParkDateTime());
         columns.add(parkDateTime);
     }
 
