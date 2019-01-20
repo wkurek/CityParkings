@@ -143,7 +143,7 @@ public class ParkingDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES (0, %d, %d, %b, %b, '%s', %.2f, %.2f, %d)",
+        String sql = String.format("INSERT INTO %s VALUES (%d, %d, %b, %b, '%s', %.2f, %.2f, %d)",
                 ParkingContract.TABLE_NAME, parking.getStandardLots(), parking.getDisabledLots(),
                 parking.isRoofed(), parking.isGuarded(), parking.getLastControl(),
                 parking.getMaxWeight(), parking.getMaxHeight(), parking.getLocation().getLocationId());

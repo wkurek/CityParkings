@@ -73,7 +73,7 @@ public class LocationDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES (0, %.2f, %.2f)", LocationContract.TABLE_NAME,
+        String sql = String.format("INSERT INTO %s VALUES (%.2f, %.2f)", LocationContract.TABLE_NAME,
                 location.getLatitude(), location.getLongitude());
 
         DbHelper.executeUpdateQuery(sql);

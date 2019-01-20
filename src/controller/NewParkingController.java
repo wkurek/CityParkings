@@ -76,6 +76,8 @@ public class NewParkingController {
     private void initialize() {
         estateComboBox.setItems(EstateDAO.getEstate());
 
+
+
         radioButtons = new ToggleGroup();
         estateRadioButton.setToggleGroup(radioButtons);
         cityRadioButton.setToggleGroup(radioButtons);

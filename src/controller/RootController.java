@@ -62,7 +62,27 @@ public class RootController {
     }
 
     @FXML
-    public void onNewParkingClicked() {}
+    public void onNewParkingClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(UserController.class.getResource("../view/newParkingView.fxml"));
+            AnchorPane page = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Create New Parking");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(stage);
+
+            NewParkingController controller = loader.getController();
+            controller.setStage(dialogStage);
+
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            dialogStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void onPreviewParkingsClicked() {

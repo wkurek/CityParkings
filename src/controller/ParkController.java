@@ -13,10 +13,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.park.Park;
 import model.park.ParkDAO;
-import model.parking.Parking;
-import model.parking.ParkingDAO;
-import model.vehicle.Vehicle;
-import model.vehicle.VehicleDAO;
 import org.joda.time.DateTime;
 
 
@@ -119,7 +115,6 @@ public class ParkController {
         ReportsController.setParkingDateColumn(parkDateColumn);
         parkDateColumn.setCellValueFactory(param -> param.getValue().getTimeProperty());
         parkVehicleIdColumn.setCellValueFactory(param -> param.getValue().getVehicle().idProperty().asObject());
-        parkDateColumn.setCellValueFactory(param -> param.getValue().dateTimeProperty().asString());
         parkParkingIdColumn.setCellValueFactory(param -> param.getValue().getParking().parkingIdProperty().asObject());
 
         parksTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
