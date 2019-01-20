@@ -3,6 +3,8 @@ package model.park;
 import javafx.beans.property.SimpleObjectProperty;
 import model.parking.Parking;
 import model.vehicle.Vehicle;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import java.sql.Date;
 
@@ -29,6 +31,12 @@ public class Park {
     public Date getDateTime() { return dateTime.get(); }
 
     public SimpleObjectProperty<Date> dateTimeProperty() { return dateTime; }
+
+    public SimpleObjectProperty<DateTime> getTimeProperty()
+    {
+        return new SimpleObjectProperty<>(new DateTime(dateTime.get().getTime(), DateTimeZone.UTC));
+    }
+
 
     public void setDateTime(Date dateTime) { this.dateTime.set(dateTime); }
 }

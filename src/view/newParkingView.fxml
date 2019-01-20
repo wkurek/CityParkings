@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="389.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NewParkingController">
+   <children>
+      <VBox layoutX="30.0" layoutY="14.0" prefHeight="290.0" prefWidth="243.0" spacing="12.0">
+         <children>
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Number of standard lots:" wrappingWidth="180.6708984375" />
+                  <TextField fx:id="nrOfStandardLotsInput" prefHeight="31.0" prefWidth="50.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Number of lots for disabled:" wrappingWidth="190.6708984375" />
+                  <TextField fx:id="nrOfDisabledLotsInput" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Maximum weight(kg): " />
+                  <TextField fx:id="maxWeightInput" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Maximum height(cm): " />
+                  <TextField fx:id="maxHeightInput" prefHeight="31.0" prefWidth="127.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last control date: " />
+                  <DatePicker fx:id="lastControlInput" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="5.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location: " />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lat:" />
+                  <TextField fx:id="latInput" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Long:" />
+                  <TextField fx:id="longInput" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <CheckBox fx:id="roofedCheckBox" mnemonicParsing="false" text="Roofed" />
+                  <CheckBox fx:id="guardedCheckBox" mnemonicParsing="false" text="Guarded" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox layoutX="300.0" layoutY="9.0" prefHeight="301.0" prefWidth="276.0" spacing="12.0">
+         <children>
+            <HBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Parking type:" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="5.0">
+               <children>
+                  <RadioButton fx:id="estateRadioButton" mnemonicParsing="false" text="Estate" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Estate name:" />
+                  <ComboBox fx:id="estateComboBox" prefHeight="31.0" prefWidth="102.0" />
+               </children></HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="5.0">
+               <children>
+                  <RadioButton fx:id="cityRadioButton" mnemonicParsing="false" text="City" />
+                  <Pane prefHeight="55.0" prefWidth="204.0">
+                     <children>
+                        <Text layoutX="14.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Park type:" />
+                        <CheckBox fx:id="inPaidCheckBox" layoutX="14.0" layoutY="35.0" mnemonicParsing="false" text="In paid zone" />
+                        <TextField fx:id="parkTypeInput" layoutX="94.0" layoutY="-1.0" prefHeight="31.0" prefWidth="110.0" />
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="5.0">
+               <children>
+                  <RadioButton fx:id="parkRideRadioButton" mnemonicParsing="false" text="Park&amp;Ride" />
+                  <Pane prefHeight="65.0" prefWidth="159.0">
+                     <children>
+                        <CheckBox fx:id="automaticCheckBox" layoutX="14.0" mnemonicParsing="false" text="Automatic" />
+                        <Text layoutX="12.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Node:" />
+                        <TextField fx:id="nodeInput" layoutX="56.0" layoutY="27.0" prefHeight="31.0" prefWidth="97.0" />
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="5.0">
+               <children>
+                  <RadioButton fx:id="kissRideRadioButton" mnemonicParsing="false" text="Kiss&amp;Ride" />
+                  <Pane prefHeight="71.0" prefWidth="160.0">
+                     <children>
+                        <Text layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max stop(minutes):" />
+                        <TextField fx:id="maxStopInput" layoutX="126.0" layoutY="-1.0" prefHeight="31.0" prefWidth="49.0" />
+                        <CheckBox fx:id="gatesCheckBox" layoutX="14.0" layoutY="46.0" mnemonicParsing="false" text="Gates" />
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+         </children></VBox>
+      <Button layoutX="373.0" layoutY="330.0" mnemonicParsing="false" onAction="#onSaveButtonClicked" text="Save" />
+      <Button layoutX="438.0" layoutY="330.0" mnemonicParsing="false" onAction="#onCancelButtonClicked" text="Cancel" />
+   </children>
+</AnchorPane>

@@ -13,6 +13,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.park.Park;
 import model.park.ParkDAO;
+import model.parking.Parking;
+import model.parking.ParkingDAO;
+import model.vehicle.Vehicle;
+import model.vehicle.VehicleDAO;
+import org.joda.time.DateTime;
+
 
 import java.io.IOException;
 
@@ -28,7 +34,7 @@ public class ParkController {
     private TableView<Park> parksTable;
 
     @FXML
-    private TableColumn<Park, String> parkDateColumn;
+    private TableColumn<Park, DateTime> parkDateColumn;
 
     @FXML
     private TableColumn<Park, Integer> parkVehicleIdColumn;
@@ -110,7 +116,8 @@ public class ParkController {
     }
 
     private void setUpParksTable() {
-
+        ReportsController.setParkingDateColumn(parkDateColumn);
+        parkDateColumn.setCellValueFactory(param -> param.getValue().getTimeProperty());
         parkVehicleIdColumn.setCellValueFactory(param -> param.getValue().getVehicle().idProperty().asObject());
         parkDateColumn.setCellValueFactory(param -> param.getValue().dateTimeProperty().asString());
         parkParkingIdColumn.setCellValueFactory(param -> param.getValue().getParking().parkingIdProperty().asObject());

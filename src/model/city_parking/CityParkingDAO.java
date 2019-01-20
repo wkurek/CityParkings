@@ -108,7 +108,7 @@ public class CityParkingDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES (0, '%s', %b)", CityParkingContract.TABLE_NAME,
+        String sql = String.format("INSERT INTO %s VALUES ('%d', '%s', %b)", CityParkingContract.TABLE_NAME, cityParking.getParking().getParkingId(),
                 cityParking.getParkType(), cityParking.isZonePaid());
 
         DbHelper.executeUpdateQuery(sql);
