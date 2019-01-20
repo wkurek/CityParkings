@@ -20,32 +20,31 @@
             <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="365.0" prefWidth="798.0">
                     <children>
-                  <VBox fx:id="parkingsTableb" prefHeight="310.0" prefWidth="798.0">
-                     <children>
-                        <HBox prefHeight="53.0" prefWidth="798.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Parkings">
-                                 <font>
-                                    <Font size="22.0" />
-                                 </font>
-                              </Text>
-                              <Button fx:id="deleteParkingButton" alignment="TOP_LEFT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onDeleteParkingButtonClicked" text="Delete" />
-                              <Button mnemonicParsing="false" onAction="#onRefreshParkingButtonClicked" text="Refresh" />
-                           </children>
-                        </HBox>
-                        <TableView fx:id="parkingsTable" prefHeight="298.0" prefWidth="620.0">
-                          <columns>
-                            <TableColumn fx:id="parkingIdColumn" prefWidth="95.0" text="Parking id" />
-                            <TableColumn fx:id="parkingStandardLotsNumberColumn" prefWidth="114.0" text="Standard lots" />
-                              <TableColumn fx:id="parkingDisabledLotsNumerColumn" prefWidth="114.0" text="Distabled lots" />
-                              <TableColumn fx:id="parkingLastControlColumn" prefWidth="114.0" text="Last control" />
-                              <TableColumn fx:id="parkingMaxWeightColumn" prefWidth="114.0" text="Max weight" />
-                              <TableColumn fx:id="parkingsMaxHeightColumn" prefWidth="114.0" text="Max height" />
-                          </columns>
-                        </TableView>
-                     </children>
-                  </VBox>
-
+                      <VBox fx:id="parkingsTableb" prefHeight="310.0" prefWidth="798.0">
+                         <children>
+                            <HBox prefHeight="53.0" prefWidth="798.0">
+                               <children>
+                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Parkings">
+                                     <font>
+                                        <Font size="22.0" name="System Bold"/>
+                                     </font>
+                                  </Text>
+                                  <Button fx:id="deleteParkingButton" alignment="TOP_LEFT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onDeleteParkingButtonClicked" text="Delete" />
+                                  <Button mnemonicParsing="false" onAction="#onRefreshParkingButtonClicked" text="Refresh" />
+                               </children>
+                            </HBox>
+                            <TableView fx:id="parkingsTable" prefHeight="298.0" prefWidth="620.0">
+                              <columns>
+                                <TableColumn fx:id="parkingIdColumn" prefWidth="95.0" text="Parking id" />
+                                <TableColumn fx:id="parkingStandardLotsNumberColumn" prefWidth="114.0" text="Standard lots" />
+                                  <TableColumn fx:id="parkingDisabledLotsNumerColumn" prefWidth="114.0" text="Distabled lots" />
+                                  <TableColumn fx:id="parkingLastControlColumn" prefWidth="114.0" text="Last control" />
+                                  <TableColumn fx:id="parkingMaxWeightColumn" prefWidth="114.0" text="Max weight" />
+                                  <TableColumn fx:id="parkingsMaxHeightColumn" prefWidth="114.0" text="Max height" />
+                              </columns>
+                            </TableView>
+                         </children>
+                      </VBox>
                     </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
@@ -54,7 +53,7 @@
                         <Separator layoutX="410.0" layoutY="319.0" prefHeight="2.0" prefWidth="384.0" />
                         <Text layoutX="422.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parks">
                             <font>
-                                <Font size="14.0" />
+                                <Font size="18.0" name="System Bold" />
                             </font>
                         </Text>
                         <TableView fx:id="parksTable" layoutX="412.0" layoutY="31.0" prefHeight="244.0" prefWidth="384.0">
@@ -81,43 +80,43 @@
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label prefHeight="16.0" prefWidth="91.0" text="Distabled lots" />
-                                        <TextField fx:id="parkingDisabledLotsNumberInput" disable="true" />
+                                        <TextField fx:id="parkingDisabledLotsNumberInput" disable="true" alignment="CENTER"/>
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" prefWidth="246.0" spacing="12.0">
                                     <children>
                                         <Label text="Is roofed" />
-                                        <TextField fx:id="parkingIsRoofedInput" disable="true" />
+                                        <TextField fx:id="parkingIsRoofedInput" disable="true" alignment="CENTER"/>
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="78.0" spacing="12.0">
                                     <children>
                                         <Label prefHeight="16.0" prefWidth="76.0" text="Is guarded" />
-                                        <TextField fx:id="parkingIsGuardeInput" disable="true" />
+                                        <TextField fx:id="parkingIsGuardeInput" disable="true" alignment="CENTER"/>
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label text="Last control" />
-                                        <TextField fx:id="parkingLastControlInput" disable="true" />
+                                        <TextField fx:id="parkingLastControlInput" disable="true" alignment="CENTER"/>
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label text="Max weight" />
-                                        <TextField fx:id="maxWeightInput" disable="true" />
+                                        <TextField fx:id="maxWeightInput" disable="true" alignment="CENTER"/>
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label text="Max height" />
-                                        <TextField fx:id="maxHeightInput" disable="true" />
+                                        <TextField fx:id="maxHeightInput" disable="true" alignment="CENTER"/>
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label text="Location" />
-                                        <TextField fx:id="locationInput" disable="true" />
+                                        <TextField fx:id="locationInput" disable="true" alignment="CENTER"/>
                                     </children>
                                 </HBox>
                         <Separator prefWidth="200.0" />
@@ -132,7 +131,7 @@
                         </VBox>
                         <Text layoutX="11.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Details">
                             <font>
-                                <Font size="14.0" />
+                                <Font size="18.0" name="System Bold" />
                             </font>
                         </Text>
                         <VBox layoutX="442.0" layoutY="353.0" spacing="8.0" />

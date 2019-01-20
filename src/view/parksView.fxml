@@ -1,35 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Pagination?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ParkController">
     <children>
         <SplitPane dividerPositions="0.39348370927318294" layoutX="201.0" layoutY="103.0" orientation="VERTICAL" prefHeight="800.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="365.0" prefWidth="798.0">
                     <children>
-                        <Pagination fx:id="parkingsPagination" layoutY="44.0" prefHeight="267.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0" />
+                        <VBox fx:id="parkingsTableb" prefHeight="310.0" prefWidth="798.0">
+                            <children>
+                                <HBox prefHeight="53.0" prefWidth="798.0">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Parks">
+                                            <font>
+                                                <Font size="22.0" name="System Bold"/>
+                                            </font>
+                                        </Text>
+                                        <ButtonBar layoutX="400.0" layoutY="14.0">
+                                            <buttons>
+                                                <Button fx:id="deleteParkButton" mnemonicParsing="false" onAction="#onDeleteParkButtonClicked" text="Delete" />
+                                                <Button fx:id="refreshParkButton" mnemonicParsing="false" onAction="#onRefreshParkButtonClicked" text="Refresh" />
+                                            </buttons>
+                                        </ButtonBar>
+                                    </children>
+                                </HBox>
+                                <TableView fx:id="parksTable" prefHeight="298.0" prefWidth="620.0">
+                                    <columns>
+                                        <TableColumn fx:id="parkVehicleIdColumn" prefWidth="295.0" text="Vehicle_ID" />
+                                        <TableColumn fx:id="parkDateColumn" prefWidth="254.0" text="Date" />
+                                        <TableColumn fx:id="parkParkingIdColumn" prefWidth="254.0" text="Parking_ID" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
                     </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                     <children>
                         <Separator layoutX="410.0" orientation="VERTICAL" prefHeight="481.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="0.0" />
-                        <Separator layoutX="410.0" layoutY="319.0" prefHeight="2.0" prefWidth="384.0" />
-                        <Text layoutX="422.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parking detail">
+                        <Separator layoutX="11.0" layoutY="209.0" prefHeight="2.0" prefWidth="384.0" />
+                        <Text layoutX="422.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parking details">
                             <font>
-                                <Font size="14.0" />
+                                <Font size="18.0" name="System Bold"/>
+                            </font>
+                        </Text>
+                        <Text layoutX="1.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicle details">
+                            <font>
+                                <Font size="18.0" name="System Bold"/>
                             </font>
                         </Text>
                         <VBox alignment="TOP_RIGHT" layoutX="13.0" layoutY="39.0" spacing="8.0">
@@ -37,86 +56,113 @@
                                 <HBox alignment="BOTTOM_RIGHT" spacing="12.0">
                                     <children>
                                         <Label alignment="CENTER" contentDisplay="CENTER" text="Park date" textAlignment="CENTER" />
-                                        <TextField fx:id="parkDateInput" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" />
+                                        <TextField fx:id="parkDateInput" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" disable="true" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label alignment="CENTER" text="Vehicle id" />
-                                        <TextField fx:id="parkVehicleIdInput" alignment="CENTER" />
+                                        <TextField fx:id="parkVehicleIdInput" alignment="CENTER" disable="true"/>
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label prefHeight="16.0" prefWidth="70.0" text="Parking id" />
-                                        <TextField fx:id="parkParkingIdInput" />
+                                        <TextField fx:id="parkParkingIdInput" alignment="CENTER" disable="true"/>
                                     </children>
                                 </HBox>
                                 <ButtonBar>
                                     <buttons>
-                                        <Button fx:id="editParkButton" mnemonicParsing="false" onAction="#onEditParkButtonClicked" text="Edit" />
-                                        <Button fx:id="saveParkButton" mnemonicParsing="false" onAction="#onSaveParkButtonClicked" text="Save" />
+                                       <Button fx:id="newParkButton"  mnemonicParsing="false" onAction="#onNewParkButtonClicked" text="New" />
                                     </buttons>
                                 </ButtonBar>
                             </children>
                         </VBox>
                         <Text layoutX="11.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Details">
                             <font>
-                                <Font size="14.0" />
+                                <Font size="18.0" name="System Bold"/>
                             </font>
                         </Text>
-                  <VBox alignment="TOP_RIGHT" layoutX="426.0" layoutY="39.0" spacing="8.0">
-                     <children>
-                        <HBox alignment="BOTTOM_RIGHT" spacing="12.0">
-                           <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" text="Standard lots" textAlignment="CENTER" />
-                              <TextField fx:id="parkStandardLotsNumerInput" alignment="CENTER" disable="true" nodeOrientation="LEFT_TO_RIGHT" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                           <children>
-                              <Label alignment="CENTER" text="Disabled lots" />
-                              <TextField fx:id="parkDisabledParkLotsInput" alignment="CENTER" disable="true" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
-                           <children>
-                              <Label prefHeight="16.0" prefWidth="70.0" text="Is roofed" />
-                              <TextField fx:id="parkingIsRoofedInput" disable="true" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="78.0" spacing="12.0">
-                           <children>
-                              <Label prefHeight="16.0" prefWidth="70.0" text="Is guarded" />
-                              <TextField fx:id="parkingIsGuardedInput" disable="true" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="44.0" spacing="12.0">
-                           <children>
-                              <Label alignment="CENTER" text="Max weight" />
-                              <TextField fx:id="parkMaxWeightInput" alignment="CENTER" disable="true" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="146.0" spacing="12.0">
-                           <children>
-                              <Label alignment="CENTER" text="Max height" />
-                              <TextField fx:id="parkMaxHeightInput" alignment="CENTER" disable="true" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="146.0" spacing="12.0">
-                           <children>
-                              <Label alignment="CENTER" text="Latitude" />
-                              <TextField fx:id="parkParkLatitudeInput" alignment="CENTER" disable="true" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="214.0" spacing="12.0">
-                           <children>
-                              <Label alignment="CENTER" text="Longitude" />
-                              <TextField fx:id="parkLongitudeInput" alignment="CENTER" disable="true" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
+                        <VBox layoutX="11.0" layoutY="253.0" spacing="8.0">
+                            <children>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label text="Plate number" />
+                                        <TextField fx:id="parkVehiclePlateNumberInput" disable="true" alignment="CENTER"/>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label text="Weight" />
+                                        <TextField fx:id="parkVehicleWeightInput" disable="true" alignment="CENTER"/>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="44.0" spacing="12.0">
+                                    <children>
+                                        <Label text="Height" />
+                                        <TextField fx:id="parkVehicleHeightInput" disable="true" alignment="CENTER"/>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="78.0" spacing="12.0">
+                                    <children>
+                                        <Label text="User id" />
+                                        <TextField fx:id="parkVehicleUserIdInput" disable="true" alignment="CENTER"/>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <VBox alignment="TOP_RIGHT" layoutX="426.0" layoutY="39.0" spacing="8.0">
+                            <children>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label alignment="CENTER" text="Standard lots" />
+                                        <TextField fx:id="parkingStandardLotsNumberInput" alignment="CENTER" disable="true" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label alignment="CENTER" text="Disabled lots" />
+                                        <TextField fx:id="parkingDisabledLotsNumberInput" alignment="CENTER" disable="true"/>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label prefHeight="16.0" prefWidth="70.0" text="Is roofed" />
+                                        <TextField fx:id="parkingIsRoofedInput" alignment="CENTER" disable="true"/>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label prefHeight="16.0" prefWidth="70.0" text="Is guarded" />
+                                        <TextField fx:id="parkingIsGuardedInput" alignment="CENTER" disable="true" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label alignment="CENTER" text="Last control" />
+                                        <TextField fx:id="parkingLastControlInput" alignment="CENTER" disable="true"/>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label alignment="CENTER" text="Max weight" />
+                                        <TextField fx:id="parkingMaxWeightInput" alignment="CENTER" disable="true"/>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label alignment="CENTER" text="Max height" />
+                                        <TextField fx:id="parkingMaxHeightInput" alignment="CENTER" disable="true"/>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                                    <children>
+                                        <Label alignment="CENTER" text="Location" />
+                                        <TextField fx:id="parkingLocationInput" alignment="CENTER" disable="true"/>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
                     </children>
                 </AnchorPane>
             </items>

@@ -78,7 +78,28 @@ public class RootController {
     }
 
     @FXML
-    public void onNewParkClicked() {}
+    public void onNewParkClicked() {
+
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ParkController.class.getResource("../view/newParkView.fxml"));
+            AnchorPane page = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Create New Park");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(stage);
+
+            NewParkController controller = loader.getController();
+            controller.setStage(dialogStage);
+
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            dialogStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void onPreviewParksClicked() {
@@ -87,6 +108,8 @@ public class RootController {
             loader.setLocation(RootController.class.getResource("../view/parksView.fxml"));
             AnchorPane anchorPane = loader.load();
 
+            ParkController controller = loader.getController();
+            controller.setStage(stage);
             rootContainer.setCenter(anchorPane);
         } catch (IOException e) {
             System.err.println(e.getMessage());
