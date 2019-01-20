@@ -2,17 +2,17 @@ package model.views;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.joda.time.Interval;
+//import org.joda.time.DateTime;
+//import org.joda.time.Duration;
+//import org.joda.time.Interval;
 import util.DbHelper;
 import util.Validator;
 
 import javax.sql.rowset.CachedRowSet;
-
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 
@@ -239,10 +239,10 @@ public class ParkingsViewDAO {
             while (resultSet!=null&&resultSet.next())
             {
                 java.sql.Date sqlDate = resultSet.getDate("date_time");
-                DateTime dateTime = new DateTime(sqlDate.getTime());
-                Interval interval = new Interval(dateTime, new org.joda.time.Instant());
-                Duration duration = new Duration(interval);
-                dateDifferences.add(duration.getStandardHours());
+               // DateTime dateTime = new DateTime(sqlDate.getTime());
+                //Interval interval = new Interval(dateTime, new org.joda.time.Instant());
+                //Duration duration = new Duration(interval);
+                //dateDifferences.add(duration.getStandardHours());
             }
         }
         catch (SQLException e)

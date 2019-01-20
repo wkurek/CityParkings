@@ -85,7 +85,6 @@ public class EmployeeController {
 
     public EmployeeController(){
         employeeList = FXCollections.observableArrayList();
-
         employeeLoadTask = generateEmployeeLoadTask();
     }
 
