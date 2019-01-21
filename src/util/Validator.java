@@ -2,6 +2,10 @@ package util;
 
 import javafx.scene.control.TextField;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class Validator {
     public static boolean isNameValid(String name) {
         return !name.isEmpty() && name.matches("[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+$") && name.length() < 64;
@@ -99,6 +103,14 @@ public class Validator {
     }
 
     public static boolean isDateValid(String date) {
-        return true;
+        String DATE_FORMAT = "yyy-MM-dd";
+        try {
+            DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+            df.setLenient(false);
+            df.parse(date);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
     }
 }
