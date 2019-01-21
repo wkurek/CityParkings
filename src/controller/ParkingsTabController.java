@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import model.views.ParkingsView;
 import model.views.ParkingsViewDAO;
 
@@ -69,7 +68,6 @@ public class ParkingsTabController {
     public Text longestParkTime;
     @FXML
     public Text shortestParkTime;
-    private Stage stage;
     @FXML
     public TextField heightMinInput;
     @FXML
@@ -237,7 +235,4 @@ public class ParkingsTabController {
         shortestParkTime.setText(String.format("%.02f",ParkingsViewDAO.getShortestParkTime()));
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
 }

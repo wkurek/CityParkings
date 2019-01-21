@@ -3,7 +3,6 @@ package controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,9 +14,6 @@ import model.park.Park;
 import model.park.ParkDAO;
 import model.parking.Parking;
 import model.parking.ParkingDAO;
-import model.user.User;
-import model.vehicle.Vehicle;
-import model.vehicle.VehicleDAO;
 import util.Validator;
 
 import java.io.IOException;
@@ -66,12 +62,6 @@ public class ParkingController {
     private TableColumn<Park, String> parkDateColumn;
 
     @FXML
-    private Button addParkButton;
-
-    @FXML
-    private Button deleteParkButton;
-
-    @FXML
     private TextField parkingIdInput;
 
     @FXML
@@ -80,14 +70,6 @@ public class ParkingController {
     @FXML
     private TextField parkingDisabledLotsNumberInput;
 
-    @FXML
-    private ChoiceBox<?> isRoofedChoiceBox;
-
-    @FXML
-    private ChoiceBox<?> isGuardedChoiceBox;
-
-    @FXML
-    private DatePicker lastControlDatePicker;
 
     @FXML
     private TextField maxWeightInput;
@@ -99,31 +81,11 @@ public class ParkingController {
     private TextField locationInput;
 
     @FXML
-    private TextField col1Input;
-
-    @FXML
-    private TextField col2Input;
-
-    @FXML
     private Button editParkingButton;
 
     @FXML
     private Button saveParkingButton;
 
-    @FXML
-    private Button newParkingButton;
-
-    @FXML
-    private TextField employeeIdInput;
-
-    @FXML
-    private TextField employeeNameInput;
-
-    @FXML
-    private TextField employeeSurnameInput;
-
-    @FXML
-    private TextField employeeDepartmentNameInput;
 
     public ParkingController() {
         parkingList = FXCollections.observableArrayList();
@@ -213,7 +175,6 @@ public class ParkingController {
         parksTable.setItems(parksList);
 
         parksTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            //if(newValue != null) deleteVehicleButton.setDisable(false);
         });
     }
 
@@ -331,7 +292,7 @@ public class ParkingController {
                 && Validator.isDateValid(parkingLastControlInput.getText());
         return isOK;
     }
-    public void onDeleteParkingButtonClicked(ActionEvent actionEvent) {
+    public void onDeleteParkingButtonClicked() {
         Parking selectedParking = parkingsTable.getSelectionModel().getSelectedItem();
         int selectedParkingIndex = parkingsTable.getSelectionModel().getSelectedIndex();
 
@@ -343,7 +304,7 @@ public class ParkingController {
         }
     }
 
-    public void onRefreshParkingButtonClicked(ActionEvent actionEvent) {
+    public void onRefreshParkingButtonClicked() {
         scheduleLoadTask(parkingLoadTask);
     }
 

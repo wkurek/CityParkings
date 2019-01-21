@@ -1,24 +1,18 @@
 package controller;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import model.country.Country;
 import model.country.CountryDAO;
-import model.engine.Engine;
 import model.engine.EngineDAO;
 import model.views.ParkingsViewDAO;
 import model.views.VehiclesView;
 import model.views.VehiclesViewDAO;
 import org.joda.time.DateTime;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

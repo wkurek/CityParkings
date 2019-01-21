@@ -3,7 +3,6 @@ package controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -211,7 +210,7 @@ public class EmployeeController {
         }
     }
 
-    public void onDeleteEmployeeButtonClicked(ActionEvent actionEvent) {
+    public void onDeleteEmployeeButtonClicked() {
         Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
         int selectedEmployeeIndex = employeeTable.getSelectionModel().getSelectedIndex();
 
@@ -223,7 +222,7 @@ public class EmployeeController {
         }
     }
 
-    public void onRefreshEmployeeButtonClicked(ActionEvent actionEvent) {
+    public void onRefreshEmployeeButtonClicked() {
         deleteEmployeeButton.setDisable(true);
         employeeLoadTask = generateEmployeeLoadTask();
         scheduleLoadTask(employeeLoadTask);

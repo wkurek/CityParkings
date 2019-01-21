@@ -3,10 +3,8 @@ package controller;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -26,7 +24,7 @@ import model.parking.Parking;
 import model.parking.ParkingDAO;
 import util.Validator;
 
-import java.sql.Date;
+
 import java.sql.SQLException;
 
 public class NewParkingController {

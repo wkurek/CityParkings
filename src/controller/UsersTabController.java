@@ -5,8 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import model.country.Country;
 import model.country.CountryDAO;
 import model.views.UsersView;
 import model.views.UsersViewDAO;
@@ -62,7 +60,6 @@ public class UsersTabController {
 
     private List<CheckMenuItem> countryItems;
     private List<CheckMenuItem> columnItems;
-    private Stage stage;
     private List<TableColumn> columns;
     private ObservableList<UsersView> usersViewsList;
 
@@ -181,9 +178,6 @@ public class UsersTabController {
 
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
 
     public void onClearButtonClicked() {
         expirationMinInput.setValue(null);

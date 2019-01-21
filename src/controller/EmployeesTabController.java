@@ -4,17 +4,11 @@ package controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import model.country.Country;
 import model.country.CountryDAO;
-import model.department.Department;
 import model.department.DepartmentDAO;
 import model.views.EmployeesView;
 import model.views.EmployeesViewDAO;
@@ -81,10 +75,8 @@ public class EmployeesTabController {
     private List<CheckMenuItem> columnItems;
 
     private List<TableColumn> columns;
-    private Stage stage;
 
     private ObservableList<EmployeesView> employeesViewList;
-  //  private Task<ObservableList<EmployeesView>> employeesViewLoadTask;
 
     public EmployeesTabController()
     {
@@ -93,7 +85,6 @@ public class EmployeesTabController {
         departmentItems = new ArrayList<>();
         columnItems = new ArrayList<>();
         employeesViewList = FXCollections.observableArrayList();
-       // employeesViewLoadTask = generateEmployeesViewsLoadTask();
     }
 
     @FXML
@@ -131,37 +122,6 @@ public class EmployeesTabController {
         for(int i = 0; i<departmentMenuButton.getItems().size(); i++)
             departmentMenuButton.getItems().get(i).setOnAction(Event::consume);
     }
-
-//    private Task<ObservableList<EmployeesView>> generateEmployeesViewsLoadTask() {
-//        Task<ObservableList<EmployeesView>> task = new Task<>() {
-//            @Override
-//            protected ObservableList<EmployeesView> call() {
-//                return EmployeesViewDAO.getEmployeesViews(salaryMinInput.getText(), salaryMaxInput.getText(),
-//                                                        RootController.selectedMenuItemsToStringList(countryMenuButton.getItems()),
-//                                                        RootController.selectedMenuItemsToStringList(departmentMenuButton.getItems()));
-//            }
-//        };
-//
-//        task.setOnSucceeded(event -> {
-//            employeesViewList.clear();
-//            employeesViewList.addAll(task.getValue());
-//        });
-//
-//        task.setOnFailed(event -> {
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.initOwner(stage);
-//            alert.setTitle("SQL Error");
-//            alert.setHeaderText(event.getSource().getException().getMessage());
-//            alert.show();
-//        });
-//
-//        return task;
-//    }
-//    private void scheduleLoadTask(Task task) {
-//        if(task != null && task.isRunning()) task.cancel();
-//
-//        new Thread(task).start();
-//    }
     private void generateTableColumns()
     {
         TableColumn<EmployeesView, Integer> ID = new TableColumn<>(COLUMN_NAMES.get(0));
@@ -216,9 +176,6 @@ public class EmployeesTabController {
         employeesViewTable.setItems(employeesViewList);
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
 
     private void setUpStatistics()
     {
