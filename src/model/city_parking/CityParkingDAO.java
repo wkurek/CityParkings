@@ -108,10 +108,14 @@ public class CityParkingDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES ('%d', '%s', %b)", CityParkingContract.TABLE_NAME, cityParking.getParking().getParkingId(),
-                cityParking.getParkType(), cityParking.isZonePaid());
+        String sql = String.format("INSERT INTO %s VALUES (%d, '%s', %d)", CityParkingContract.TABLE_NAME, cityParking.getParking().getParkingId(),
+                cityParking.getParkType(), btoi(cityParking.isZonePaid()));
 
         DbHelper.executeUpdateQuery(sql);
+    }
+
+    private static Integer btoi(boolean bool) {
+        return bool ? 1 : 0;
     }
 
     public static void updateCityParking(int id, CityParking updatedCityParking) {

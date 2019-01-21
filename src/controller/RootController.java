@@ -65,7 +65,7 @@ public class RootController {
     public void onNewParkingClicked() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(UserController.class.getResource("../view/newParkingView.fxml"));
+            loader.setLocation(RootController.class.getResource("../view/newParkingView.fxml"));
             AnchorPane page = loader.load();
 
             Stage dialogStage = new Stage();

@@ -1,5 +1,7 @@
 package util;
 
+import javafx.scene.control.TextField;
+
 public class Validator {
     public static boolean isNameValid(String name) {
         return !name.isEmpty() && name.matches("[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+$") && name.length() < 64;
@@ -14,6 +16,30 @@ public class Validator {
                 && phoneNumber.length() <= 15 && phoneNumber.length() >= 9;
     }
 
+    public static boolean isLatitudeValid(String lat)
+    {
+        float result;
+        try {
+            result = Float.parseFloat(lat);
+        }
+        catch (NumberFormatException e)
+        {
+            return false;
+        }
+        return result<=90.0f && result>=-90.0f;
+    }
+    public static boolean isLongitudeValid(String lon)
+    {
+        float result;
+        try {
+            result = Float.parseFloat(lon);
+        }
+        catch (NumberFormatException e)
+        {
+            return false;
+        }
+        return result<=180.0f && result>=-180.0f;
+    }
     public static boolean isCityValid(String city) {
         return !city.isEmpty() && city.matches("[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+$") && city.length() < 64;
     }
@@ -72,4 +98,7 @@ public class Validator {
         return true;
     }
 
+    public static boolean isDateValid(String date) {
+        return true;
+    }
 }

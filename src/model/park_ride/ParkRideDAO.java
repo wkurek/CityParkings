@@ -108,10 +108,14 @@ public class ParkRideDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES ('%d', %b, '%s')", ParkRideContract.TABLE_NAME, parkRide.getParking().getParkingId(),
-                parkRide.isAutomatic(), parkRide.getCommunicationNode());
+        String sql = String.format("INSERT INTO %s VALUES (%d, %d, '%s')", ParkRideContract.TABLE_NAME, parkRide.getParking().getParkingId(),
+                btoi(parkRide.isAutomatic()), parkRide.getCommunicationNode());
 
         DbHelper.executeUpdateQuery(sql);
+    }
+
+    private static Integer btoi(boolean bool) {
+        return bool ? 1 : 0;
     }
 
     public static void updateParkRide(int id, ParkRide updatedParkRide) {

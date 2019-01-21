@@ -73,13 +73,13 @@
             <HBox alignment="CENTER_RIGHT" spacing="5.0">
                <children>
                   <RadioButton fx:id="estateRadioButton" mnemonicParsing="false" text="Estate" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Estate name:" />
+                  <Text fx:id="estateNameLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Estate name:" />
                   <ComboBox fx:id="estateComboBox" prefHeight="31.0" prefWidth="102.0" />
                </children></HBox>
             <HBox alignment="CENTER_RIGHT" spacing="5.0">
                <children>
                   <RadioButton fx:id="cityRadioButton" mnemonicParsing="false" text="City" />
-                  <Pane prefHeight="55.0" prefWidth="204.0">
+                  <Pane fx:id="cityPane" prefHeight="55.0" prefWidth="204.0">
                      <children>
                         <Text layoutX="14.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Park type:" />
                         <CheckBox fx:id="inPaidCheckBox" layoutX="14.0" layoutY="35.0" mnemonicParsing="false" text="In paid zone" />
@@ -91,7 +91,7 @@
             <HBox alignment="CENTER_RIGHT" spacing="5.0">
                <children>
                   <RadioButton fx:id="parkRideRadioButton" mnemonicParsing="false" text="Park&amp;Ride" />
-                  <Pane prefHeight="65.0" prefWidth="159.0">
+                  <Pane fx:id="parkRidePane" prefHeight="65.0" prefWidth="159.0">
                      <children>
                         <CheckBox fx:id="automaticCheckBox" layoutX="14.0" mnemonicParsing="false" text="Automatic" />
                         <Text layoutX="12.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Node:" />
@@ -103,7 +103,7 @@
             <HBox alignment="CENTER_RIGHT" spacing="5.0">
                <children>
                   <RadioButton fx:id="kissRideRadioButton" mnemonicParsing="false" text="Kiss&amp;Ride" />
-                  <Pane prefHeight="71.0" prefWidth="160.0">
+                  <Pane fx:id="kissRidePane" prefHeight="71.0" prefWidth="160.0">
                      <children>
                         <Text layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max stop(minutes):" />
                         <TextField fx:id="maxStopInput" layoutX="126.0" layoutY="-1.0" prefHeight="31.0" prefWidth="49.0" />

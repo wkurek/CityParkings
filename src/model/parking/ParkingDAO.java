@@ -9,6 +9,7 @@ import util.DbHelper;
 
 import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
+import java.util.Locale;
 
 public class ParkingDAO {
     public static class ParkingContract {
@@ -143,14 +144,36 @@ public class ParkingDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES (%d, %d, %b, %b, '%s', %.2f, %.2f, %d)",
+        String sql = String.format(Locale.US,"INSERT INTO %s VALUES (%d, %d, %d, %d, '%s', %.2f, %.2f, %d)",
                 ParkingContract.TABLE_NAME, parking.getStandardLots(), parking.getDisabledLots(),
-                parking.isRoofed(), parking.isGuarded(), parking.getLastControl(),
+                btoi(parking.isRoofed()), btoi(parking.isGuarded()), parking.getLastControl(),
                 parking.getMaxWeight(), parking.getMaxHeight(), parking.getLocation().getLocationId());
 
         DbHelper.executeUpdateQuery(sql);
     }
 
+    private static Integer btoi(boolean bool)
+    {
+        return bool ? 1 : 0;
+    }
+    public static Integer getSavedParkingId()
+    {
+        String sql = String.format("SELECT IDENT_CURRENT ('%s') AS %s", ParkingContract.TABLE_NAME,
+                ParkingContract.COLUMN_NAME_ID);
+        CachedRowSet result = DbHelper.executeQuery(sql);
+
+        Integer index = null;
+
+        try {
+            if(result.next()) {
+                index = result.getInt(ParkingContract.COLUMN_NAME_ID);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return index;
+    }
     public static void updateParking(int id, Parking updatedParking) {
         if (updatedParking == null) {
             System.err.println("Empty object.");

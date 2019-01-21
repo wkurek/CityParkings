@@ -1,9 +1,14 @@
 package controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.city_parking.CityParking;
 import model.city_parking.CityParkingDAO;
@@ -19,13 +24,21 @@ import model.park_ride.ParkRide;
 import model.park_ride.ParkRideDAO;
 import model.parking.Parking;
 import model.parking.ParkingDAO;
-import model.user.UserDAO;
 import util.Validator;
 
 import java.sql.Date;
 import java.sql.SQLException;
 
 public class NewParkingController {
+
+    @FXML
+    public Pane cityPane;
+    @FXML
+    public Pane parkRidePane;
+    @FXML
+    public Pane kissRidePane;
+    @FXML
+    public Text estateNameLabel;
     private Stage stage;
     @FXML
     public TextField nodeInput;
@@ -76,7 +89,10 @@ public class NewParkingController {
     private void initialize() {
         estateComboBox.setItems(EstateDAO.getEstate());
 
-
+        estateComboBox.setVisible(false);
+        cityPane.setVisible(false);
+        parkRidePane.setVisible(false);
+        kissRidePane.setVisible(false);
 
         radioButtons = new ToggleGroup();
         estateRadioButton.setToggleGroup(radioButtons);
@@ -84,7 +100,16 @@ public class NewParkingController {
         parkRideRadioButton.setToggleGroup(radioButtons);
         kissRideRadioButton.setToggleGroup(radioButtons);
 
+
+
+        estateRadioButton.selectedProperty().addListener(new RadioButtounsListener());
+        cityRadioButton.selectedProperty().addListener(new RadioButtounsListener());
+        parkRideRadioButton.selectedProperty().addListener(new RadioButtounsListener());
+        kissRideRadioButton.selectedProperty().addListener(new RadioButtounsListener());
+
         cityRadioButton.setSelected(true);
+
+        lastControlInput.getEditor().setDisable(true);
 
         saveParkingTask = new Task<>() {
             @Override
@@ -95,6 +120,7 @@ public class NewParkingController {
                 location.setLongitude(Float.parseFloat(longInput.getText()));
 
                 LocationDAO.saveLocation(location);
+                location.setLocationId(LocationDAO.getSavedLocationId());
 
                 Parking newParking = new Parking();
                 newParking.setStandardLots(Integer.parseInt(nrOfStandardLotsInput.getText()));
@@ -107,6 +133,7 @@ public class NewParkingController {
                 newParking.setMaxWeight(Float.parseFloat(maxWeightInput.getText()));
 
                 ParkingDAO.saveParking(newParking);
+                newParking.setParkingId(ParkingDAO.getSavedParkingId());
 
                 switch (((RadioButton) radioButtons.getSelectedToggle()).getText()) {
                     case ("Estate"): {
@@ -167,7 +194,7 @@ public class NewParkingController {
     private boolean areInputFieldsValid() {
         boolean isOK = Validator.isIntegerInputValid(nrOfStandardLotsInput.getText()) && Validator.isIntegerInputValid(nrOfDisabledLotsInput.getText())
                 && Validator.isWeightValid(maxWeightInput.getText()) && Validator.isHeightValid(maxHeightInput.getText())
-                && Validator.isWeightValid(longInput.getText()) && Validator.isWeightValid(latInput.getText());
+                && Validator.isLatitudeValid(latInput.getText()) && Validator.isLongitudeValid(longInput.getText());
         switch (((RadioButton)radioButtons.getSelectedToggle()).getText())
         {
             case("Estate"):
@@ -195,7 +222,44 @@ public class NewParkingController {
 
     }
 
+    private class RadioButtounsListener implements ChangeListener<Boolean>
+    {
+        @Override
+        public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                estateComboBox.setVisible(false);
+                estateNameLabel.setVisible(false);
+                cityPane.setVisible(false);
+                parkRidePane.setVisible(false);
+                kissRidePane.setVisible(false);
 
+            switch (((RadioButton)radioButtons.getSelectedToggle()).getText())
+            {
+                case("Estate"):
+                {
+                    estateComboBox.setVisible(true);
+                    estateNameLabel.setVisible(true);
+                    break;
+                }
+                case("City"):
+                {
+                   cityPane.setVisible(true);
+                   break;
+                }
+                case("Park&Ride"):
+                {
+                    parkRidePane.setVisible(true);
+                    break;
+                }
+                case("Kiss&Ride"):
+                {
+                    kissRidePane.setVisible(true);
+                    break;
+                }
+                default: {}
+            }
+
+        }
+    }
 
     public void onCancelButtonClicked() {
         if(stage != null) stage.close();

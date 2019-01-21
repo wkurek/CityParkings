@@ -15,4 +15,9 @@ public class Estate {
     public StringProperty estateNameProperty() { return estateName; }
 
     public void setEstateName(String estateName) { this.estateName.set(estateName); }
+
+    public String toString()
+    {
+        return  String.format("%s", getEstateName());
+    }
 }

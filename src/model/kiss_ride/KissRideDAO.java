@@ -108,8 +108,8 @@ public class KissRideDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES ('%d', %d, %b)", KissRideContract.TABLE_NAME, kissRide.getParking().getParkingId(),
-                kissRide.getMaxStopMinutes(), kissRide.isAreGates());
+        String sql = String.format("INSERT INTO %s VALUES (%d, %d, %d)", KissRideContract.TABLE_NAME, kissRide.getParking().getParkingId(),
+                kissRide.getMaxStopMinutes(), btoi(kissRide.isAreGates()));
 
         DbHelper.executeUpdateQuery(sql);
     }
@@ -133,5 +133,9 @@ public class KissRideDAO {
                 KissRideContract.COLUMN_NAME_ID, id);
 
         DbHelper.executeUpdateQuery(sql);
+    }
+    private static Integer btoi(boolean bool)
+    {
+        return bool ? 1 : 0;
     }
 }

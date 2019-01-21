@@ -5,7 +5,12 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import model.park.Park;
 import model.park.ParkDAO;
 import model.parking.Parking;
@@ -13,17 +18,20 @@ import model.parking.ParkingDAO;
 import model.user.User;
 import model.vehicle.Vehicle;
 import model.vehicle.VehicleDAO;
+import util.Validator;
 
+import java.io.IOException;
 import java.sql.Date;
 
 public class ParkingController {
     public Button deleteParkingButton;
-    public TextField parkingIsGuardeInput;
+    public TextField parkingIsGuardedInput;
     public TextField parkingIsRoofedInput;
     public TextField parkingLastControlInput;
     private ObservableList<Parking> parkingList;
     private ObservableList<Park> parksList;
 
+    private Stage stage;
     private Task<ObservableList<Parking>> parkingLoadTask;
 
     @FXML
@@ -174,6 +182,7 @@ public class ParkingController {
     private void initialize() {
         setUpParkingsTable();
         setUpParksTable();
+        deleteParkingButton.setDisable(true);
 
         scheduleLoadTask(parkingLoadTask);
 
@@ -211,6 +220,7 @@ public class ParkingController {
     private void onParkingSelected(Parking selectedParking) {
         saveParkingButton.setDisable(true);
         editParkingButton.setDisable(false);
+        deleteParkingButton.setDisable(false);
 
         setParkingInputFieldDisable(true);
 
@@ -218,7 +228,7 @@ public class ParkingController {
         parkingStandardSlotsNumberInput.setText(Integer.toString(selectedParking.getStandardLots()));
         parkingDisabledLotsNumberInput.setText(Integer.toString(selectedParking.getDisabledLots()));
         parkingIsRoofedInput.setText(Boolean.toString(selectedParking.isRoofed()));
-        parkingIsGuardeInput.setText(Boolean.toString(selectedParking.isGuarded()));
+        parkingIsGuardedInput.setText(Boolean.toString(selectedParking.isGuarded()));
         parkingLastControlInput.setText(selectedParking.getLastControl().toString());
         maxHeightInput.setText(Float.toString(selectedParking.getMaxHeight()));
         maxWeightInput.setText(Float.toString(selectedParking.getMaxWeight()));
@@ -234,7 +244,7 @@ public class ParkingController {
         parkingStandardSlotsNumberInput.setDisable(disable);
         parkingDisabledLotsNumberInput.setDisable(disable);
         parkingIsRoofedInput.setDisable(disable);
-        parkingIsGuardeInput.setDisable(disable);
+        parkingIsGuardedInput.setDisable(disable);
         parkingLastControlInput.setDisable(disable);
         maxWeightInput.setDisable(disable);
         maxHeightInput.setDisable(disable);
@@ -248,28 +258,12 @@ public class ParkingController {
         new Thread(task).start();
     }
 
-    @FXML
-    void onAddParkButtonClicked(ActionEvent event) {
-
-    }
 
     @FXML
-    void onDeleteParkButtonClicked(ActionEvent event) {
-        Park selectedPark = parksTable.getSelectionModel().getSelectedItem();
-        int selectedParkIndex = parksTable.getSelectionModel().getSelectedIndex();
-
-        if(selectedPark != null && selectedParkIndex >= 0) {
-            ParkDAO.deletePark(selectedPark.getDateTime().toString(), selectedPark.getVehicle().getId());
-            parksList.remove(selectedParkIndex);
-        } else {
-            deleteParkButton.setDisable(true);
-        }
-    }
-
-    @FXML
-    void onEditParkingButtonClicked(ActionEvent event) {
+    void onEditParkingButtonClicked() {
         editParkingButton.setDisable(true);
         saveParkingButton.setDisable(false);
+        deleteParkingButton.setDisable(true);
 
         setParkingInputFieldDisable(false);
 
@@ -278,31 +272,65 @@ public class ParkingController {
     }
 
     @FXML
-    void onNewParkingButtonClicked(ActionEvent event) {
+    void onNewParkingButtonClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ParkingController.class.getResource("../view/newParkingView.fxml"));
+            AnchorPane page = loader.load();
 
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Create New Parking");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(stage);
+
+            NewParkingController controller = loader.getController();
+            controller.setStage(dialogStage);
+
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            dialogStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    void onSaveParkingButtonClicked(ActionEvent event) {
+    void onSaveParkingButtonClicked() {
 
-        int editedParkingIndex = parkingsTable.getSelectionModel().getSelectedIndex();
-        Parking editParking = parkingList.get(editedParkingIndex);
+        if(areInputFieldsValid()) {
+            int editedParkingIndex = parkingsTable.getSelectionModel().getSelectedIndex();
+            Parking editParking = parkingList.get(editedParkingIndex);
 
-        editParking.setStandardLots(Integer.valueOf(parkingStandardSlotsNumberInput.getText()));
-        editParking.setDisabledLots(Integer.valueOf(parkingDisabledLotsNumberInput.getText()));
-        editParking.setRoofed(Boolean.getBoolean(parkingIsRoofedInput.getText()));
-        editParking.setGuarded(Boolean.getBoolean(parkingIsGuardeInput.getText()));
-        editParking.setLastControl(Date.valueOf(parkingLastControlInput.getText()));
+            editParking.setStandardLots(Integer.valueOf(parkingStandardSlotsNumberInput.getText()));
+            editParking.setDisabledLots(Integer.valueOf(parkingDisabledLotsNumberInput.getText()));
+            editParking.setRoofed(Boolean.getBoolean(parkingIsRoofedInput.getText()));
+            editParking.setGuarded(Boolean.getBoolean(parkingIsGuardedInput.getText()));
+            editParking.setLastControl(Date.valueOf(parkingLastControlInput.getText()));
 
-        editParking.setMaxHeight(Float.valueOf(maxHeightInput.getText()));
-        editParking.setMaxWeight(Float.valueOf(maxWeightInput.getText()));
+            editParking.setMaxHeight(Float.valueOf(maxHeightInput.getText()));
+            editParking.setMaxWeight(Float.valueOf(maxWeightInput.getText()));
 
-        editParkingButton.setDisable(false);
-        saveParkingButton.setDisable(true);
-        setParkingInputFieldDisable(true);
+            editParkingButton.setDisable(false);
+            saveParkingButton.setDisable(true);
+            deleteParkingButton.setDisable(true);
+            setParkingInputFieldDisable(true);
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initOwner(stage);
+            alert.setTitle("Invalid field(s)");
+            alert.show();
+        }
 
     }
 
+    private boolean areInputFieldsValid() {
+        boolean isOK = Validator.isIntegerInputValid(parkingStandardSlotsNumberInput.getText()) && Validator.isIntegerInputValid(parkingDisabledLotsNumberInput.getText())
+                && Validator.isWeightValid(maxWeightInput.getText()) && Validator.isHeightValid(maxHeightInput.getText())
+                && Validator.isDateValid(parkingLastControlInput.getText());
+        return isOK;
+    }
     public void onDeleteParkingButtonClicked(ActionEvent actionEvent) {
         Parking selectedParking = parkingsTable.getSelectionModel().getSelectedItem();
         int selectedParkingIndex = parkingsTable.getSelectionModel().getSelectedIndex();
@@ -317,5 +345,9 @@ public class ParkingController {
 
     public void onRefreshParkingButtonClicked(ActionEvent actionEvent) {
         scheduleLoadTask(parkingLoadTask);
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }

@@ -6,6 +6,7 @@ import util.DbHelper;
 
 import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
+import java.util.Locale;
 
 public class LocationDAO {
     public static class LocationContract {
@@ -49,6 +50,24 @@ public class LocationDAO {
 
         return locationList;
     }
+    public static Integer getSavedLocationId()
+    {
+        String sql = String.format("SELECT IDENT_CURRENT ('%s') AS %s", LocationContract.TABLE_NAME,
+                LocationContract.COLUMN_NAME_ID);
+        CachedRowSet result = DbHelper.executeQuery(sql);
+
+        Integer index = null;
+
+        try {
+            if(result.next()) {
+                index = result.getInt(LocationContract.COLUMN_NAME_ID);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return index;
+    }
 
     public static Location getLocation(int locationId) {
         String sql = String.format("SELECT * FROM %s WHERE %s=%d", LocationContract.TABLE_NAME,
@@ -73,7 +92,7 @@ public class LocationDAO {
             return;
         }
 
-        String sql = String.format("INSERT INTO %s VALUES (%.2f, %.2f)", LocationContract.TABLE_NAME,
+        String sql = String.format(Locale.US,"INSERT INTO %s VALUES (%.2f, %.2f)", LocationContract.TABLE_NAME,
                 location.getLatitude(), location.getLongitude());
 
         DbHelper.executeUpdateQuery(sql);

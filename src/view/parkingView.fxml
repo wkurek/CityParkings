@@ -26,11 +26,12 @@
                                <children>
                                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Parkings">
                                      <font>
-                                        <Font size="22.0" name="System Bold"/>
+                                        <Font name="System Bold" size="22.0" />
                                      </font>
                                   </Text>
                                   <Button fx:id="deleteParkingButton" alignment="TOP_LEFT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onDeleteParkingButtonClicked" text="Delete" />
                                   <Button mnemonicParsing="false" onAction="#onRefreshParkingButtonClicked" text="Refresh" />
+                              <Button fx:id="newButton" mnemonicParsing="false" text="New" onAction="#onNewParkingButtonClicked"/>
                                </children>
                             </HBox>
                             <TableView fx:id="parkingsTable" prefHeight="298.0" prefWidth="620.0">
@@ -53,7 +54,7 @@
                         <Separator layoutX="410.0" layoutY="319.0" prefHeight="2.0" prefWidth="384.0" />
                         <Text layoutX="422.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parks">
                             <font>
-                                <Font size="18.0" name="System Bold" />
+                                <Font name="System Bold" size="18.0" />
                             </font>
                         </Text>
                         <TableView fx:id="parksTable" layoutX="412.0" layoutY="31.0" prefHeight="244.0" prefWidth="384.0">
@@ -80,43 +81,43 @@
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label prefHeight="16.0" prefWidth="91.0" text="Distabled lots" />
-                                        <TextField fx:id="parkingDisabledLotsNumberInput" disable="true" alignment="CENTER"/>
+                                        <TextField fx:id="parkingDisabledLotsNumberInput" alignment="CENTER" disable="true" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" prefWidth="246.0" spacing="12.0">
                                     <children>
                                         <Label text="Is roofed" />
-                                        <TextField fx:id="parkingIsRoofedInput" disable="true" alignment="CENTER"/>
+                                        <TextField fx:id="parkingIsRoofedInput" alignment="CENTER" disable="true" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="78.0" spacing="12.0">
                                     <children>
                                         <Label prefHeight="16.0" prefWidth="76.0" text="Is guarded" />
-                                        <TextField fx:id="parkingIsGuardeInput" disable="true" alignment="CENTER"/>
+                                        <TextField fx:id="parkingIsGuardedInput" alignment="CENTER" disable="true" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label text="Last control" />
-                                        <TextField fx:id="parkingLastControlInput" disable="true" alignment="CENTER"/>
+                                        <TextField fx:id="parkingLastControlInput" alignment="CENTER" disable="true" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label text="Max weight" />
-                                        <TextField fx:id="maxWeightInput" disable="true" alignment="CENTER"/>
+                                        <TextField fx:id="maxWeightInput" alignment="CENTER" disable="true" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label text="Max height" />
-                                        <TextField fx:id="maxHeightInput" disable="true" alignment="CENTER"/>
+                                        <TextField fx:id="maxHeightInput" alignment="CENTER" disable="true" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" spacing="12.0">
                                     <children>
                                         <Label text="Location" />
-                                        <TextField fx:id="locationInput" disable="true" alignment="CENTER"/>
+                                        <TextField fx:id="locationInput" alignment="CENTER" disable="true" />
                                     </children>
                                 </HBox>
                         <Separator prefWidth="200.0" />
@@ -131,7 +132,7 @@
                         </VBox>
                         <Text layoutX="11.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Details">
                             <font>
-                                <Font size="18.0" name="System Bold" />
+                                <Font name="System Bold" size="18.0" />
                             </font>
                         </Text>
                         <VBox layoutX="442.0" layoutY="353.0" spacing="8.0" />

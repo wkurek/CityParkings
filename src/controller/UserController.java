@@ -419,9 +419,5 @@ public class UserController {
         this.stage = stage;
     }
 
-    public void onEditParkButtonClicked(ActionEvent actionEvent) {
-    }
 
-    public void onSaveParkButtonClicked(ActionEvent actionEvent) {
-    }
 }
