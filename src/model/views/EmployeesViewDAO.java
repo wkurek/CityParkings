@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class EmployeesViewDAO {
 
@@ -64,10 +66,10 @@ public class EmployeesViewDAO {
 
     private static String generateWherePartOfQuery(String salaryMin, String salaryMax, List<String> countries, List<String> departments) {
         String sql=" WHERE 1=1 ";
-        if(salaryMin!=null && Validator.isWeightValid(salaryMin)){
+        if (salaryMin != null && !salaryMin.equals("") && Validator.isWeightValid(salaryMin)) {
             sql+="and "+EmployeesViewContract.COLUMN_NAME_SALARY+">="+salaryMin+" ";
         }
-        if(salaryMax!=null && Validator.isWeightValid(salaryMax)){
+        if (salaryMax != null && !salaryMax.equals("") && Validator.isWeightValid(salaryMax)) {
             sql+="and "+EmployeesViewContract.COLUMN_NAME_SALARY+"<="+salaryMax+" ";
         }
         if(countries.size()!=0&&!countries.get(0).equals("Select All")) {
@@ -174,7 +176,8 @@ public class EmployeesViewDAO {
             System.err.println(e.getMessage());
         }
     }
-    private static void generateSalaries(ObservableList<EmployeesView> employeesViews)
+
+    private static void generateSalaries(List<EmployeesView> employeesViews)
     {
         if(employeesViews==null||employeesViews.size()==0) {
             minSalary = maxSalary = medianSalary = averageSalary = 0;
@@ -194,8 +197,7 @@ public class EmployeesViewDAO {
         medianSalary = salaries.size()%2==1 ? salaries.get(salaries.size()/2) : (salaries.get(salaries.size()/2-1)+salaries.get(salaries.size()/2))/2;
         averageSalary = (float)salaries.stream().mapToDouble(a->a).average().orElse(0.0);
     }
-    public static void generateStatistics(String salaryMin, String salaryMax, List<String> countries, List<String> departments)
-    {
+    public static void generateStatistics(String salaryMin, String salaryMax, List<String> countries, List<String> departments) {
         ObservableList<EmployeesView> employeesViews = getEmployeesViews(salaryMin, salaryMax, countries, departments);
         nrOfEmployees = employeesViews.size();
 
@@ -210,6 +212,37 @@ public class EmployeesViewDAO {
 
         generateSalaries(employeesViews);
 
+    }
+
+    public static void generateStatistics(List<EmployeesView> employeesViews) {
+        nrOfEmployees = employeesViews.size();
+        nrOfParkingsOp = employeesViews.stream().map(e -> String.valueOf(e.getParkingID())).collect(Collectors.toSet()).size();
+        nrOfDepartments = employeesViews.stream().map(e -> e.getDepartment().getDepartmentName()).collect(Collectors.toSet()).size();
+        Map<String, Long> counts = employeesViews.stream().collect(Collectors.groupingBy(e -> e.getDepartment().getDepartmentName(), Collectors.counting()));
+        Map.Entry<String, Long> max = null;
+        for (Map.Entry<String, Long> entry : counts.entrySet()) {
+            if (max == null || entry.getValue().compareTo(max.getValue()) > 0) {
+                max = entry;
+            }
+        }
+        assert max != null;
+        maxEmployees = max.getValue().intValue();
+        maxDepartment = max.getKey();
+        Map.Entry<String, Long> min = null;
+        for (Map.Entry<String, Long> entry : counts.entrySet()) {
+            if (min == null || entry.getValue().compareTo(min.getValue()) < 0) {
+                min = entry;
+            }
+        }
+        assert min != null;
+        minEmployees = min.getValue().intValue();
+        minDepartment = min.getKey();
+        if (nrOfDepartments == 0)
+            averageEmployees = 0;
+        else
+            averageEmployees = (float) nrOfEmployees / (float) nrOfDepartments;
+
+        generateSalaries(employeesViews);
     }
 
     public static int getNrOfEmployees() {

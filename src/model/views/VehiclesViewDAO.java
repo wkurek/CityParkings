@@ -7,7 +7,10 @@ import util.Validator;
 
 import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class VehiclesViewDAO {
     private static class VehiclesViewContract {
@@ -68,16 +71,16 @@ public class VehiclesViewDAO {
                                                    List<String> countries, List<String> engines)
     {
         String sql=" WHERE 1=1 ";
-        if(heightMinInput!=null && Validator.isHeightValid(heightMinInput)){
+        if (heightMinInput != null && !heightMinInput.equals("") && Validator.isHeightValid(heightMinInput)) {
             sql+="and "+VehiclesViewContract.COLUMN_NAME_HEIGHT+">="+heightMinInput+" ";
         }
-        if(heightMaxInput!=null && Validator.isHeightValid(heightMaxInput)){
+        if (heightMaxInput != null && !heightMaxInput.equals("") && Validator.isHeightValid(heightMaxInput)) {
             sql+="and "+VehiclesViewContract.COLUMN_NAME_HEIGHT+"<="+heightMaxInput+" ";
         }
-        if(weightMinInput!=null && Validator.isWeightValid(weightMinInput)){
+        if (weightMinInput != null && !weightMinInput.equals("") && Validator.isWeightValid(weightMinInput)) {
             sql+="and "+VehiclesViewContract.COLUMN_NAME_WEIGHT+">="+weightMinInput+" ";
         }
-        if(weightMaxInput!=null && Validator.isWeightValid(weightMaxInput)){
+        if (weightMaxInput != null && !weightMaxInput.equals("") && Validator.isWeightValid(weightMaxInput)) {
             sql+="and "+VehiclesViewContract.COLUMN_NAME_WEIGHT+"<="+weightMaxInput+" ";
         }
         if(countries.size()!=0&&!countries.get(0).equals("Select All")) {
@@ -166,15 +169,11 @@ public class VehiclesViewDAO {
         return vehiclesView;
     }
 
-    public static void generateStatistics(String heightMinInput, String heightMaxInput, String weightMinInput, String weightMaxInput,
-                                   List<String> countries, List<String> engines, boolean isParked, List<String> parkTypes)
+    public static void generateStatistics(List<VehiclesView> vehiclesViewsList, String heightMinInput, String heightMaxInput, String weightMinInput, String weightMaxInput,
+                                          List<String> countries, List<String> engines, boolean isParked, List<String> parkTypes)
     {
-        ObservableList<VehiclesView> vehiclesViews = getVehiclesViews(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, isParked, parkTypes);
-
-        nrOfVehicles = vehiclesViews.size();
-        generateEngineTypesAndNumber(vehiclesViews);
-
-
+        nrOfVehicles = vehiclesViewsList.size();
+        generateEngineTypesAndNumber(vehiclesViewsList);
 
         if(!isParked)
              nrOfVehiclesParked = getVehiclesViews(heightMinInput, heightMaxInput, weightMinInput, weightMaxInput, countries, engines, true, parkTypes).size();
@@ -233,7 +232,7 @@ public class VehiclesViewDAO {
         return 0;
     }
 
-    private static void generateEngineTypesAndNumber(ObservableList<VehiclesView> vehiclesViews)
+    private static void generateEngineTypesAndNumber(List<VehiclesView> vehiclesViews)
     {
         engineTypesAndNumber.clear();
         List<String> engineTypes = new ArrayList<>();
@@ -251,6 +250,7 @@ public class VehiclesViewDAO {
         }
 
     }
+
 
     public static Map<String, Integer> getEngineTypesAndNumber()
     {

@@ -2,7 +2,6 @@ package controller;
 
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import model.park.Park;
@@ -45,11 +44,7 @@ public class NewParkController {
         };
 
         saveParkTask.setOnFailed(event -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.initOwner(stage);
-            alert.setTitle("SQL Error");
-            alert.setHeaderText(event.getSource().getException().getMessage());
-            alert.show();
+            ReportsController.taskAlert(stage, event);
         });
     }
 

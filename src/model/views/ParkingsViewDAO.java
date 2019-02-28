@@ -2,9 +2,9 @@ package model.views;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-//import org.joda.time.DateTime;
-//import org.joda.time.Duration;
-//import org.joda.time.Interval;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.joda.time.Interval;
 import util.DbHelper;
 import util.Validator;
 
@@ -13,6 +13,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+//import org.joda.time.DateTime;
+//import org.joda.time.Duration;
+//import org.joda.time.Interval;
 
 
 
@@ -127,22 +131,22 @@ public class ParkingsViewDAO {
                                                    boolean isRoofed, boolean isGuarded, boolean hasFreeLots)
     {
         String sql=" WHERE 1=1 ";
-        if(heightMinInput!=null && Validator.isHeightValid(heightMinInput)){
+        if (heightMinInput != null && !heightMinInput.equals("") && Validator.isHeightValid(heightMinInput)) {
             sql+="and "+ParkingsViewContract.COLUMN_NAME_MAX_HEIGHT+">="+heightMinInput+" ";
         }
-        if(heightMaxInput!=null && Validator.isHeightValid(heightMaxInput)){
+        if (heightMaxInput != null && !heightMaxInput.equals("") && Validator.isHeightValid(heightMaxInput)) {
             sql+="and "+ParkingsViewContract.COLUMN_NAME_MAX_HEIGHT+"<="+heightMaxInput+" ";
         }
-        if(weightMinInput!=null && Validator.isWeightValid(weightMinInput)){
+        if (weightMinInput != null && !weightMinInput.equals("") && Validator.isWeightValid(weightMinInput)) {
             sql+="and "+ParkingsViewContract.COLUMN_NAME_MAX_WEIGHT+">="+weightMinInput+" ";
         }
-        if(weightMaxInput!=null && Validator.isWeightValid(weightMaxInput)){
+        if (weightMaxInput != null && !weightMaxInput.equals("") && Validator.isWeightValid(weightMaxInput)) {
             sql+="and "+ParkingsViewContract.COLUMN_NAME_MAX_WEIGHT+"<="+weightMaxInput+" ";
         }
-        if(lotsMinInput!=null && Validator.isIntegerInputValid(lotsMinInput)){
+        if (lotsMinInput != null && !lotsMinInput.equals("") && Validator.isIntegerInputValid(lotsMinInput)) {
             sql+="and "+ParkingsViewContract.COLUMN_NAME_STANDARD_LOTS+"+"+ParkingsViewContract.COLUMN_NAME_DISABLED_LOTS+">="+lotsMinInput+" ";
         }
-        if(lotsMaxInput!=null && Validator.isIntegerInputValid(lotsMaxInput)){
+        if (lotsMaxInput != null && !lotsMaxInput.equals("") && Validator.isIntegerInputValid(lotsMaxInput)) {
             sql+="and "+ParkingsViewContract.COLUMN_NAME_STANDARD_LOTS+"+"+ParkingsViewContract.COLUMN_NAME_DISABLED_LOTS+"<="+lotsMaxInput+" ";
         }
         if(isRoofed)
@@ -183,7 +187,8 @@ public class ParkingsViewDAO {
 
         return parkingsView;
     }
-    private static void generateSlotsStats(ObservableList<ParkingsView> parkingsViews)
+
+    private static void generateSlotsStats(List<ParkingsView> parkingsViews)
     {
         nrStandardSlots = 0;
         nrDisabledSlots = 0;
@@ -239,10 +244,10 @@ public class ParkingsViewDAO {
             while (resultSet!=null&&resultSet.next())
             {
                 java.sql.Date sqlDate = resultSet.getDate("date_time");
-               // DateTime dateTime = new DateTime(sqlDate.getTime());
-                //Interval interval = new Interval(dateTime, new org.joda.time.Instant());
-                //Duration duration = new Duration(interval);
-                //dateDifferences.add(duration.getStandardHours());
+                DateTime dateTime = new DateTime(sqlDate.getTime());
+                Interval interval = new Interval(dateTime, new org.joda.time.Instant());
+                Duration duration = new Duration(interval);
+                dateDifferences.add(duration.getStandardHours());
             }
         }
         catch (SQLException e)
@@ -253,16 +258,12 @@ public class ParkingsViewDAO {
         longestParkTime = (float)dateDifferences.stream().mapToDouble(a->a).max().orElse(0.0);
         shortestParkTime = (float)dateDifferences.stream().mapToDouble(a->a).min().orElse(0.0);
     }
-    public static void generateStatistics(String heightMinInput, String heightMaxInput, String weightMinInput,
+
+    public static void generateStatistics(List<ParkingsView> parkingsViewList, String heightMinInput, String heightMaxInput, String weightMinInput,
                                           String weightMaxInput, String lotsMinInput, String lotsMaxInput, List<String> parkingType,
                                           boolean isRoofed, boolean isGuarded, boolean hasFreeLots)
     {
-        ObservableList<ParkingsView> parkingsViews = getParkingsViews(heightMinInput, heightMaxInput,
-                                                                        weightMinInput, weightMaxInput,
-                                                                        lotsMinInput, lotsMaxInput,
-                                                                        parkingType, isRoofed,
-                                                                        isGuarded, hasFreeLots);
-        nrOfParkings = parkingsViews.size();
+        nrOfParkings = parkingsViewList.size();
         nrCityParkings = nrParkRides = nrKissRides = nrEstateParkings = 0;
         if(parkingType.size()==0||parkingType.stream().anyMatch(e->e.equals(PARKING_TYPES_TABLE_NAMES.get(0)))) {
             nrCityParkings = getParkingsViews(heightMinInput, heightMaxInput,
@@ -292,7 +293,7 @@ public class ParkingsViewDAO {
                     new ArrayList<>(Arrays.asList(PARKING_TYPES_TABLE_NAMES.get(3))), isRoofed,
                     isGuarded, hasFreeLots).size();
         }
-        generateSlotsStats(parkingsViews);
+        generateSlotsStats(parkingsViewList);
         if(nrStandardSlots+nrDisabledSlots==0)
             avOccupancy=0;
         else

@@ -122,11 +122,7 @@ public class UserController {
         });
 
         task.setOnFailed(event -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.initOwner(stage);
-            alert.setTitle("SQL Error");
-            alert.setHeaderText(event.getSource().getException().getMessage());
-            alert.show();
+            ReportsController.taskAlert(stage, event);
         });
 
         return task;
@@ -146,11 +142,7 @@ public class UserController {
         });
 
         task.setOnFailed(event -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.initOwner(stage);
-            alert.setTitle("SQL Error");
-            alert.setHeaderText(event.getSource().getException().getMessage());
-            alert.show();
+            ReportsController.taskAlert(stage, event);
         });
 
         return task;

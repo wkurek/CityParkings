@@ -17,6 +17,7 @@ import model.employee.EmployeeDAO;
 import model.parking.Parking;
 import model.parking.ParkingDAO;
 import util.Validator;
+
 import java.sql.SQLException;
 
 
@@ -95,11 +96,7 @@ public class NewEmployeeController {
         };
 
         saveEmployeeTask.setOnFailed(event -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.initOwner(stage);
-            alert.setTitle("SQL Error");
-            alert.setHeaderText(event.getSource().getException().getMessage());
-            alert.show();
+            ReportsController.taskAlert(stage, event);
         });
     }
 

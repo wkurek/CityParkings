@@ -100,13 +100,7 @@ public class EmployeeController {
             employeeList.setAll(task.getValue());
         });
 
-        task.setOnFailed(event -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.initOwner(stage);
-            alert.setTitle("SQL Error");
-            alert.setHeaderText(event.getSource().getException().getMessage());
-            alert.show();
-        });
+        task.setOnFailed(event -> ReportsController.taskAlert(stage, event));
 
         return task;
     }

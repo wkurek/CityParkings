@@ -52,10 +52,10 @@ public class UsersViewDAO {
     {
         String sql = generateSelectQuery();
         sql+=" WHERE 1=1 ";
-        if(vehiclesMinInput!=null && Validator.isIntegerInputValid(vehiclesMinInput)){
+        if (vehiclesMinInput != null && !vehiclesMinInput.equals("") && Validator.isIntegerInputValid(vehiclesMinInput)) {
             sql+="and "+UsersViewContract.COLUMN_NAME_NUMBER_OF_VEHICLES+">="+vehiclesMinInput+" ";
         }
-        if(vehiclesMaxInput!=null && Validator.isIntegerInputValid(vehiclesMaxInput)){
+        if (vehiclesMaxInput != null && !vehiclesMaxInput.equals("") && Validator.isIntegerInputValid(vehiclesMaxInput)) {
             sql+="and "+UsersViewContract.COLUMN_NAME_NUMBER_OF_VEHICLES+"<="+vehiclesMaxInput+" ";
         }
         if(dateMinInput!=null){
@@ -107,10 +107,8 @@ public class UsersViewDAO {
         return usersView;
     }
 
-    public static void generateStatistics(String vehiclesMinInput, String vehiclesMaxInput,
-                                          String dateMinInput, String dateMaxInput, List<String> countries)
+    public static void generateStatistics(List<UsersView> usersViews)
     {
-        ObservableList<UsersView> usersViews = getUsersViews(vehiclesMinInput, vehiclesMaxInput, dateMinInput, dateMaxInput, countries);
         nrOfUsers = usersViews.size();
         int vehicles=0;
         withoutVehicle=0;

@@ -2,16 +2,17 @@ package controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import model.views.ParkingsView;
 import model.views.ParkingsViewDAO;
 
-
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.sql.Date;
 import java.util.List;
 
 public class ParkingsTabController {
@@ -43,7 +44,7 @@ public class ParkingsTabController {
 
 
     @FXML
-    public TableView parkingsViewTable;
+    public TableView<ParkingsView> parkingsViewTable;
     @FXML
     public Text nrOfParkings;
     @FXML
@@ -91,6 +92,8 @@ public class ParkingsTabController {
     @FXML
     private MenuButton parkingTypeMenuButton;
 
+    private Stage stage;
+
     private List<CheckMenuItem> columnItems;
     private List<CheckMenuItem> parkingTypeItems;
 
@@ -98,20 +101,53 @@ public class ParkingsTabController {
 
     private List<TableColumn> columns;
 
+    private Task<ObservableList<ParkingsView>> parkingsViewTask;
+
     public ParkingsTabController()
     {
         columns = new ArrayList<>();
         columnItems = new ArrayList<>();
         parkingTypeItems = new ArrayList<>();
         parkingsViewsList = FXCollections.observableArrayList();
+        parkingsViewTask = generateParkingsViewTask();
     }
+
+    private Task<ObservableList<ParkingsView>> generateParkingsViewTask() {
+        Task<ObservableList<ParkingsView>> task = new Task<>() {
+            @Override
+            protected ObservableList<ParkingsView> call() {
+                menuButtonsSet();
+                return ParkingsViewDAO.getParkingsViews(heightMinInput.getText(), heightMaxInput.getText(), weightMinInput.getText(), weightMaxInput.getText(),
+                        lotsMinInput.getText(), lotsMaxInput.getText(),
+                        parkTypesMenuButtonToParkTypesColumnNames(),
+                        roofedCheckBox.isSelected(), guardedCheckBox.isSelected(), freeLotsCheckBox.isSelected());
+            }
+        };
+
+        task.setOnSucceeded(event -> {
+            parkingsViewsList.clear();
+            parkingsViewsList.setAll(task.getValue());
+            setUpStatistics(parkingsViewsList);
+            setUpTable();
+        });
+
+        task.setOnFailed(event -> ReportsController.taskAlert(stage, event));
+
+        return task;
+    }
+
     @FXML
     private void initialize()
     {
-        menuButtonsSet();
         generateTableColumns();
         setUpTable();
-        setUpStatistics();
+        scheduleLoadTask(parkingsViewTask);
+    }
+
+    private void scheduleLoadTask(Task task) {
+        if (task != null && task.isRunning()) task.cancel();
+
+        new Thread(task).start();
     }
 
     private void menuButtonsSet() {
@@ -188,17 +224,13 @@ public class ParkingsTabController {
 
     @FXML
     public void onParkingsFilterClicked() {
-        setUpTable();
-        setUpStatistics();
+        parkingsViewTask = generateParkingsViewTask();
+        scheduleLoadTask(parkingsViewTask);
     }
 
     private void setUpTable()
     {
         ReportsController.setColumns(parkingsViewTable, columns, columnMenuButton);
-        parkingsViewsList = ParkingsViewDAO.getParkingsViews(heightMinInput.getText(), heightMaxInput.getText(), weightMinInput.getText(), weightMaxInput.getText(),
-                lotsMinInput.getText(), lotsMaxInput.getText(),
-                parkTypesMenuButtonToParkTypesColumnNames(),
-                roofedCheckBox.isSelected(), guardedCheckBox.isSelected(), freeLotsCheckBox.isSelected());
         parkingsViewTable.setItems(parkingsViewsList);
     }
 
@@ -215,9 +247,9 @@ public class ParkingsTabController {
         return parkTypes;
     }
 
-    private void setUpStatistics()
+    private void setUpStatistics(ObservableList<ParkingsView> parkingsViewsList)
     {
-        ParkingsViewDAO.generateStatistics(heightMinInput.getText(), heightMaxInput.getText(), weightMinInput.getText(), weightMaxInput.getText(),
+        ParkingsViewDAO.generateStatistics(parkingsViewsList, heightMinInput.getText(), heightMaxInput.getText(), weightMinInput.getText(), weightMaxInput.getText(),
                 lotsMinInput.getText(), lotsMaxInput.getText(),
                 parkTypesMenuButtonToParkTypesColumnNames(),
                 roofedCheckBox.isSelected(), guardedCheckBox.isSelected(), freeLotsCheckBox.isSelected());
@@ -235,4 +267,7 @@ public class ParkingsTabController {
         shortestParkTime.setText(String.format("%.02f",ParkingsViewDAO.getShortestParkTime()));
     }
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 }

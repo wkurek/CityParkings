@@ -2,13 +2,14 @@ package controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import model.country.CountryDAO;
 import model.views.UsersView;
 import model.views.UsersViewDAO;
-
 
 import java.sql.Date;
 import java.time.format.DateTimeFormatter;
@@ -62,26 +63,61 @@ public class UsersTabController {
     private List<CheckMenuItem> columnItems;
     private List<TableColumn> columns;
     private ObservableList<UsersView> usersViewsList;
+    private Task<ObservableList<UsersView>> usersViewTask;
+    private Stage stage;
 
-
-    public UsersTabController()
-    {
+    public UsersTabController() {
         countryItems = new ArrayList<>();
         columnItems = new ArrayList<>();
         columns = new ArrayList<>();
         usersViewsList = FXCollections.observableArrayList();
+        usersViewTask = generateUsersViewTask();
+    }
 
+    private Task<ObservableList<UsersView>> generateUsersViewTask() {
+        Task<ObservableList<UsersView>> task = new Task<>() {
+            @Override
+            protected ObservableList<UsersView> call() {
+                menuButtonsSet();
+                String dateMin = null;
+                String dateMax = null;
+                if (expirationMinInput.getValue() != null) {
+                    dateMin = expirationMinInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                }
+                if (expirationMaxInput.getValue() != null) {
+                    dateMax = expirationMaxInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                }
+                return UsersViewDAO.getUsersViews(vehiclesMinInput.getText(), vehiclesMaxInput.getText(), dateMin, dateMax,
+                        ReportsController.selectedMenuItemsToStringList(countryMenuButton.getItems()));
+            }
+        };
+
+        task.setOnSucceeded(event -> {
+            usersViewsList.clear();
+            usersViewsList.setAll(task.getValue());
+            setUpTable();
+            setUpStatistics(usersViewsList);
+        });
+
+        task.setOnFailed(event -> ReportsController.taskAlert(stage, event));
+
+        return task;
     }
 
     @FXML
     private void initialize()
     {
-        menuButtonsSet();
         generateTableColumns();
         setUpTable();
-        setUpStatistics();
         expirationMinInput.getEditor().setDisable(true);
         expirationMaxInput.getEditor().setDisable(true);
+        scheduleLoadTask(usersViewTask);
+    }
+
+    private void scheduleLoadTask(Task task) {
+        if (task != null && task.isRunning()) task.cancel();
+
+        new Thread(task).start();
     }
     private void menuButtonsSet()
     {
@@ -135,52 +171,29 @@ public class UsersTabController {
     private void setUpTable()
     {
         ReportsController.setColumns(usersViewTable, columns, columnMenuButton);
-        String dateMin=null;
-        String dateMax=null;
-        if(expirationMinInput.getValue()!=null)
-        {
-            dateMin=expirationMinInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        }
-        if(expirationMaxInput.getValue()!=null)
-        {
-            dateMax=expirationMaxInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        }
-        usersViewsList = UsersViewDAO.getUsersViews(vehiclesMinInput.getText(), vehiclesMaxInput.getText(),dateMin, dateMax,
-                                                                            ReportsController.selectedMenuItemsToStringList(countryMenuButton.getItems()));
         usersViewTable.setItems(usersViewsList);
     }
     @FXML
     public void onUsersFilterClicked() {
-        setUpTable();
-        setUpStatistics();
+        usersViewTask = generateUsersViewTask();
+        scheduleLoadTask(usersViewTask);
     }
 
-    private void setUpStatistics() {
-        String dateMin=null;
-        String dateMax=null;
-        if(expirationMinInput.getValue()!=null)
-        {
-            dateMin=expirationMinInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        }
-        if(expirationMaxInput.getValue()!=null)
-        {
-            dateMax=expirationMaxInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        }
-        UsersViewDAO.generateStatistics(vehiclesMinInput.getText(), vehiclesMaxInput.getText(),dateMin, dateMax,
-                ReportsController.selectedMenuItemsToStringList(countryMenuButton.getItems()));
+    private void setUpStatistics(ObservableList<UsersView> usersViewsList) {
+        UsersViewDAO.generateStatistics(usersViewsList);
         nrOfUsers.setText(Integer.toString(UsersViewDAO.getNrOfUsers()));
         summedVehicles.setText(Integer.toString(UsersViewDAO.getSummedVehicles()));
         averageVehicles.setText(String.format("%.02f", UsersViewDAO.getAverageVehicles()));
         withoutVehicle.setText(Integer.toString(UsersViewDAO.getWithoutVehicle()));
-
-
-
-
     }
 
 
     public void onClearButtonClicked() {
         expirationMinInput.setValue(null);
         expirationMaxInput.setValue(null);
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }

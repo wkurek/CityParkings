@@ -1,13 +1,13 @@
 package controller;
 
-
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import model.country.CountryDAO;
 import model.department.DepartmentDAO;
 import model.views.EmployeesView;
@@ -70,6 +70,7 @@ public class EmployeesTabController {
     private TextField salaryMinInput;
     @FXML
     private TextField salaryMaxInput;
+    private Stage stage;
     private List<CheckMenuItem> countryItems;
     private List<CheckMenuItem> departmentItems;
     private List<CheckMenuItem> columnItems;
@@ -78,6 +79,8 @@ public class EmployeesTabController {
 
     private ObservableList<EmployeesView> employeesViewList;
 
+    private Task<ObservableList<EmployeesView>> employeesViewTask;
+
     public EmployeesTabController()
     {
         columns = new ArrayList<>();
@@ -85,16 +88,44 @@ public class EmployeesTabController {
         departmentItems = new ArrayList<>();
         columnItems = new ArrayList<>();
         employeesViewList = FXCollections.observableArrayList();
+        employeesViewTask = generateEmployeesViewTask();
     }
 
+    private Task<ObservableList<EmployeesView>> generateEmployeesViewTask() {
+        Task<ObservableList<EmployeesView>> task = new Task<>() {
+            @Override
+            protected ObservableList<EmployeesView> call() {
+                menuButtonsSet();
+                return EmployeesViewDAO.getEmployeesViews(salaryMinInput.getText(), salaryMaxInput.getText(),
+                        ReportsController.selectedMenuItemsToStringList(countryMenuButton.getItems()),
+                        ReportsController.selectedMenuItemsToStringList(departmentMenuButton.getItems()));
+            }
+        };
+
+        task.setOnSucceeded(event -> {
+            employeesViewList.clear();
+            employeesViewList.setAll(task.getValue());
+            setUpTable();
+            setUpStatistics(employeesViewList);
+        });
+
+        task.setOnFailed(event -> ReportsController.taskAlert(stage, event));
+
+        return task;
+    }
     @FXML
     private void initialize()
     {
-          menuButtonsSet();
          // autoShowOff();
           generateTableColumns();
           setUpTable();
-          setUpStatistics();
+        scheduleLoadTask(employeesViewTask);
+    }
+
+    private void scheduleLoadTask(Task task) {
+        if (task != null && task.isRunning()) task.cancel();
+
+        new Thread(task).start();
     }
     @FXML
     private void menuButtonsSet() {
@@ -164,24 +195,19 @@ public class EmployeesTabController {
     }
     @FXML
     public void onFilterButtonClicked() {
-        setUpTable();
-        setUpStatistics();
+        employeesViewTask = generateEmployeesViewTask();
+        scheduleLoadTask(employeesViewTask);
     }
     private void setUpTable()
     {
         ReportsController.setColumns(employeesViewTable, columns, columnMenuButton);
-        employeesViewList = EmployeesViewDAO.getEmployeesViews(salaryMinInput.getText(), salaryMaxInput.getText(),
-                ReportsController.selectedMenuItemsToStringList(countryMenuButton.getItems()),
-                ReportsController.selectedMenuItemsToStringList(departmentMenuButton.getItems()));
         employeesViewTable.setItems(employeesViewList);
     }
 
 
-    private void setUpStatistics()
+    private void setUpStatistics(ObservableList<EmployeesView> employeesViewList)
     {
-        EmployeesViewDAO.generateStatistics(salaryMinInput.getText(), salaryMaxInput.getText(),
-                ReportsController.selectedMenuItemsToStringList(countryMenuButton.getItems()),
-                ReportsController.selectedMenuItemsToStringList(departmentMenuButton.getItems()));
+        EmployeesViewDAO.generateStatistics(employeesViewList);
         nrOfEmployees.setText(Integer.toString(EmployeesViewDAO.getNrOfEmployees()));
         nrOfParkingsOp.setText(Integer.toString(EmployeesViewDAO.getNrOfParkingsOp()));
         nrOfDepartments.setText(Integer.toString(EmployeesViewDAO.getNrOfDepartments()));
@@ -194,6 +220,10 @@ public class EmployeesTabController {
         maxSalary.setText(Float.toString(EmployeesViewDAO.getMaxSalary()));
         medianSalary.setText(Float.toString(EmployeesViewDAO.getMedianSalary()));
         averageSalary.setText(Float.toString(EmployeesViewDAO.getAverageSalary()));
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }
 

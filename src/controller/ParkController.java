@@ -7,14 +7,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.park.Park;
 import model.park.ParkDAO;
 import org.joda.time.DateTime;
-
 
 import java.io.IOException;
 
@@ -95,11 +97,7 @@ public class ParkController {
         });
 
         task.setOnFailed(event -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.initOwner(stage);
-            alert.setTitle("SQL Error");
-            alert.setHeaderText(event.getSource().getException().getMessage());
-            alert.show();
+            ReportsController.taskAlert(stage, event);
         });
 
         return task;

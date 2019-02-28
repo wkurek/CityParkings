@@ -1,11 +1,11 @@
 package controller;
 
 
+import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.joda.time.DateTime;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +43,9 @@ public class ReportsController {
         if(tableView==null)
             tableView = new TableView();
         tableView.getColumns().clear();
+        if (menuButton.getItems().size() == 0) {
+            return;
+        }
         if(((CheckMenuItem)menuButton.getItems().get(0)).isSelected())
         {
             for(int i = 0; i<columns.size();i++) {
@@ -117,5 +120,13 @@ public class ReportsController {
     void setStage(Stage stage)
     {
         this.stage = stage;
+    }
+
+    static void taskAlert(Stage stage, WorkerStateEvent event) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.initOwner(stage);
+        alert.setTitle("SQL Error");
+        alert.setHeaderText(event.getSource().getException().getMessage());
+        alert.show();
     }
 }

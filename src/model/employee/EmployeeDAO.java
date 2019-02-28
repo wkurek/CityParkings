@@ -27,7 +27,7 @@ public class EmployeeDAO {
         public static final String COLUMN_NAME_PARKING_ID = "parking_id";
     }
 
-    public static Employee generateEmployee(CachedRowSet resultSet) throws SQLException {
+    private static Employee generateEmployee(CachedRowSet resultSet) throws SQLException {
         Employee employee = new Employee();
 
         Department department = DepartmentDAO.generateDepartment(resultSet);
