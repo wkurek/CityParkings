@@ -33,11 +33,11 @@ public class EmployeesViewDAO {
         static final String COLUMN_NAME_LAST_CONTROL = "last_control";
     }
 
-    private static int nrOfEmployees;
-    private static int nrOfParkingsOp;
-    private static int nrOfDepartments;
-    private static int minEmployees;
-    private static int maxEmployees;
+    private static long nrOfEmployees;
+    private static long nrOfParkingsOp;
+    private static long nrOfDepartments;
+    private static long minEmployees;
+    private static long maxEmployees;
     private static float averageEmployees;
     private static String minDepartment;
     private static String maxDepartment;
@@ -216,8 +216,8 @@ public class EmployeesViewDAO {
 
     public static void generateStatistics(List<EmployeesView> employeesViews) {
         nrOfEmployees = employeesViews.size();
-        nrOfParkingsOp = employeesViews.stream().map(e -> String.valueOf(e.getParkingID())).collect(Collectors.toSet()).size();
-        nrOfDepartments = employeesViews.stream().map(e -> e.getDepartment().getDepartmentName()).collect(Collectors.toSet()).size();
+        nrOfParkingsOp = employeesViews.stream().map(e -> String.valueOf(e.getParkingID())).distinct().count();
+        nrOfDepartments = employeesViews.stream().map(e -> e.getDepartment().getDepartmentName()).distinct().count();
         Map<String, Long> counts = employeesViews.stream().collect(Collectors.groupingBy(e -> e.getDepartment().getDepartmentName(), Collectors.counting()));
         Map.Entry<String, Long> max = null;
         for (Map.Entry<String, Long> entry : counts.entrySet()) {
@@ -245,23 +245,23 @@ public class EmployeesViewDAO {
         generateSalaries(employeesViews);
     }
 
-    public static int getNrOfEmployees() {
+    public static long getNrOfEmployees() {
         return nrOfEmployees;
     }
 
-    public static int getNrOfParkingsOp() {
+    public static long getNrOfParkingsOp() {
         return nrOfParkingsOp;
     }
 
-    public static int getNrOfDepartments() {
+    public static long getNrOfDepartments() {
         return nrOfDepartments;
     }
 
-    public static int getMinEmployees() {
+    public static long getMinEmployees() {
         return minEmployees;
     }
 
-    public static int getMaxEmployees() {
+    public static long getMaxEmployees() {
         return maxEmployees;
     }
 

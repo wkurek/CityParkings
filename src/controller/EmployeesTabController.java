@@ -208,11 +208,11 @@ public class EmployeesTabController {
     private void setUpStatistics(ObservableList<EmployeesView> employeesViewList)
     {
         EmployeesViewDAO.generateStatistics(employeesViewList);
-        nrOfEmployees.setText(Integer.toString(EmployeesViewDAO.getNrOfEmployees()));
-        nrOfParkingsOp.setText(Integer.toString(EmployeesViewDAO.getNrOfParkingsOp()));
-        nrOfDepartments.setText(Integer.toString(EmployeesViewDAO.getNrOfDepartments()));
-        minEmployees.setText(Integer.toString(EmployeesViewDAO.getMinEmployees()));
-        maxEmployees.setText(Integer.toString(EmployeesViewDAO.getMaxEmployees()));
+        nrOfEmployees.setText(Long.toString(EmployeesViewDAO.getNrOfEmployees()));
+        nrOfParkingsOp.setText(Long.toString(EmployeesViewDAO.getNrOfParkingsOp()));
+        nrOfDepartments.setText(Long.toString(EmployeesViewDAO.getNrOfDepartments()));
+        minEmployees.setText(Long.toString(EmployeesViewDAO.getMinEmployees()));
+        maxEmployees.setText(Long.toString(EmployeesViewDAO.getMaxEmployees()));
         minDepartment.setText(EmployeesViewDAO.getMinDepartment());
         maxDepartment.setText(EmployeesViewDAO.getMaxDepartment());
         averageEmployees.setText(Float.toString(EmployeesViewDAO.getAverageEmployees()));
